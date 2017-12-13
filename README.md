@@ -1,4 +1,4 @@
-# Chess-3
+# Chess-RST
 ICS3U Chess RST
 ___
 ## RST 2015-2016 3.rtf
