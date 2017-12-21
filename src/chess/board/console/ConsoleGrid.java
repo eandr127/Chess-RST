@@ -2,8 +2,9 @@ package chess.board.console;
 
 public enum ConsoleGrid {
 	
-	ASCII('+', '+', '+', '+', '+', '-', '-', '+', '+', '|', '-'),
-	UTF8('┌', '┐', '└', '┘', '┤', '├', '┴', '┬', '┼', '│', '─');
+	ASCII('+', '+', '+', '+', '+', '+', '+', '+', '+', '|', '-'),
+	UTF8_LIGHT('┌', '┐', '└', '┘', '┤', '├', '┴', '┬', '┼', '│', '─'),
+	UTF8_HEAVY('┏', '┓', '┗', '┛', '┫', '┣', '┻', '┳', '╋', '┃', '━');
 	
 	public final char topLeftCorner;
 	public final char topRightCorner;

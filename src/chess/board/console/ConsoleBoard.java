@@ -19,7 +19,7 @@ public class ConsoleBoard extends Board {
 		Piece[][] arrangement = getArrangement();
 		
 		String top = makeDividerLine();
-		top = grid.topLeftCorner + top.substring(1, top.length() - 1) + grid.topRightCorner;
+		top = (grid.topLeftCorner + top.substring(1, top.length() - 1) + grid.topRightCorner).replaceAll("\\"+grid.cross, ""+grid.topSide);;
 		System.out.println(top);
 		
 		for(int i = 0; i < arrangement.length; i++) {
@@ -31,7 +31,7 @@ public class ConsoleBoard extends Board {
 		}
 		
 		String bottom = makeDividerLine();
-		bottom = grid.bottomLeftCorner + bottom.substring(1, bottom.length() - 1) + grid.bottomRightCorner;
+		bottom = (grid.bottomLeftCorner + bottom.substring(1, bottom.length() - 1) + grid.bottomRightCorner).replaceAll("\\"+grid.cross, ""+grid.bottomSide);
 		System.out.println(bottom);
 		
 		
@@ -40,8 +40,11 @@ public class ConsoleBoard extends Board {
 	private String makeDividerLine() {
 		String line = "" + grid.leftSide;
 		
-		for(int i = 0; i < 31; i++) {
-			line += grid.horizontal;
+		for(int i = 0; i < 8; i++) {
+			line += "" + grid.horizontal + grid.horizontal + grid.horizontal;
+			if(i != 7) {
+				line += grid.cross;
+			}
 		}
 		line += grid.rightSide;
 		
