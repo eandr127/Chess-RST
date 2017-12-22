@@ -1,24 +1,26 @@
 package chess.piece.console;
 
 import java.io.PrintStream;
-import java.util.Map;
 
 import chess.piece.Piece;
 import chess.piece.PieceRenderer;
 
 public class ConsolePieceRenderer implements PieceRenderer {
 
+	private final ConsolePieces pieces;
 	private final PrintStream console;
-
-	private final Map<Piece, String> pieceMap;
 	
-	protected ConsolePieceRenderer(Map<Piece, String> pieceMap) {
-		this(System.out, pieceMap);
+	public ConsolePieceRenderer(ConsolePieces pieces) {
+		this(pieces, System.out);
 	}
 	
-	protected ConsolePieceRenderer(PrintStream console, Map<Piece, String> pieceMap) {
+	public ConsolePieceRenderer(ConsolePieces pieces, PrintStream console) {
+		this.pieces = pieces;
 		this.console = console;
-		this.pieceMap = pieceMap;
+	}
+	
+	public ConsolePieces getPieces() {
+		return pieces;
 	}
 	
 	public PrintStream getConsole() {
@@ -27,6 +29,6 @@ public class ConsolePieceRenderer implements PieceRenderer {
 	
 	@Override
 	public void render(Piece piece) {
-		System.out.print(pieceMap.getOrDefault(piece, " "));
+		console.print(pieces.getOrDefault(piece, " "));
 	}
 }

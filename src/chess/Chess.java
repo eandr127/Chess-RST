@@ -1,14 +1,14 @@
 package chess;
 
 import chess.board.Board;
-import chess.board.console.ConsoleBoard;
-import chess.board.console.ConsoleGrid;
-import chess.piece.console.UTF8PieceRenderer;
+import chess.board.console.grid.ConsoleGrid;
+import chess.board.console.grid.ConsoleGridBoard;
+import chess.piece.console.ConsolePieces;
 
 public class Chess {
 
 	public static void main(String[] args) {
-		Board board = new ConsoleBoard(new UTF8PieceRenderer(), ConsoleGrid.UTF8_HEAVY);
+		Board board = new ConsoleGridBoard(ConsolePieces.UTF8, ConsoleGrid.UTF8_HEAVY);
 		board.displayBoard();
 	}
 }

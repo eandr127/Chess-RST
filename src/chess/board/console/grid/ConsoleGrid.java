@@ -1,4 +1,4 @@
-package chess.board.console;
+package chess.board.console.grid;
 
 public enum ConsoleGrid {
 	
