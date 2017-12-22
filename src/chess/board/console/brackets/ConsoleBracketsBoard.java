@@ -18,6 +18,8 @@ public class ConsoleBracketsBoard extends ConsoleBoard {
 	@Override
 	public void displayBoard() {
 		for(int i = 0; i < getArrangement().length; i++) {
+			System.out.print(i + 1 + " ");
+			
 			for(int j = 0; j < getArrangement()[0].length; j++) {
 				System.out.print("[");
 				this.renderer.render(getArrangement()[i][j]);
@@ -25,6 +27,17 @@ public class ConsoleBracketsBoard extends ConsoleBoard {
 			}
 			
 			System.out.println();
+		}
+		
+		
+		System.out.print("  ");
+		for(int i = 0; i < getArrangement().length; i++) {
+			System.out.print(" ");
+			System.out.print((char)(((int)'A') + i));
+			
+			for(int j = 0; j < renderer.getPieces().length; j++) {
+				System.out.print(" ");
+			}
 		}
 	}
 }

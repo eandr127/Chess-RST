@@ -25,11 +25,11 @@ public class ConsoleGridBoard extends ConsoleBoard {
 		Piece[][] arrangement = getArrangement();
 		
 		String top = makeDividerLine();
-		top = (grid.topLeftCorner + top.substring(1, top.length() - 1) + grid.topRightCorner).replaceAll("\\"+grid.cross, ""+grid.topSide);;
-		console.println(top);
+		top = (grid.topLeftCorner + top.substring(3, top.length() - 1) + grid.topRightCorner).replaceAll("\\"+grid.cross, ""+grid.topSide);
+		console.println("  " + top);
 		
 		for(int i = 0; i < arrangement.length; i++) {
-			printPiecesLine(arrangement[i]);
+			printPiecesLine(arrangement[i], i + 1);
 			
 			if(i != arrangement.length - 1) {
 				console.println(makeDividerLine());
@@ -37,14 +37,22 @@ public class ConsoleGridBoard extends ConsoleBoard {
 		}
 		
 		String bottom = makeDividerLine();
-		bottom = (grid.bottomLeftCorner + bottom.substring(1, bottom.length() - 1) + grid.bottomRightCorner).replaceAll("\\"+grid.cross, ""+grid.bottomSide);
-		console.println(bottom);
+		bottom = (grid.bottomLeftCorner + bottom.substring(3, bottom.length() - 1) + grid.bottomRightCorner).replaceAll("\\"+grid.cross, ""+grid.bottomSide);
+		console.println("  " + bottom);
 		
-		
+		console.print("   ");
+		for(int i = 0; i < arrangement.length; i++) {
+			console.print(" ");
+			console.print((char)(((int)'A') + i));
+			
+			for(int j = 0; j < renderer.getPieces().length + 1; j++) {
+				System.out.print(" ");
+			}
+		}
 	}
 	
 	private String makeDividerLine() {
-		String line = "" + grid.leftSide;
+		String line = "  " + grid.leftSide;
 		
 		for(int i = 0; i < 8; i++) {
 			for(int j = 0; j < 2 + renderer.getPieces().length; j++) {
@@ -59,8 +67,8 @@ public class ConsoleGridBoard extends ConsoleBoard {
 		return line;
 	}
 	
-	private void printPiecesLine(Piece[] pieces) {
-		console.print(grid.vertical);
+	private void printPiecesLine(Piece[] pieces, int row) {
+		console.print(row + " " + grid.vertical);
 		
 		for(int i = 0; i < 8; i++) {
 			console.print(" ");
