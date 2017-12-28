@@ -36,10 +36,16 @@ public enum PieceType {
 	PAWN,
 	
 	/**
-	 * Indicates that there is no piece
-	 */
-	EMPTY;
+     * Indicates that there is no piece
+     */
+	EMPTY(-1);
 	
+    /**
+     * Indicates that there is no piece
+     */
+    // Black and white are same piece
+    public static final Piece EMPTY_PIECE = PieceType.EMPTY.black;
+    
 	/**
 	 * The white representation of a piece
 	 */
@@ -56,5 +62,10 @@ public enum PieceType {
 	private PieceType() {
 		white = new Piece(this, Piece.WHITE);
 		black = new Piece(this, Piece.BLACK);
+	}
+	
+	private PieceType(int team) {
+	    white = new Piece(this, team);
+	    black = new Piece(this, team);
 	}
 }

@@ -4,16 +4,16 @@ package chess.piece;
  * Represents a black or white piece
  */
 public class Piece {
-
+    
 	/**
 	 * Means the piece is white
 	 */
-	public static final boolean WHITE = false;
+	public static final int WHITE = 0;
 	
 	/**
 	 * Means the piece is black
 	 */
-	public static final boolean BLACK = true;
+	public static final int BLACK = 1;
 	
 	/**
 	 * The type of piece the piece is
@@ -21,19 +21,19 @@ public class Piece {
 	private final PieceType pieceType;
 
 	/**
-	 * The colour of the piece
+	 * The team of the piece
 	 */
-	private final boolean colour;
+	private final boolean team;
 	
 	/**
 	 * Creates a piece
 	 * 
 	 * @param pieceType The type of piece
-	 * @param colour The piece's colour
+	 * @param team The piece's team
 	 */
-	public Piece(PieceType pieceType, boolean colour) {
+	public Piece(PieceType pieceType, int team) {
 		this.pieceType = pieceType;
-		this.colour = colour;
+		this.team = team == BLACK;
 	}
 	
 	/**
@@ -46,11 +46,11 @@ public class Piece {
 	}
 
 	/**
-	 * Gets the colour of the piece
+	 * Gets the team of the piece
 	 * 
-	 * @return The piece colour
+	 * @return The piece team
 	 */
-	public boolean getColour() {
-		return colour;
+	public int getTeam() {
+		return team ? BLACK : WHITE;
 	}
 }

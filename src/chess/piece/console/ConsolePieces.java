@@ -31,8 +31,7 @@ public enum ConsolePieces {
 		entry(PieceType.ROOK.white,		"♖"),
 		entry(PieceType.QUEEN.black,	"♛"),
 		entry(PieceType.QUEEN.white,	"♕"),
-		entry(PieceType.EMPTY.black,	" "),
-		entry(PieceType.EMPTY.white,	" ")
+		entry(PieceType.EMPTY_PIECE,              " ")
 	)),
 	
 	/**
@@ -51,8 +50,7 @@ public enum ConsolePieces {
 		entry(PieceType.ROOK.white,		"Rw"),
 		entry(PieceType.QUEEN.black,	"Qb"),
 		entry(PieceType.QUEEN.white,	"Qw"),
-		entry(PieceType.EMPTY.black,	"  "),
-		entry(PieceType.EMPTY.white,	"  ")
+		entry(PieceType.EMPTY_PIECE,	"  ")
 	));
 	
 	/**
