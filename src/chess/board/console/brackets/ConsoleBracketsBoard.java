@@ -2,6 +2,7 @@ package chess.board.console.brackets;
 
 import java.io.PrintStream;
 
+import chess.board.Board;
 import chess.board.console.ConsoleBoard;
 import chess.piece.console.ConsolePieces;
 
@@ -37,7 +38,7 @@ public class ConsoleBracketsBoard extends ConsoleBoard {
 		// Print each row
 		for(int i = 0; i < getArrangement().length; i++) {
 			// Print row number
-			console.print(i + 1 + " ");
+			console.print(Board.BOARD_SIZE - i + " ");
 			
 			// Print each grid cell
 			for(int j = 0; j < getArrangement()[0].length; j++) {

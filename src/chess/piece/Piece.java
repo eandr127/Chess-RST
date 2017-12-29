@@ -1,29 +1,37 @@
 package chess.piece;
 
+import chess.board.Board;
+import chess.board.Coordinates;
+
 /**
  * Represents a black or white piece
  */
-public class Piece {
-    
-	/**
-	 * Means the piece is white
-	 */
-	public static final int WHITE = 0;
-	
-	/**
-	 * Means the piece is black
-	 */
-	public static final int BLACK = 1;
+public abstract class Piece {
 	
 	/**
 	 * The type of piece the piece is
 	 */
 	private final PieceType pieceType;
-
+	
 	/**
 	 * The team of the piece
 	 */
-	private final boolean team;
+	private final Team team;
+	
+	/**
+	 * The board that the piece is a part of
+	 */
+	private Board board;
+
+	/**
+	 * The coordinates of the piece on the board
+	 */
+	private Coordinates coords;
+	
+	/**
+	 * Whether the piece has been given a board and coordinates or not
+	 */
+	private boolean initialized = false;
 	
 	/**
 	 * Creates a piece
@@ -31,9 +39,9 @@ public class Piece {
 	 * @param pieceType The type of piece
 	 * @param team The piece's team
 	 */
-	public Piece(PieceType pieceType, int team) {
+	protected Piece(PieceType pieceType, Team team) {
 		this.pieceType = pieceType;
-		this.team = team == BLACK;
+		this.team = team;
 	}
 	
 	/**
@@ -44,13 +52,90 @@ public class Piece {
 	public PieceType getPieceType() {
 		return pieceType;
 	}
-
+	
 	/**
 	 * Gets the team of the piece
 	 * 
 	 * @return The piece team
 	 */
-	public int getTeam() {
-		return team ? BLACK : WHITE;
+	public Team getTeam() {
+		return team;
 	}
+	
+	/**
+	 * Gets the board the piece is on
+	 * 
+	 * @return The board
+	 */
+	public Board getBoard()
+	{
+		return board;
+	}
+
+	/**
+	 * Gets the coordinates of the piece
+	 * 
+	 * @return The coordinates
+	 */
+	public Coordinates getCoords()
+	{
+		return coords;
+	}
+	
+	/**
+	 * Checks whether the piece has a board and coordinates
+	 * 
+	 * @return Whether the piece is fully initialized or not
+	 */
+	public boolean isInitialized() {
+		return initialized;
+	}
+	
+	/**
+	 * Initializes the piece with coordinates and a board
+	 * 
+	 * @param coords The location of the piece on the board
+	 * @param board The board the piece is on
+	 */
+	public void lateInit(Coordinates coords, Board board) {
+		this.coords = coords;
+		this.board = board;
+		
+		this.initialized = true;
+	}
+	
+	/**
+	 * Moves the piece to a new location
+	 * 
+	 * @param newCoords The new location of the piece
+	 * @return Whether the move was successful
+	 * @throws IllegalStateException When the piece has not been fully initialized
+	 */
+	public boolean move(Coordinates newCoords) throws IllegalStateException {
+		if(!isInitialized()) {
+			throw new IllegalStateException("Piece must be initialized before it can be moved");
+		}
+		
+		if(canMove(newCoords)) {
+			doMove(newCoords);
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	
+	/**
+	 * Determines whether the piece can move or not
+	 * 
+	 * @param newCoords The location to test
+	 * @return Whether the move is possible
+	 */
+	protected abstract boolean canMove(Coordinates newCoords);
+	
+	/**
+	 * Completes the move and captures pieces as necessary
+	 * @param newCoords The coordinates to move to
+	 */
+	protected abstract void doMove(Coordinates newCoords);
 }

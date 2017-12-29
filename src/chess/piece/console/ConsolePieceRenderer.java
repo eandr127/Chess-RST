@@ -63,6 +63,6 @@ public class ConsolePieceRenderer implements PieceRenderer {
 	 */
 	@Override
 	public void render(Piece piece) {
-		console.print(pieces.getOrDefault(piece, " "));
+		console.print(pieces.getOrDefault(piece.getPieceType(), piece.getTeam(), " "));
 	}
 }
