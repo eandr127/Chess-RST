@@ -23,6 +23,7 @@ public class Help {
 		//TODO ui implementation of docs selector
 	}
 	
+	//Holds piece type and documentation for each piece
 	public static final Map<PieceType, String> helpMap;
 	static {
 		HashMap<PieceType, String> helpHashMap = new HashMap<>();

@@ -8,7 +8,6 @@ import chess.board.console.brackets.ConsoleBracketsBoard;
 import chess.board.console.grid.ConsoleGrid;
 import chess.board.console.grid.ConsoleGridBoard;
 import chess.help.Help;
-import chess.help.console.ConsoleHelp;
 import chess.piece.console.ConsolePieces;
 
 /**
@@ -78,23 +77,22 @@ public class Chess {
 			System.out.println();
 		}
 		
-		String enterPrompt = "Press enter to continue";
-		
 		// Output rules on first run
-		System.out.println(Help.gamerules());
-		// "Press-any-key"-type for when user is done reading
-		System.out.println(enterPrompt);
-		try
-		{
+		Help help = new Help();
+		System.out.println(help.gamerules());
+		
+		//Wait for user to read and press enter.
+		waitForEnter();
+		
+		try {
 			System.in.read();
-		} catch (IOException e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} catch (IOException e) {
+			System.out.println("Whoops, something went wrong.");
 		}
 		
-		// Create board variable and pieces dingo!!!
+		// Create board variable
 		Board board;
+		//Create pieces variable
 		ConsolePieces pieces;
 		
 		// Initialize board based on what user wants
@@ -116,7 +114,6 @@ public class Chess {
 			}
 			
 			board = new ConsoleGridBoard(pieces, grid);
-		
 		}
 		else {
 			
@@ -131,10 +128,10 @@ public class Chess {
 		}
 		
 		// Prompt the user for any help (will be used later in game loop)
-		/*
-		ConsoleHelp helper = new ConsoleHelp(pieces, scanner);
-		helper.consoleHelpPrompt();
-		*/
+		
+		//ConsoleHelp helper = new ConsoleHelp(pieces, scanner);
+		//helper.consoleHelpPrompt();
+		
 		
 		// Send board back to calling statement
 		return board;
@@ -149,5 +146,11 @@ public class Chess {
 	public static boolean getUserBoolean(Scanner scanner) {
 		// User said y or Y
 		return scanner.next().equalsIgnoreCase("y");
+	}
+	
+	public static void waitForEnter () {
+		String enterPrompt = "Press enter to continue";
+		// "Press-any-key"-type for when user is done reading
+		System.out.println(enterPrompt);
 	}
 }

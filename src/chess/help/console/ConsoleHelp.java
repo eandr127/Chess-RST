@@ -6,7 +6,7 @@ import chess.help.Help;
 import chess.piece.PieceType;
 import chess.piece.Team;
 import chess.piece.console.ConsolePieces;
-
+import chess.Chess;
 
 /**
  * Class to be used specifically for the console. Contains
@@ -18,14 +18,15 @@ import chess.piece.console.ConsolePieces;
  */
 public class ConsoleHelp extends Help {
 	
+	// Make variable for all console pieces
 	private final ConsolePieces pieces;
+	// Create an input scanner
 	private final Scanner input;
 	
+	// Create constructor for pieces and input
 	public ConsoleHelp (ConsolePieces pieces, Scanner input) {
-	
 		this.pieces = pieces;
 		this.input = input;
-		
 	}
 	
 	/*
@@ -43,57 +44,63 @@ public class ConsoleHelp extends Help {
 		System.out.println("6: Queen (" + pieces.get(PieceType.QUEEN, Team.WHITE) + ")");
 		System.out.println("=-=-=-=-=-=-=-=-=-=");
 		System.out.println("7: General rules");
-		System.out.println("Type EXIT to exit help.");
+		System.out.println("Type CANCEL to cancel help.");
 		
 		while(true) {
 			try {
 				String choice = input.next();
-				String enterPrompt = "Press enter to continue";
 				
-				// If the user wants to exit or EXIT
-				if (choice.equalsIgnoreCase("exit")) {
+				// If the user wants to exit help
+				if (choice.equalsIgnoreCase("cancel")) {
 					break;
 				} else {
-					
 					// Determine which piece user wants to learn about
 					switch(choice) {
-					case "1":
-						System.out.println(Help.helpMap.get(PieceType.BISHOP));
-						System.out.println(enterPrompt);
-						System.in.read();
-						break;
-					case "2":
-						System.out.println(Help.helpMap.get(PieceType.KING));
-						System.out.println(enterPrompt);
-						System.in.read();
-						break;
-					case "3":
-						System.out.println(Help.helpMap.get(PieceType.KNIGHT));
-						System.out.println(enterPrompt);
-						System.in.read();
-						break;
-					case "4":
-						System.out.println(Help.helpMap.get(PieceType.PAWN));
-						System.out.println(enterPrompt);
-						System.in.read();
-						break;
-					case "5":
-						System.out.println(Help.helpMap.get(PieceType.ROOK));
-						System.out.println(enterPrompt);
-						System.in.read();
-						break;
-					case "6":
-						System.out.println(Help.helpMap.get(PieceType.QUEEN));
-						System.out.println(enterPrompt);
-						System.in.read();
-						break;
-					case "7":
-						System.out.println(gamerules());
-						System.out.println(enterPrompt);
-						System.in.read();
-						break;
-					default:
-						throw new Exception();
+						case "1":
+							//Output the helpmap of BISHOP
+							System.out.println(Help.helpMap.get(PieceType.BISHOP));
+							//Wait for user to press enter
+							Chess.waitForEnter();
+							break;
+						case "2":
+							//Output the helpmap of KING
+							System.out.println(Help.helpMap.get(PieceType.KING));
+							//Wait for user to press enter
+							Chess.waitForEnter();
+							break;
+						case "3":
+							//Output the helpmap of KNIGHT
+							System.out.println(Help.helpMap.get(PieceType.KNIGHT));
+							//Wait for user to press enter
+							Chess.waitForEnter();
+							break;
+						case "4":
+							//Output the helpmap of PAWN
+							System.out.println(Help.helpMap.get(PieceType.PAWN));
+							//Wait for user to press enter
+							Chess.waitForEnter();
+							break;
+						case "5":
+							//Output the helpmap of ROOK
+							System.out.println(Help.helpMap.get(PieceType.ROOK));
+							//Wait for user to press enter
+							Chess.waitForEnter();
+							break;
+						case "6":
+							//Output the helpmap of QUEEN
+							System.out.println(Help.helpMap.get(PieceType.QUEEN));
+							//Wait for user to press enter
+							Chess.waitForEnter();
+							break;
+						case "7":
+							//Call method for game rules
+							System.out.println(gamerules());
+							//Wait for user to press enter
+							Chess.waitForEnter();
+							break;
+						default:
+							//Throws exception - exceptions handle invalid input.
+							throw new Exception();
 					}
 				}
 				break;
