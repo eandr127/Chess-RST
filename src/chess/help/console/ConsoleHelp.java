@@ -29,10 +29,7 @@ public class ConsoleHelp extends Help {
 		this.input = input;
 	}
 	
-	/*
-	 * Handles which doc to go to for the console
-	 * implementation.
-	 */
+	 // Handles which doc to go to for the console implementation.
 	public void consoleHelpPrompt () {
 		
 		System.out.println("What do you need help with?");
