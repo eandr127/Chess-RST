@@ -7,8 +7,8 @@ import java.util.Map.Entry;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 
-import chess.piece.Piece;
 import chess.piece.PieceType;
+import chess.piece.Team;
 
 /**
  * The String representation of each piece
@@ -19,40 +19,38 @@ public enum ConsolePieces {
 	 * Use Unicode pieces that may no be supported
 	 */
 	UTF8(1, ofEntries(
-		entry(PieceType.BISHOP.black,	"♝"),
-		entry(PieceType.BISHOP.white,	"♗"),
-		entry(PieceType.KING.black,		"♚"),
-		entry(PieceType.KING.white,		"♔"),
-		entry(PieceType.KNIGHT.black,	"♞"),
-		entry(PieceType.KNIGHT.white,	"♘"),
-		entry(PieceType.PAWN.black,		"♟"),
-		entry(PieceType.PAWN.white,		"♙"),
-		entry(PieceType.ROOK.black,		"♜"),
-		entry(PieceType.ROOK.white,		"♖"),
-		entry(PieceType.QUEEN.black,	"♛"),
-		entry(PieceType.QUEEN.white,	"♕"),
-		entry(PieceType.EMPTY.black,	" "),
-		entry(PieceType.EMPTY.white,	" ")
+		entry(PieceType.BISHOP,	ofEntries(	entry(Team.BLACK, "♝"), 
+											entry(Team.WHITE, "♗"))),
+		entry(PieceType.KING,	ofEntries(	entry(Team.BLACK, "♚"), 
+											entry(Team.WHITE, "♔"))),
+		entry(PieceType.KNIGHT,	ofEntries(	entry(Team.BLACK, "♞"), 
+											entry(Team.WHITE, "♘"))),
+		entry(PieceType.PAWN,	ofEntries(	entry(Team.BLACK, "♟"), 
+											entry(Team.WHITE, "♙"))),
+		entry(PieceType.ROOK,	ofEntries(	entry(Team.BLACK, "♜"),
+											entry(Team.WHITE, "♖"))),
+		entry(PieceType.QUEEN,	ofEntries(	entry(Team.BLACK, "♛"),
+											entry(Team.WHITE, "♕"))),
+		entry(PieceType.EMPTY,	ofEntries(	entry(Team.NONE, " ")))
 	)),
 	
 	/**
 	 * Use ASCII pieces that are supported anywhere
 	 */
 	ASCII(2, ofEntries(
-		entry(PieceType.BISHOP.black,	"Bb"),
-		entry(PieceType.BISHOP.white,	"Bw"),
-		entry(PieceType.KING.black,		"Kb"),
-		entry(PieceType.KING.white,		"Kw"),
-		entry(PieceType.KNIGHT.black,	"Nb"),
-		entry(PieceType.KNIGHT.white,	"Nw"),
-		entry(PieceType.PAWN.black,		"Pb"),
-		entry(PieceType.PAWN.white,		"Pw"),
-		entry(PieceType.ROOK.black,		"Rb"),
-		entry(PieceType.ROOK.white,		"Rw"),
-		entry(PieceType.QUEEN.black,	"Qb"),
-		entry(PieceType.QUEEN.white,	"Qw"),
-		entry(PieceType.EMPTY.black,	"  "),
-		entry(PieceType.EMPTY.white,	"  ")
+		entry(PieceType.BISHOP,	ofEntries(	entry(Team.BLACK, "Bb"), 
+											entry(Team.WHITE, "Bw"))),
+		entry(PieceType.KING,	ofEntries(	entry(Team.BLACK, "Kb"), 
+											entry(Team.WHITE, "Kw"))),
+		entry(PieceType.KNIGHT,	ofEntries(	entry(Team.BLACK, "Nb"), 
+											entry(Team.WHITE, "Nw"))),
+		entry(PieceType.PAWN,	ofEntries(	entry(Team.BLACK, "Pb"), 
+											entry(Team.WHITE, "Pw"))),
+		entry(PieceType.ROOK,	ofEntries(	entry(Team.BLACK, "Rb"),
+											entry(Team.WHITE, "Rw"))),
+		entry(PieceType.QUEEN,	ofEntries(	entry(Team.BLACK, "Qb"),
+											entry(Team.WHITE, "Qw"))),
+		entry(PieceType.EMPTY,	ofEntries(	entry(Team.NONE,  "  ")))
 	));
 	
 	/**
@@ -63,7 +61,7 @@ public enum ConsolePieces {
 	/**
 	 * Each piece and their String representation
 	 */
-	public final Map<Piece, String> pieces;
+	public final Map<PieceType, Map<Team, String>> pieces;
 	
 	/**
 	 * Creates the holder for all of the console pieces
@@ -71,7 +69,7 @@ public enum ConsolePieces {
 	 * @param length The length of all Strings
 	 * @param pieces The map of pieces and Strings
 	 */
-	private ConsolePieces(int length, Map<Piece, String> pieces) {
+	private ConsolePieces(int length, Map<PieceType, Map<Team, String>> pieces) {
 		this.length = length;
 		this.pieces = safeMap(length, pieces);
 	}
@@ -83,25 +81,41 @@ public enum ConsolePieces {
 	 * @param pieces The unsafe map
 	 * @return An unmodifiable map with Strings of only the specified length
 	 */
-	private static Map<Piece, String> safeMap(final int length, Map<Piece, String> pieces) {
+	private static Map<PieceType, Map<Team, String>> safeMap(final int length, Map<PieceType, Map<Team, String>> pieces) {
 		// Copy pieces to different Map so they don't edit the originals
-		 final Map<Piece, String> temp = new HashMap<>(pieces);
+		 final Map<PieceType, Map<Team, String>> temp = new HashMap<>(pieces);
 		 
 		 // Set each String to the correct length
-		 temp.forEach(new BiConsumer<Piece, String>() {
+		 temp.forEach(new BiConsumer<PieceType, Map<Team, String>>() {
 
 			@Override
-			public void accept(Piece piece, String value) {
-				temp.compute(piece, new BiFunction<Piece, String, String>() {
+			public void accept(PieceType pieceType, Map<Team, String> teamText)
+			{
+				 // Copy pieces to different Map so they don't edit the originals
+				 final Map<Team, String> tempPiece = new HashMap<>(teamText);
+				 
+				 // Set each String to the correct length
+				 tempPiece.forEach(new BiConsumer<Team, String>() {
 
 					@Override
-					public String apply(Piece piece, String value) {
-						// Cut the piece to length
-						return cutToLength(length, value);
+					public void accept(Team team, String value)
+					{
+						tempPiece.compute(team, new BiFunction<Team, String, String>() {
+
+							@Override
+							public String apply(Team team, String value) {
+								// Cut the piece to length
+								return cutToLength(length, value);
+							}
+						});
 					}
-				});
+
+				 });
+				 
+				 
+				 temp.put(pieceType, Collections.unmodifiableMap(tempPiece));
 			}
-			 
+
 		 });
 		 
 		 // Return an unmodifiable version of the map
@@ -140,8 +154,8 @@ public enum ConsolePieces {
 	 * @param piece The piece to get
 	 * @return The String representation of the piece
 	 */
-	public String get(Piece piece) {
-		return pieces.get(piece);
+	public String get(PieceType pieceType, Team team) {
+		return pieces.get(pieceType).get(team);
 	}
 	
 	/**
@@ -151,8 +165,18 @@ public enum ConsolePieces {
 	 * @param defaultValue The value to return if the key can't be found
 	 * @return The String representation of the piece or default
 	 */
-	public String getOrDefault(Piece piece, String defaultValue) {
-		return pieces.getOrDefault(piece, defaultValue);
+	public String getOrDefault(PieceType pieceType, Team team, String defaultValue) {
+		Map<Team, String> map = pieces.get(pieceType);
+		
+		if(map != null) {
+			String value = map.get(team);
+			
+			if(value != null) {
+				return value;
+			}
+		}
+		
+		return defaultValue;
 	}
 	
 	/**

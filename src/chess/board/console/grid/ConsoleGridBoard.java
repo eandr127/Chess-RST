@@ -2,6 +2,7 @@ package chess.board.console.grid;
 
 import java.io.PrintStream;
 
+import chess.board.Board;
 import chess.board.console.ConsoleBoard;
 import chess.piece.Piece;
 import chess.piece.console.ConsolePieces;
@@ -59,7 +60,7 @@ public class ConsoleGridBoard extends ConsoleBoard {
 		// Print in between first and last lines of grid
 		for(int i = 0; i < arrangement.length; i++) {
 			// Print the board pieces
-			printPiecesLine(arrangement[i], i + 1);
+			printPiecesLine(arrangement[i], Board.BOARD_SIZE - i);
 			
 			// Print a divider except last iteration
 			if(i != arrangement.length - 1) {
@@ -92,6 +93,8 @@ public class ConsoleGridBoard extends ConsoleBoard {
 				System.out.print(" ");
 			}
 		}
+		
+		System.out.println();
 	}
 	
 	/**
