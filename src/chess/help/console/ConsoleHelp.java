@@ -50,10 +50,12 @@ public class ConsoleHelp extends Help {
 				String choice = input.next();
 				String enterPrompt = "Press enter to continue";
 				
+				// If the user wants to exit or EXIT
 				if (choice.equalsIgnoreCase("exit")) {
 					break;
 				} else {
 					
+					// Determine which piece user wants to learn about
 					switch(choice) {
 					case "1":
 						System.out.println(Help.helpMap.get(PieceType.BISHOP));
