@@ -1,11 +1,14 @@
 package chess;
 
+import java.io.IOException;
 import java.util.Scanner;
 
 import chess.board.Board;
 import chess.board.console.brackets.ConsoleBracketsBoard;
 import chess.board.console.grid.ConsoleGrid;
 import chess.board.console.grid.ConsoleGridBoard;
+import chess.help.Help;
+import chess.help.console.ConsoleHelp;
 import chess.piece.console.ConsolePieces;
 
 /**
@@ -75,12 +78,27 @@ public class Chess {
 			System.out.println();
 		}
 		
-		// Create board variable
+		String enterPrompt = "Press enter to continue";
+		
+		// Output rules on first run
+		System.out.println(Help.gamerules());
+		// "Press-any-key"-type for when user is done reading
+		System.out.println(enterPrompt);
+		try
+		{
+			System.in.read();
+		} catch (IOException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		// Create board variable and pieces dingo!!!
 		Board board;
+		ConsolePieces pieces;
 		
 		// Initialize board based on what user wants
 		if(useGrid) {
-			ConsolePieces pieces;
 			ConsoleGrid grid;
 			
 			if(useUTF8 && !useASCIIPieces) {
@@ -98,9 +116,9 @@ public class Chess {
 			}
 			
 			board = new ConsoleGridBoard(pieces, grid);
+		
 		}
 		else {
-			ConsolePieces pieces;
 			
 			if(useUTF8 && !useASCIIPieces) {
 				pieces = ConsolePieces.UTF8;
@@ -111,6 +129,12 @@ public class Chess {
 			
 			board = new ConsoleBracketsBoard(pieces);
 		}
+		
+		// Prompt the user for any help (will be used later in game loop)
+		/*
+		ConsoleHelp helper = new ConsoleHelp(pieces, scanner);
+		helper.consoleHelpPrompt();
+		*/
 		
 		// Send board back to calling statement
 		return board;
