@@ -1,13 +1,11 @@
 package chess;
 
-import java.io.IOException;
-import java.util.Scanner;
-
 import chess.board.Board;
 import chess.board.console.brackets.ConsoleBracketsBoard;
 import chess.board.console.grid.ConsoleGrid;
 import chess.board.console.grid.ConsoleGridBoard;
 import chess.help.Help;
+import chess.help.console.ConsoleHelp;
 import chess.piece.console.ConsolePieces;
 
 /**
@@ -20,30 +18,29 @@ public class Chess {
 	 * @param args The arguments for the program (unused)
 	 */
 	public static void main(String[] args) {
-		// Scanner to get user input
-		Scanner scanner = new Scanner(System.in);
+		ConsoleIO console = new ConsoleIO(System.out, System.in);
 		
 		// Create board object that can be drawn anywhere
-		Board board;
+		Backend backend;
 		
 		// Ask the user whether they would like to use the console
-		System.out.print("Would you like to use the console (y/y): ");
+		console.getConsoleOutput().print("Would you like to use the console (y/y): ");
 		
 		// Set up a board that prints to console
-		if(scanner.next().equalsIgnoreCase("y")) {
-			System.out.println();
-			board = setUpConsoleBoard(scanner);
+		if(console.getUserBoolean()) {
+			console.getConsoleOutput().println();
+			backend = setUpConsoleBoard(console);
 		}
 		else {
-			System.out.println();
-			board = setUpConsoleBoard(scanner);
+			console.getConsoleOutput().println();
+			backend = setUpConsoleBoard(console);
 		}
 		
-		// Close the scanner
-		scanner.close();
+		// Enter the user into the help prompt
+		backend.getHelp().helpPrompt();
 		
 		// Draw the board to target
-		board.displayBoard();
+		backend.getBoard().displayBoard();
 	}
 	
 	/**
@@ -52,46 +49,40 @@ public class Chess {
 	 * @param scanner The scanner to get user input with
 	 * @return The created board
 	 */
-	public static Board setUpConsoleBoard(Scanner scanner) {
+	public static Backend setUpConsoleBoard(ConsoleIO console) {
 		// Initialize booleans with default values
 		boolean useGrid = false;
 		boolean useUTF8 = false;
 		boolean useASCIIPieces = true;
 		
 		// Ask whether to use grid or not
-		System.out.print("Do you have a large area to display a chess board (y/n): ");
-		useGrid = getUserBoolean(scanner);
-		System.out.println();
+		console.getConsoleOutput().print("Do you have a large area to display a chess board (y/n): ");
+		useGrid = console.getUserBoolean();
+		console.getConsoleOutput().println();
 		
 		// Ask whether to use unicode characters
-		System.out.print("Can you display special characters (y/n): ");
-		useUTF8 = getUserBoolean(scanner);
-		System.out.println();
+		console.getConsoleOutput().print("Can you display special characters (y/n): ");
+		useUTF8 = console.getUserBoolean();
+		console.getConsoleOutput().println();
 		
 		// Only ask about not using UTF8 game pieces when using UTF8 board
 		if(useUTF8) {
 			// Ask whether to use ASCII game pieces
-			System.out.println("Game pieces don't display correctly when the output is not using the Monospace font");
-			System.out.print("Would you still like to keep the same game pieces (y/n): ");
-			useASCIIPieces = !getUserBoolean(scanner);
-			System.out.println();
+			console.getConsoleOutput().println("Game pieces don't display correctly when the output is not using the Monospace font");
+			console.getConsoleOutput().print("Would you still like to keep the same game pieces (y/n): ");
+			useASCIIPieces = !console.getUserBoolean();
+			console.getConsoleOutput().println();
 		}
 		
 		// Output rules on first run
-		Help help = new Help();
-		System.out.println(help.gamerules());
+		console.getConsoleOutput().println(Help.GAME_RULES);
 		
-		//Wait for user to read and press enter.
-		waitForEnter();
-		
-		try {
-			System.in.read();
-		} catch (IOException e) {
-			System.out.println("Whoops, something went wrong.");
-		}
+		// Wait for user to read and press enter.
+		console.waitForEnter();
 		
 		// Create board variable
 		Board board;
+		
 		//Create pieces variable
 		ConsolePieces pieces;
 		
@@ -113,7 +104,7 @@ public class Chess {
 				grid = ConsoleGrid.ASCII;
 			}
 			
-			board = new ConsoleGridBoard(pieces, grid);
+			board = new ConsoleGridBoard(pieces, grid, console);
 		}
 		else {
 			
@@ -124,33 +115,12 @@ public class Chess {
 				pieces = ConsolePieces.ASCII;
 			}
 			
-			board = new ConsoleBracketsBoard(pieces);
+			board = new ConsoleBracketsBoard(pieces, console);
 		}
 		
-		// Prompt the user for any help (will be used later in game loop)
-		
-		//ConsoleHelp helper = new ConsoleHelp(pieces, scanner);
-		//helper.consoleHelpPrompt();
-		
-		
 		// Send board back to calling statement
-		return board;
+		return new Backend(board, new ConsoleHelp(pieces, console));
 	}
 	
-	/**
-	 * Gets the user input as a boolean
-	 * 
-	 * @param scanner The scanner to get user input for
-	 * @return Whether the user said yes or not
-	 */
-	public static boolean getUserBoolean(Scanner scanner) {
-		// User said y or Y
-		return scanner.next().equalsIgnoreCase("y");
-	}
-	
-	public static void waitForEnter () {
-		String enterPrompt = "Press enter to continue";
-		// "Press-any-key"-type for when user is done reading
-		System.out.println(enterPrompt);
-	}
+
 }

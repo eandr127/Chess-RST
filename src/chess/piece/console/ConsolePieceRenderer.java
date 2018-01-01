@@ -1,7 +1,6 @@
 package chess.piece.console;
 
-import java.io.PrintStream;
-
+import chess.ConsoleIO;
 import chess.piece.Piece;
 import chess.piece.PieceRenderer;
 
@@ -18,16 +17,7 @@ public class ConsolePieceRenderer implements PieceRenderer {
 	/**
 	 * Where to print the pieces
 	 */
-	private final PrintStream console;
-	
-	/**
-	 * Creates a new console renderer that prints to System.out
-	 * 
-	 * @param pieces What the pieces look like
-	 */
-	public ConsolePieceRenderer(ConsolePieces pieces) {
-		this(pieces, System.out);
-	}
+	private final ConsoleIO console;
 	
 	/**
 	 * Creates a new console renderer that prints to System.out
@@ -35,7 +25,7 @@ public class ConsolePieceRenderer implements PieceRenderer {
 	 * @param pieces What the pieces look like
 	 * @param console Where to print output
 	 */
-	public ConsolePieceRenderer(ConsolePieces pieces, PrintStream console) {
+	public ConsolePieceRenderer(ConsolePieces pieces, ConsoleIO console) {
 		this.pieces = pieces;
 		this.console = console;
 	}
@@ -54,7 +44,7 @@ public class ConsolePieceRenderer implements PieceRenderer {
 	 * 
 	 * @return The console to print to
 	 */
-	public PrintStream getConsole() {
+	public ConsoleIO getConsole() {
 		return console;
 	}
 	
@@ -63,6 +53,6 @@ public class ConsolePieceRenderer implements PieceRenderer {
 	 */
 	@Override
 	public void render(Piece piece) {
-		console.print(pieces.getOrDefault(piece.getPieceType(), piece.getTeam(), " "));
+		console.getConsoleOutput().print(pieces.getOrDefault(piece.getPieceType(), piece.getTeam(), " "));
 	}
 }

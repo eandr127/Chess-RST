@@ -1,7 +1,6 @@
 package chess.board.console.brackets;
 
-import java.io.PrintStream;
-
+import chess.ConsoleIO;
 import chess.board.Board;
 import chess.board.console.ConsoleBoard;
 import chess.piece.console.ConsolePieces;
@@ -10,15 +9,6 @@ import chess.piece.console.ConsolePieces;
  * A console board that prints using brackets
  */
 public class ConsoleBracketsBoard extends ConsoleBoard {
-
-	/**
-	 * Creates a ConsoleBracketsBoard with System.out
-	 * 
-	 * @param pieces What the pieces look like
-	 */
-	public ConsoleBracketsBoard(ConsolePieces pieces) {
-		super(pieces);
-	}
 	
 	/**
 	 * Creates a ConsoleBracketsBoard with a specified console
@@ -26,7 +16,7 @@ public class ConsoleBracketsBoard extends ConsoleBoard {
 	 * @param pieces What the pieces look like
 	 * @param console The console to print to
 	 */
-	public ConsoleBracketsBoard(ConsolePieces pieces, PrintStream console) {
+	public ConsoleBracketsBoard(ConsolePieces pieces, ConsoleIO console) {
 		super(pieces, console);
 	}
 
@@ -38,36 +28,36 @@ public class ConsoleBracketsBoard extends ConsoleBoard {
 		// Print each row
 		for(int i = 0; i < getArrangement().length; i++) {
 			// Print row number
-			console.print(Board.BOARD_SIZE - i + " ");
+			console.getConsoleOutput().print(Board.BOARD_SIZE - i + " ");
 			
 			// Print each grid cell
 			for(int j = 0; j < getArrangement()[0].length; j++) {
 				// Open cell
-				console.print("[");
+				console.getConsoleOutput().print("[");
 				// Print piece
 				this.renderer.render(getArrangement()[i][j]);
 				// Close cell
-				console.print("]");
+				console.getConsoleOutput().print("]");
 			}
 			
 			// Move cursor to next line
-			console.println();
+			console.getConsoleOutput().println();
 		}
 		
 		// Move console cursor to under first game piece
-		console.print("  ");
+		console.getConsoleOutput().print("  ");
 		
 		// Print each column letter
 		for(int i = 0; i < getArrangement().length; i++) {
 			// Add space
-			console.print(" ");
+			console.getConsoleOutput().print(" ");
 			
 			// Print column letter
-			console.print((char)(((int)'A') + i));
+			console.getConsoleOutput().print((char)(((int)'A') + i));
 			
 			// Print enough spaces to move to cursor to under next piece
 			for(int j = 0; j < renderer.getPieces().length; j++) {
-				console.print(" ");
+				console.getConsoleOutput().print(" ");
 			}
 		}
 	}
