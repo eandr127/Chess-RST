@@ -156,6 +156,14 @@ public enum PieceType {
 		return factory.makePiece(Team.BLACK);
 	}
 	
+	@Override
+	public String toString() {
+		String name = name();
+		name = name.substring(0, 1).toUpperCase() + name.substring(1).toLowerCase();
+		
+		return name;
+	}
+	
 	/**
 	 * Factory that can make new pieces for a certain team
 	 */
