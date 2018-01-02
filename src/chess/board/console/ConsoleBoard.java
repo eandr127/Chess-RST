@@ -1,7 +1,6 @@
 package chess.board.console;
 
-import java.io.PrintStream;
-
+import chess.ConsoleIO;
 import chess.board.Board;
 import chess.piece.console.ConsolePieceRenderer;
 import chess.piece.console.ConsolePieces;
@@ -19,16 +18,7 @@ public abstract class ConsoleBoard extends Board {
 	/**
 	 * The console to print to
 	 */
-	protected final PrintStream console;
-	
-	/**
-	 * Creates a ConsoleBoard that prints to System.out
-	 * 
-	 * @param pieces What the pieces look like
-	 */
-	public ConsoleBoard(ConsolePieces pieces) {
-		this(pieces, System.out);
-	}
+	protected final ConsoleIO console;
 	
 	/**
 	 * Creates a ConsoleBoard that can print to a console
@@ -36,7 +26,7 @@ public abstract class ConsoleBoard extends Board {
 	 * @param pieces What the pieces look like
 	 * @param console The console to print to
 	 */
-	public ConsoleBoard(ConsolePieces pieces, PrintStream console) {
+	public ConsoleBoard(ConsolePieces pieces, ConsoleIO console) {
 		this.renderer = new ConsolePieceRenderer(pieces, console);
 		this.console = console;
 	}
