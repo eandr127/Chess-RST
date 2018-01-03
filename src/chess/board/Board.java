@@ -7,6 +7,7 @@ import java.util.List;
 import chess.piece.Move;
 import chess.piece.Piece;
 import chess.piece.PieceType;
+import chess.piece.Team;
 
 /**
  * Represents a board that can display somewhere
@@ -194,6 +195,35 @@ public abstract class Board {
 		
 		// Make captured piece empty
 		getArrangement()[coords.getX()][coords.getY()] = PieceType.EMPTY_PIECE;
+	}
+	
+	/**
+	 * Replaces one piece with another with a different type
+	 * 
+	 * @param coords The piece to change
+	 * @param newPieceType The new piece type
+	 */
+	public void replacePieceType(Coordinates coords, PieceType newPieceType) {
+		// Get the team of the new piece
+		Team team = getPiece(coords).getTeam();
+		
+		// Create the piece with the appropriate team
+		Piece newPiece;
+		if(team == Team.WHITE) {
+			newPiece = newPieceType.white();
+		}
+		else {
+			newPiece = newPieceType.black();
+		}
+		
+		// Initialize the piece with its coordinates
+		newPiece.lateInit(coords, this);
+		
+		// Convert coordinates to array coordinates to update board
+		coords = convertToArray(coords);
+		
+		// Update board
+		arrangement[coords.getX()][coords.getY()] = newPiece;
 	}
 	
 	/**
