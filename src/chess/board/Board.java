@@ -93,12 +93,33 @@ public abstract class Board {
 	public abstract void displayBoard();
 	
 	/**
+	 * Converts standard piece coordinates to ones that are properly interpreted by the array
+	 * 
+	 * @param coords The coordinates to convert
+	 * @return The converted coordinates
+	 */
+	private Coordinates convertToArray(Coordinates coords) {
+		return new Coordinates(8 - coords.getY(), coords.getX() - 1);
+	}
+	
+	/**
+	 * Convert array coordinates to piece coordinates
+	 * 
+	 * @param coords The coordinates to convert
+	 * @return The converted coordinates
+	 */
+	private Coordinates convertFromArray(Coordinates coords) {
+		return new Coordinates(coords.getY() + 1, 8 - coords.getX());
+	}
+	
+	/**
 	 * Gets a piece on the board
 	 * 
 	 * @param coords The location of the piece
 	 * @return The piece
 	 */
 	public Piece getPiece(Coordinates coords) {
+		coords = convertToArray(coords);
 	    return getArrangement()[coords.getX()][coords.getY()];
 	}
 	
@@ -116,7 +137,7 @@ public abstract class Board {
 				// See if the piece is a match
 				if(getArrangement()[i][j] == piece) {
 					// Return the coordinates of the matching piece
-					return new Coordinates(i, j);
+					return convertFromArray(new Coordinates(i, j));
 				}
 			}
 		}
@@ -141,6 +162,10 @@ public abstract class Board {
 		
 		// Try to move the piece
 		if(move.execute()) {
+			// Convert piece coordinates to array coordinates
+			start = convertToArray(start);
+			end = convertToArray(end);
+			
 			// Movement was successful so update the board
 			getArrangement()[start.getX()][start.getY()] = PieceType.EMPTY_PIECE;
 			getArrangement()[end.getX()][end.getY()] = piece;
@@ -164,6 +189,9 @@ public abstract class Board {
 	 * @param coords The location to capture
 	 */
 	public void capture(Coordinates coords) {
+		// Convert piece coordinates to array coordinates
+		coords = convertToArray(coords);
+		
 		// Make captured piece empty
 		getArrangement()[coords.getX()][coords.getY()] = PieceType.EMPTY_PIECE;
 	}
