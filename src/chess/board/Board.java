@@ -70,7 +70,7 @@ public abstract class Board {
 			// Loop through each column
 			for(int j = 0; j < BOARD_SIZE; j++) {
 				// Initialize piece
-				arrangement[i][j].lateInit(new Coordinates(i, j), this);
+				arrangement[i][j].lateInit(convertFromArray(new Coordinates(i, j)), this);
 				
 				// Put it in the new array
 				this.arrangement[i][j] = arrangement[i][j];
