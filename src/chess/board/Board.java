@@ -7,6 +7,7 @@ import java.util.List;
 import chess.piece.Move;
 import chess.piece.Piece;
 import chess.piece.PieceType;
+import chess.piece.Team;
 
 /**
  * Represents a board that can display somewhere
@@ -70,7 +71,7 @@ public abstract class Board {
 			// Loop through each column
 			for(int j = 0; j < BOARD_SIZE; j++) {
 				// Initialize piece
-				arrangement[i][j].lateInit(new Coordinates(i, j), this);
+				arrangement[i][j].lateInit(convertFromArray(new Coordinates(i, j)), this);
 				
 				// Put it in the new array
 				this.arrangement[i][j] = arrangement[i][j];
@@ -93,12 +94,33 @@ public abstract class Board {
 	public abstract void displayBoard();
 	
 	/**
+	 * Converts standard piece coordinates to ones that are properly interpreted by the array
+	 * 
+	 * @param coords The coordinates to convert
+	 * @return The converted coordinates
+	 */
+	private Coordinates convertToArray(Coordinates coords) {
+		return new Coordinates(8 - coords.getY(), coords.getX() - 1);
+	}
+	
+	/**
+	 * Convert array coordinates to piece coordinates
+	 * 
+	 * @param coords The coordinates to convert
+	 * @return The converted coordinates
+	 */
+	private Coordinates convertFromArray(Coordinates coords) {
+		return new Coordinates(coords.getY() + 1, 8 - coords.getX());
+	}
+	
+	/**
 	 * Gets a piece on the board
 	 * 
 	 * @param coords The location of the piece
 	 * @return The piece
 	 */
 	public Piece getPiece(Coordinates coords) {
+		coords = convertToArray(coords);
 	    return getArrangement()[coords.getX()][coords.getY()];
 	}
 	
@@ -116,7 +138,7 @@ public abstract class Board {
 				// See if the piece is a match
 				if(getArrangement()[i][j] == piece) {
 					// Return the coordinates of the matching piece
-					return new Coordinates(i, j);
+					return convertFromArray(new Coordinates(i, j));
 				}
 			}
 		}
@@ -141,6 +163,10 @@ public abstract class Board {
 		
 		// Try to move the piece
 		if(move.execute()) {
+			// Convert piece coordinates to array coordinates
+			start = convertToArray(start);
+			end = convertToArray(end);
+			
 			// Movement was successful so update the board
 			getArrangement()[start.getX()][start.getY()] = PieceType.EMPTY_PIECE;
 			getArrangement()[end.getX()][end.getY()] = piece;
@@ -164,8 +190,40 @@ public abstract class Board {
 	 * @param coords The location to capture
 	 */
 	public void capture(Coordinates coords) {
+		// Convert piece coordinates to array coordinates
+		coords = convertToArray(coords);
+		
 		// Make captured piece empty
 		getArrangement()[coords.getX()][coords.getY()] = PieceType.EMPTY_PIECE;
+	}
+	
+	/**
+	 * Replaces one piece with another with a different type
+	 * 
+	 * @param coords The piece to change
+	 * @param newPieceType The new piece type
+	 */
+	public void replacePieceType(Coordinates coords, PieceType newPieceType) {
+		// Get the team of the new piece
+		Team team = getPiece(coords).getTeam();
+		
+		// Create the piece with the appropriate team
+		Piece newPiece;
+		if(team == Team.WHITE) {
+			newPiece = newPieceType.white();
+		}
+		else {
+			newPiece = newPieceType.black();
+		}
+		
+		// Initialize the piece with its coordinates
+		newPiece.lateInit(coords, this);
+		
+		// Convert coordinates to array coordinates to update board
+		coords = convertToArray(coords);
+		
+		// Update board
+		arrangement[coords.getX()][coords.getY()] = newPiece;
 	}
 	
 	/**

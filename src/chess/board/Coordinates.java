@@ -1,12 +1,12 @@
 package chess.board;
 
 /**
- * Holds an X and Y value, where X is row and Y is column
+ * Holds an X and Y value, where X is column and Y is row
  */
 public class Coordinates
 {
 	/**
-	 * The row and column
+	 * The column and row
 	 */
 	private final int x, y;
 	
@@ -18,25 +18,14 @@ public class Coordinates
 	 * @return The converted coordinates
 	 */
 	public static Coordinates fromChessNotation(char column, int row) {
-		return fromChessNotation((int)Character.toUpperCase(column) - (int)'A' + 1, row);
-	}
-	
-	/**
-	 * Converts chess notation (column as letter, row from 8->1) to coordinates (row, column)
-	 * 
-	 * @param column The column as a number
-	 * @param row The row
-	 * @return The converted coordinates
-	 */
-	public static Coordinates fromChessNotation (int column, int row) {
-		return new Coordinates(8 - row, column - 1);
+		return new Coordinates((int)Character.toUpperCase(column) - (int)'A' + 1, row);
 	}
 	
 	/**
 	 * Creates coordinates with a row and column value
 	 * 
-	 * @param x The row
-	 * @param y The column
+	 * @param x The column
+	 * @param y The row
 	 */
 	public Coordinates(int x, int y) {
 		this.x = x;
@@ -44,18 +33,18 @@ public class Coordinates
 	}
 	
 	/**
-	 * Gets the row
+	 * Gets the column
 	 * 
-	 * @return The row
+	 * @return The column
 	 */
 	public int getX() {
 		return x;
 	}
 	
 	/**
-	 * Gets the column
+	 * Gets the row
 	 * 
-	 * @return The column
+	 * @return The row
 	 */
 	public int getY() {
 		return y;

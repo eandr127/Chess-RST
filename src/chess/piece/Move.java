@@ -11,7 +11,7 @@ public class Move
 	private final Piece piece;
 	
 	/**
-	 * The change in rows and columns
+	 * The change in columns and rows
 	 */
 	private final int deltaX, deltaY;
 	
@@ -39,9 +39,9 @@ public class Move
 	}
 
 	/**
-	 * Gets the change in rows
+	 * Gets the change in columns
 	 * 
-	 * @return The change in rows
+	 * @return The change in columns
 	 */
 	public int getDeltaX()
 	{
@@ -49,9 +49,9 @@ public class Move
 	}
 
 	/**
-	 * Gets the change in columns
+	 * Gets the change in rows
 	 * 
-	 * @return The change in columns
+	 * @return The change in rows
 	 */
 	public int getDeltaY()
 	{

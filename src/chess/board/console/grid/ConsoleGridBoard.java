@@ -1,7 +1,6 @@
 package chess.board.console.grid;
 
-import java.io.PrintStream;
-
+import chess.ConsoleIO;
 import chess.board.Board;
 import chess.board.console.ConsoleBoard;
 import chess.piece.Piece;
@@ -18,24 +17,13 @@ public class ConsoleGridBoard extends ConsoleBoard {
 	private final ConsoleGrid grid;
 	
 	/**
-	 * Creates a ConsoleGridBoard using System.out
-	 * 
-	 * @param pieces The look of the pieces
-	 * @param grid The look of the grid
-	 */
-	public ConsoleGridBoard(ConsolePieces pieces, ConsoleGrid grid) {
-		super(pieces);
-		this.grid = grid;
-	}
-	
-	/**
 	 * Creates a ConsoleGridBoard using a specified console
 	 * 
 	 * @param pieces The look of the pieces
 	 * @param grid The look of the grid
 	 * @param console Where to print the board
 	 */
-	public ConsoleGridBoard(ConsolePieces pieces, ConsoleGrid grid, PrintStream console) {
+	public ConsoleGridBoard(ConsolePieces pieces, ConsoleGrid grid, ConsoleIO console) {
 		super(pieces, console);
 		this.grid = grid;
 	}
@@ -55,7 +43,7 @@ public class ConsoleGridBoard extends ConsoleBoard {
 		top = (grid.topLeftCorner + top.substring(3, top.length() - 1) + grid.topRightCorner).replaceAll("\\"+grid.cross, ""+grid.topSide);
 		
 		// Print top with two spaces that were removed
-		console.println("  " + top);
+		console.getConsoleOutput().println("  " + top);
 		
 		// Print in between first and last lines of grid
 		for(int i = 0; i < arrangement.length; i++) {
@@ -64,7 +52,7 @@ public class ConsoleGridBoard extends ConsoleBoard {
 			
 			// Print a divider except last iteration
 			if(i != arrangement.length - 1) {
-				console.println(makeDividerLine());
+				console.getConsoleOutput().println(makeDividerLine());
 			}
 		}
 		
@@ -75,26 +63,26 @@ public class ConsoleGridBoard extends ConsoleBoard {
 		bottom = (grid.bottomLeftCorner + bottom.substring(3, bottom.length() - 1) + grid.bottomRightCorner).replaceAll("\\"+grid.cross, ""+grid.bottomSide);
 		
 		// Print bottom with two spaces that were removed
-		console.println("  " + bottom);
+		console.getConsoleOutput().println("  " + bottom);
 		
 		// Print 2 spaces to be at start of grid and another to move past the corner
-		console.print("   ");
+		console.getConsoleOutput().print("   ");
 		
 		// Print each letter at bottom
 		for(int i = 0; i < arrangement.length; i++) {
 			// Print space to move cursor under
-			console.print(" ");
+			console.getConsoleOutput().print(" ");
 			
 			// Convert the number to the correct letter
-			console.print((char)(((int)'A') + i));
+			console.getConsoleOutput().print((char)(((int)'A') + i));
 			
 			// Move cursor past vertical bar in gid
 			for(int j = 0; j < renderer.getPieces().length + 1; j++) {
-				System.out.print(" ");
+				console.getConsoleOutput().print(" ");
 			}
 		}
 		
-		System.out.println();
+		console.getConsoleOutput().println();
 	}
 	
 	/**
@@ -134,21 +122,21 @@ public class ConsoleGridBoard extends ConsoleBoard {
 	 */
 	private void printPiecesLine(Piece[] pieces, int row) {
 		// Print row number and first vertical
-		console.print(row + " " + grid.vertical);
+		console.getConsoleOutput().print(row + " " + grid.vertical);
 		
 		// Print each grid space
 		for(int i = 0; i < pieces.length; i++) {
 			// Start with space
-			console.print(" ");
+			console.getConsoleOutput().print(" ");
 			
 			// Add piece
 			renderer.render(pieces[i]);
 			
 			// Print a space and vertical line
-			console.print(" " + grid.vertical);
+			console.getConsoleOutput().print(" " + grid.vertical);
 		}
 		
 		// Move cursor to next line
-		console.println();
+		console.getConsoleOutput().println();
 	}
 }
