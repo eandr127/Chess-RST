@@ -2,6 +2,7 @@ package chess.board.console.brackets;
 
 import chess.ConsoleIO;
 import chess.board.Board;
+import chess.board.Coordinates;
 import chess.board.console.ConsoleBoard;
 import chess.piece.console.ConsolePieces;
 
@@ -24,7 +25,7 @@ public class ConsoleBracketsBoard extends ConsoleBoard {
 	 * Prints the board to the console
 	 */
 	@Override
-	public void displayBoard() {
+	public void displayBoard(Coordinates[] coordinates) {
 		// Print each row
 		for(int i = 0; i < getArrangement().length; i++) {
 			// Print row number
@@ -32,12 +33,20 @@ public class ConsoleBracketsBoard extends ConsoleBoard {
 			
 			// Print each grid cell
 			for(int j = 0; j < getArrangement()[0].length; j++) {
+				boolean selected = false;
+				for(Coordinates coords : coordinates) {
+					if(coords.equals(new Coordinates(i, j))) {
+						selected = true;
+						break;
+					}
+				}
+				
 				// Open cell
-				console.getConsoleOutput().print("[");
+				console.getConsoleOutput().print(selected ? "{" : "[");
 				// Print piece
 				this.renderer.render(getArrangement()[i][j]);
 				// Close cell
-				console.getConsoleOutput().print("]");
+				console.getConsoleOutput().print(selected ? "}" : "]");
 			}
 			
 			// Move cursor to next line

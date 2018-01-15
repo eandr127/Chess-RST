@@ -2,6 +2,7 @@ package chess.board.console.grid;
 
 import chess.ConsoleIO;
 import chess.board.Board;
+import chess.board.Coordinates;
 import chess.board.console.ConsoleBoard;
 import chess.piece.Piece;
 import chess.piece.console.ConsolePieces;
@@ -32,7 +33,7 @@ public class ConsoleGridBoard extends ConsoleBoard {
 	 * Prints the board to the console
 	 */
 	@Override
-	public void displayBoard() {
+	public void displayBoard(Coordinates[] coordinates) {
 		// Get the arrangement of the board
 		Piece[][] arrangement = getArrangement();
 		

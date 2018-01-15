@@ -1,5 +1,8 @@
 package chess.piece;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import chess.board.Board;
 import chess.board.Coordinates;
 
@@ -123,6 +126,27 @@ public abstract class Piece {
 		else {
 			return false;
 		}
+	}
+	
+	/**
+	 * Checks whether the piece has any valid moves
+	 * 
+	 * @return Whether the piece has a valid move
+	 */
+	public Coordinates[] getValidMoves() {
+		List<Coordinates> coordsList = new ArrayList<>();
+		
+		for(int i = 1; i < 8; i++) {
+			for(int j = i; j < 8; j++) {
+				Coordinates coords = new Coordinates(i, j);
+				
+				if(canMove(coords)) {
+					coordsList.add(coords);
+				}
+			}
+		}
+		
+		return coordsList.toArray(new Coordinates[0]);
 	}
 	
 	/**

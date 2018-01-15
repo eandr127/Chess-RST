@@ -89,9 +89,52 @@ public abstract class Board {
 	}
 	
 	/**
-	 * Display the board
+	 * Displays board with no highlight
 	 */
-	public abstract void displayBoard();
+	public void showBoard() {
+		displayBoard(new Coordinates[0]);
+	}
+	
+	/**
+	 * Displays board with all pieces that can be moved selected highlighted
+	 * 
+	 * @param team The team to highlight pieces for
+	 */
+	public void showBoard(Team team) {
+		List<Coordinates> coords = new ArrayList<>();
+		for(Piece[] row : arrangement) {
+			for(Piece piece : row) {
+				if(piece.getValidMoves().length == 0) {
+					coords.add(convertToArray(piece.getCoords()));
+				}
+			}
+		}
+		
+		displayBoard(coords.toArray(new Coordinates[0]));
+	}
+	
+	
+	/**
+	 * Displays the board with all locations that a piece can be moved highlighted
+	 * 
+	 * @param piece The piece to highlight locations for
+	 */
+	public void showBoard(Piece piece) {
+		Coordinates[] coords = piece.getValidMoves();
+		
+		for(int i = 0; i < coords.length; i++) {
+			coords[i] = convertToArray(coords[i]);
+		}
+		
+		displayBoard(coords);
+	}
+	
+	/**
+	 * Display the board
+	 * 
+	 * @param pieces All array coordinates to highlight
+	 */
+	protected abstract void displayBoard(Coordinates[] pieces);
 	
 	/**
 	 * Converts standard piece coordinates to ones that are properly interpreted by the array
@@ -164,7 +207,7 @@ public abstract class Board {
 		// Try to move the piece
 		if(move.execute()) {
 			// Convert piece coordinates to array coordinates
-			start = convertToArray(start);
+			// TODO Auto-generated method stubstart = convertToArray(start);
 			end = convertToArray(end);
 			
 			// Movement was successful so update the board

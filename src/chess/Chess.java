@@ -40,7 +40,7 @@ public class Chess {
 		backend.getHelp().helpPrompt();
 		
 		// Draw the board to target
-		backend.getBoard().displayBoard();
+		backend.getBoard().showBoard();
 	}
 	
 	/**
