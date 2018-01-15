@@ -38,7 +38,7 @@ public class Help {
 				+ "On their first turn they can move two tiles forward.\n"
 				+ "Once the Pawn reaches the end of the board, they can be traded for any piece (except King)");
 		helpHashMap.put(PieceType.ROOK, "Rook can move 1 to 7 squares horizontally and vertically, as long as nothing is blocking their way.");
-		helpHashMap.put(PieceType.QUEEN, "Queen can move any direction horizonally, vertically, or diagonally as long as nothing is blocking their way.\n"
+		helpHashMap.put(PieceType.QUEEN, "Queen can move any direction horizontally, vertically, or diagonally as long as nothing is blocking their way.\n"
 				+ "In addition, Queens can capture other any piece of the opponent.");
 		helpMap = Collections.unmodifiableMap(helpHashMap);
 	}
