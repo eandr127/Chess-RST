@@ -42,4 +42,8 @@ public abstract class Player
 	public abstract Coordinates selectPiece();
 	public abstract Coordinates selectDestination();
 	public abstract void invalidMove();
+	
+	public abstract boolean offerDraw();
+	public abstract void recieveDrawOffer();
+	public abstract boolean draw();
 }
