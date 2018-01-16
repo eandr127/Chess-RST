@@ -25,8 +25,27 @@ public class ConsolePlayer extends Player
 	@Override
 	public Coordinates selectPiece()
 	{
-		// TODO Auto-generated method stub
-		return null;
+		int x = 0, y = 0;
+		String choice;
+		boolean validCoord = false;
+		
+		while(validCoord == false)
+		{
+			console.getConsoleOutput().print("Select a location: ");
+			choice = console.getInput().nextLine().toLowerCase();
+		
+			x = choice.charAt(0);
+			y = choice.charAt(1);
+			
+			if(x > 1 && x < 8 && y > 1 && y < 8)
+			{
+				validCoord = true;
+			}
+		}
+		
+		Coordinates coords = new Coordinates (x, y);
+		
+		return coords;
 	}
 
 	@Override
