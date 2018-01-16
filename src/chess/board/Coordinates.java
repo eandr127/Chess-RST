@@ -11,14 +11,13 @@ public class Coordinates
 	private final int x, y;
 	
 	/**
-	 * Converts chess notation (column as letter, row from 8->1) to coordinates (row, column)
+	 * Creates coordinates from chess notation (column as letter, row from 8->1)
 	 * 
 	 * @param column The column
 	 * @param row The row
-	 * @return The converted coordinates
 	 */
-	public static Coordinates fromChessNotation(char column, int row) {
-		return new Coordinates((int)Character.toUpperCase(column) - (int)'A' + 1, row);
+	public Coordinates(char column, int row) {
+		this((int)Character.toUpperCase(column) - (int)'A' + 1, row);
 	}
 	
 	/**

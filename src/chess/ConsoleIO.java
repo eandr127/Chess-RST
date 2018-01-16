@@ -98,7 +98,7 @@ public class ConsoleIO
 		while (number == null) {
 			number = input.nextInt();
 			//TODO: hacky !!! yikes!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-			if (number > min || number < max) {
+			if (number < min || number > max) {
 				number = null;
 				consoleOutput.print(error);
 			}

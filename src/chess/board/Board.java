@@ -163,7 +163,9 @@ public abstract class Board {
 	 * @return The piece
 	 */
 	public Piece getPiece(Coordinates coords) {
+		System.out.println(coords.getX() + " " + coords.getY());
 		coords = convertToArray(coords);
+		System.out.println(coords.getX() + " " + coords.getY());
 	    return getArrangement()[coords.getX()][coords.getY()];
 	}
 	

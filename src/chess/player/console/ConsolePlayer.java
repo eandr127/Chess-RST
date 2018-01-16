@@ -1,10 +1,9 @@
 package chess.player.console;
 
-import java.util.Scanner;
-
 import chess.ConsoleIO;
 import chess.board.Board;
 import chess.board.Coordinates;
+import chess.piece.Piece;
 import chess.piece.Team;
 import chess.player.Player;
 
@@ -25,30 +24,31 @@ public class ConsolePlayer extends Player
 	}
 	
 	public Coordinates getCoordinates () {
-		Scanner scanner = console.getInput();
 		char column;
 		int row;
 
-		System.out.println("what number part do you want (ex a-h)");
-		column = console.stringToLength("ya dun did it now: ", 1).charAt(0);
-		System.out.println("what number part do you want (ex 1-8)");
-		row = console.getUserInteger("i wish my son played football: ", 1, 8);
+		System.out.println("Select column (A-H): ");
+		column = console.stringToLength("Column must be between A and H: ", 1).charAt(0);
+		System.out.println("Select Row (1-8): ");
+		row = console.getUserInteger("Row must be between 1 and 8: ", 1, 8);
 		
-		return new Coordinates(row, column);
+		return new Coordinates(column, row);
 		
 	}
 	
 	@Override
 	public Coordinates selectPiece()
 	{
-		System.out.println("what piece you want");
+		getBoard().showBoard(getTeam());
+		System.out.println("Select the piece to move");
 		return getCoordinates();
 	}
 
 	@Override
-	public Coordinates selectDestination()
+	public Coordinates selectDestination(Piece selected)
 	{
-		System.out.println("where you wanna go");
+		getBoard().showBoard(selected);
+		System.out.println("Select the destination of the piece");
 		return getCoordinates();
 	}
 

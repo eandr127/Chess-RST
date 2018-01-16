@@ -6,7 +6,9 @@ import chess.board.console.grid.ConsoleGrid;
 import chess.board.console.grid.ConsoleGridBoard;
 import chess.help.Help;
 import chess.help.console.ConsoleHelp;
+import chess.piece.Team;
 import chess.piece.console.ConsolePieces;
+import chess.player.console.ConsolePlayer;
 
 /**
  * The class that holds the client code fo chess
@@ -41,6 +43,11 @@ public class Chess {
 		
 		// Draw the board to target
 		backend.getBoard().showBoard();
+		
+		for(int i = 0; i < 12; i++) {
+			backend.getPlayer1().takeTurn();
+			backend.getBoard().showBoard();
+		}
 	}
 	
 	/**
@@ -119,7 +126,7 @@ public class Chess {
 		}
 		
 		// Send board back to calling statement
-		return new Backend(board, new ConsoleHelp(pieces, console));
+		return new Backend(board, new ConsolePlayer(Team.WHITE, board, console), new ConsolePlayer(Team.BLACK, board, console), new ConsoleHelp(pieces, console));
 	}
 	
 
