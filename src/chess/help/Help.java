@@ -26,6 +26,7 @@ public abstract class Help
 	static
 	{
 		HashMap<PieceType, String> helpHashMap = new HashMap<>();
+    
 		// TODO Actual descriptions for pieces
 		helpHashMap.put(PieceType.BISHOP,
 				"Bishops can move to any tile in any diagonal direction, as long as nothing is blocking their way.");
@@ -47,7 +48,7 @@ public abstract class Help
 				"Rook can move 1 to 7 squares horizontally and vertically, as long as nothing is blocking their way.");
 		
 		helpHashMap.put(PieceType.QUEEN,
-				"Queen can move any direction horizonally, vertically, or diagonally as long as nothing is blocking their way.\n"
+				"Queen can move any direction horizontally, vertically, or diagonally as long as nothing is blocking their way.\n"
 						+ "In addition, Queens can capture other any piece of the opponent.");
 		
 		HELP_MAP = Collections.unmodifiableMap(helpHashMap);

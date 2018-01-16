@@ -69,6 +69,44 @@ public class ConsoleIO
 	}
 	
 	/**
+	 * 
+	 * @param string: The string to be checked.
+	 * @param length: The length to be checked.
+	 * @return Did the string match length?
+	 */
+	public String stringToLength (String error, int length) {
+		String word = null;
+		while (word == null) {
+			word = input.next();
+			if (word.length() != length) {
+				word = null;
+				consoleOutput.print(error);
+			}
+		}
+		return word;
+	}
+	
+	/**
+	 * Gets the user input as an int with set limits
+	 * 
+	 * @param error: The error message to display when user input out of bounds
+	 * @param min: The minimum bounds
+	 * @param max: The maximum bounds
+	 */
+	public int getUserInteger (String error, int min, int max) {
+		Integer number = null;
+		while (number == null) {
+			number = input.nextInt();
+			//TODO: hacky !!! yikes!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+			if (number < min || number > max) {
+				number = null;
+				consoleOutput.print(error);
+			}
+		}
+		return number;
+	}
+	
+	/**
 	 * Gets the user input as a boolean
 	 * 
 	 * @return Whether the user said yes or not

@@ -2,6 +2,7 @@ package chess.player;
 
 import chess.board.Board;
 import chess.board.Coordinates;
+import chess.piece.Piece;
 import chess.piece.Team;
 
 public abstract class Player
@@ -27,7 +28,7 @@ public abstract class Player
 		
 		do {
 			Coordinates start = selectPiece();
-			Coordinates end = selectDestination();
+			Coordinates end = selectDestination(board.getPiece(start));
 			
 			// Only valid pieces should be selected in the first place, but just in case
 			done = board.movePiece(start, end);
@@ -40,6 +41,10 @@ public abstract class Player
 	}
 	
 	public abstract Coordinates selectPiece();
-	public abstract Coordinates selectDestination();
+	public abstract Coordinates selectDestination(Piece selected);
 	public abstract void invalidMove();
+	
+	public abstract boolean offerDraw();
+	public abstract void recieveDrawOffer();
+	public abstract boolean draw();
 }
