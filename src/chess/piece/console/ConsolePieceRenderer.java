@@ -53,6 +53,6 @@ public class ConsolePieceRenderer implements PieceRenderer {
 	 */
 	@Override
 	public void render(Piece piece) {
-		console.getConsoleOutput().print(pieces.getOrDefault(piece.getPieceType(), piece.getTeam(), " "));
+		console.getConsoleOutput().print(pieces.get(piece.getPieceType(), piece.getTeam()));
 	}
 }

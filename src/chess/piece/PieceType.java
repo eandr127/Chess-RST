@@ -35,7 +35,7 @@ public enum PieceType {
 		@Override
 		public Piece makePiece(Team team)
 		{
-			return new Knight(ROOK, team);
+			return new Knight(KNIGHT, team);
 		}
 		
 	}),
@@ -153,7 +153,7 @@ public enum PieceType {
 	 * @return The new piece
 	 */
 	public Piece white() {
-		return factory.makePiece(Team.BLACK);
+		return factory.makePiece(Team.WHITE);
 	}
 	
 	@Override

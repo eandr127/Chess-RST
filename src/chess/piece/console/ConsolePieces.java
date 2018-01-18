@@ -4,8 +4,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.function.BiConsumer;
-import java.util.function.BiFunction;
 
 import chess.piece.PieceType;
 import chess.piece.Team;
@@ -31,7 +29,7 @@ public enum ConsolePieces {
 											entry(Team.WHITE, "♖"))),
 		entry(PieceType.QUEEN,	ofEntries(	entry(Team.BLACK, "♛"),
 											entry(Team.WHITE, "♕"))),
-		entry(PieceType.EMPTY,	ofEntries(	entry(Team.NONE, " ")))
+		entry(PieceType.EMPTY,	ofEntries(	entry(Team.NONE, " ")))  
 	)),
 	
 	/**
@@ -81,42 +79,22 @@ public enum ConsolePieces {
 	 * @param pieces The unsafe map
 	 * @return An unmodifiable map with Strings of only the specified length
 	 */
-	private static Map<PieceType, Map<Team, String>> safeMap(final int length, Map<PieceType, Map<Team, String>> pieces) {
+	private static Map<PieceType, Map<Team, String>> safeMap(int length, Map<PieceType, Map<Team, String>> pieces) {
 		// Copy pieces to different Map so they don't edit the originals
-		 final Map<PieceType, Map<Team, String>> temp = new HashMap<>(pieces);
+		 Map<PieceType, Map<Team, String>> temp = new HashMap<>(pieces);
 		 
 		 // Set each String to the correct length
-		 temp.forEach(new BiConsumer<PieceType, Map<Team, String>>() {
-
-			@Override
-			public void accept(PieceType pieceType, Map<Team, String> teamText)
-			{
-				 // Copy pieces to different Map so they don't edit the originals
-				 final Map<Team, String> tempPiece = new HashMap<>(teamText);
-				 
-				 // Set each String to the correct length
-				 tempPiece.forEach(new BiConsumer<Team, String>() {
-
-					@Override
-					public void accept(Team team, String value)
-					{
-						tempPiece.compute(team, new BiFunction<Team, String, String>() {
-
-							@Override
-							public String apply(Team team, String value) {
-								// Cut the piece to length
-								return cutToLength(length, value);
-							}
-						});
-					}
-
-				 });
-				 
-				 
-				 temp.put(pieceType, Collections.unmodifiableMap(tempPiece));
-			}
-
-		 });
+		 for(Map.Entry<PieceType, Map<Team, String>> piece : temp.entrySet()) {
+			 // Copy pieces to different Map so they don't edit the originals
+			 Map<Team, String> tempPiece = new HashMap<>(piece.getValue());
+			 
+			 // Set each String to the correct length
+			 for(Map.Entry<Team, String> team : tempPiece.entrySet()) {	 
+				 tempPiece.put(team.getKey(), cutToLength(length, team.getValue()));
+			 }
+			 
+			 temp.put(piece.getKey(), Collections.unmodifiableMap(tempPiece));
+		}
 		 
 		 // Return an unmodifiable version of the map
 		 return Collections.unmodifiableMap(temp);

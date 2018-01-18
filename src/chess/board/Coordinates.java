@@ -69,4 +69,9 @@ public class Coordinates
 	public Coordinates add(int x, int y) {
 		return new Coordinates(getX() + x, getY() + y);
 	}
+	
+	@Override
+	public boolean equals(Object other) {
+		return other instanceof Coordinates && this.getX() == ((Coordinates)other).getX() && this.getY() == ((Coordinates)other).getY();
+	}
 }

@@ -49,7 +49,7 @@ public class ConsoleGridBoard extends ConsoleBoard {
 		// Print in between first and last lines of grid
 		for(int i = 0; i < arrangement.length; i++) {
 			// Print the board pieces
-			printPiecesLine(arrangement[i], Board.BOARD_SIZE - i);
+			printPiecesLine(arrangement[i], Board.BOARD_SIZE - i, coordinates);
 			
 			// Print a divider except last iteration
 			if(i != arrangement.length - 1) {
@@ -121,20 +121,28 @@ public class ConsoleGridBoard extends ConsoleBoard {
 	 * @param pieces The row of pieces
 	 * @param row The row number starting at 1
 	 */
-	private void printPiecesLine(Piece[] pieces, int row) {
+	private void printPiecesLine(Piece[] pieces, int row, Coordinates[] coordinates) {
 		// Print row number and first vertical
 		console.getConsoleOutput().print(row + " " + grid.vertical);
 		
 		// Print each grid space
 		for(int i = 0; i < pieces.length; i++) {
+			boolean selected = false;
+			for(Coordinates coords : coordinates) {
+				if(coords.equals(new Coordinates(8 - row, i))) {
+					selected = true;
+					break;
+				}
+			}
+			
 			// Start with space
-			console.getConsoleOutput().print(" ");
+			console.getConsoleOutput().print(selected ? ">" : " ");
 			
 			// Add piece
 			renderer.render(pieces[i]);
 			
 			// Print a space and vertical line
-			console.getConsoleOutput().print(" " + grid.vertical);
+			console.getConsoleOutput().print((selected ? "<" : " ") + grid.vertical);
 		}
 		
 		// Move cursor to next line

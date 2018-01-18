@@ -104,7 +104,7 @@ public abstract class Board {
 		List<Coordinates> coords = new ArrayList<>();
 		for(Piece[] row : arrangement) {
 			for(Piece piece : row) {
-				if(piece.getValidMoves().length == 0) {
+				if(piece != PieceType.EMPTY_PIECE  && piece.getTeam() == team && piece.getValidMoves().length != 0) {
 					coords.add(convertToArray(piece.getCoords()));
 				}
 			}
@@ -163,9 +163,7 @@ public abstract class Board {
 	 * @return The piece
 	 */
 	public Piece getPiece(Coordinates coords) {
-		System.out.println(coords.getX() + " " + coords.getY());
 		coords = convertToArray(coords);
-		System.out.println(coords.getX() + " " + coords.getY());
 	    return getArrangement()[coords.getX()][coords.getY()];
 	}
 	
@@ -209,7 +207,8 @@ public abstract class Board {
 		// Try to move the piece
 		if(move.execute()) {
 			// Convert piece coordinates to array coordinates
-			// TODO Auto-generated method stubstart = convertToArray(start);
+			// TODO Auto-generated method stubstart = convertToArray(start)
+			start = convertToArray(start);
 			end = convertToArray(end);
 			
 			// Movement was successful so update the board

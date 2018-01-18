@@ -17,6 +17,8 @@ public class Rook extends Piece
 	@Override
 	protected boolean canMove(Coordinates newCoords)
 	{
+		return false;
+/*		
 		boolean valid = false;
 		
 		// If the player's team is black
@@ -356,7 +358,7 @@ public class Rook extends Piece
 
 		}
 
-		return valid;
+		return valid;*/
 	}
 
 	@Override

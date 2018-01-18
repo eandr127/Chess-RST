@@ -60,7 +60,6 @@ public class Chess {
 		// Initialize booleans with default values
 		boolean useGrid = false;
 		boolean useUTF8 = false;
-		boolean useASCIIPieces = true;
 		
 		// Ask whether to use grid or not
 		console.getConsoleOutput().print("Do you have a large area to display a chess board (y/n): ");
@@ -68,18 +67,9 @@ public class Chess {
 		console.getConsoleOutput().println();
 		
 		// Ask whether to use unicode characters
-		console.getConsoleOutput().print("Can you display special characters (y/n): ");
+		console.getConsoleOutput().print("Can you display special characters that may not work on Windows and older versions of Eclipse (y/n): ");
 		useUTF8 = console.getUserBoolean();
 		console.getConsoleOutput().println();
-		
-		// Only ask about not using UTF8 game pieces when using UTF8 board
-		if(useUTF8) {
-			// Ask whether to use ASCII game pieces
-			console.getConsoleOutput().println("Game pieces don't display correctly when the output is not using the Monospace font");
-			console.getConsoleOutput().print("Would you still like to keep the same game pieces (y/n): ");
-			useASCIIPieces = !console.getUserBoolean();
-			console.getConsoleOutput().println();
-		}
 		
 		// Output rules on first run
 		console.getConsoleOutput().println(Help.GAME_RULES);
@@ -93,16 +83,16 @@ public class Chess {
 		//Create pieces variable
 		ConsolePieces pieces;
 		
+		if(useUTF8) {
+			pieces = ConsolePieces.UTF8;
+		}
+		else {
+			pieces = ConsolePieces.ASCII;
+		}
+		
 		// Initialize board based on what user wants
 		if(useGrid) {
 			ConsoleGrid grid;
-			
-			if(useUTF8 && !useASCIIPieces) {
-				pieces = ConsolePieces.UTF8;
-			}
-			else {
-				pieces = ConsolePieces.ASCII;
-			}
 			
 			if(useUTF8) {
 				grid = ConsoleGrid.UTF8_HEAVY;
@@ -114,14 +104,6 @@ public class Chess {
 			board = new ConsoleGridBoard(pieces, grid, console);
 		}
 		else {
-			
-			if(useUTF8 && !useASCIIPieces) {
-				pieces = ConsolePieces.UTF8;
-			}
-			else {
-				pieces = ConsolePieces.ASCII;
-			}
-			
 			board = new ConsoleBracketsBoard(pieces, console);
 		}
 		
