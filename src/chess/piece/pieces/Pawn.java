@@ -83,11 +83,13 @@ public class Pawn extends Piece
 			oppositeTeam = Team.BLACK;
 		}
 		
-//If the new location is on the opposite team
-if(getBoard().getPiece(newCoords).getTeam().equals(oppositeTeam))
-{
-	//Captures the designated piece
-	getBoard().capture(newCoords);
-}
+		//If the new location is on the opposite team
+		if(getBoard().getPiece(newCoords).getTeam().equals(oppositeTeam))
+		{
+			//Captures the designated piece
+			getBoard().capture(newCoords);
+		}
+		
+		setCoords(newCoords);
 	}
 }

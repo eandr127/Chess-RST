@@ -86,24 +86,15 @@ public class ConsoleIO
 		return word;
 	}
 	
-	/**
-	 * Gets the user input as an int with set limits
-	 * 
-	 * @param error: The error message to display when user input out of bounds
-	 * @param min: The minimum bounds
-	 * @param max: The maximum bounds
-	 */
-	public int getUserInteger (String error, int min, int max) {
-		Integer number = null;
-		while (number == null) {
-			number = input.nextInt();
-			//TODO: hacky !!! yikes!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-			if (number < min || number > max) {
-				number = null;
-				consoleOutput.print(error);
-			}
+	public String getStringFromUser(Requirements requirements) {
+		String userInput;
+		do {
+			consoleOutput.print(requirements.message());
+			userInput = input.next();
 		}
-		return number;
+		while(!requirements.valid(userInput));
+		
+		return userInput;
 	}
 	
 	/**
@@ -134,6 +125,12 @@ public class ConsoleIO
 	public Scanner getInput()
 	{
 		return input;
+	}
+	
+	public static interface Requirements {
+		
+		public boolean valid(String in) throws IllegalArgumentException;
+		public String message();
 	}
 	
 }

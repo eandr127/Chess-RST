@@ -1,6 +1,7 @@
 package chess.player.console;
 
 import chess.ConsoleIO;
+import chess.ConsoleIO.Requirements;
 import chess.board.Board;
 import chess.board.Coordinates;
 import chess.piece.Piece;
@@ -24,15 +25,24 @@ public class ConsolePlayer extends Player
 	}
 	
 	public Coordinates getCoordinates () {
-		char column;
-		int row;
-
-		System.out.println("Select column (A-H): ");
-		column = console.stringToLength("Column must be between A and H: ", 1).charAt(0);
-		System.out.println("Select Row (1-8): ");
-		row = console.getUserInteger("Row must be between 1 and 8: ", 1, 8);
+		String in = console.getStringFromUser(new CoordinateRequirements());
+		return new Coordinates(in.charAt(0), Character.getNumericValue(in.charAt(1)));
 		
-		return new Coordinates(column, row);
+	}
+	
+	private static class CoordinateRequirements implements Requirements {
+
+		@Override
+		public boolean valid(String in) throws IllegalArgumentException
+		{
+			return in.length() == 2 && Character.isAlphabetic(in.charAt(0)) && Character.isDigit(in.charAt(1));
+		}
+
+		@Override
+		public String message()
+		{
+			return "Enter the coordinates of the piece: ";
+		}
 		
 	}
 	
@@ -40,7 +50,7 @@ public class ConsolePlayer extends Player
 	public Coordinates selectPiece()
 	{
 		getBoard().showBoard(getTeam());
-		System.out.println("Select the piece to move");
+		console.getConsoleOutput().println("Select the piece to move");
 		return getCoordinates();
 	}
 
@@ -48,7 +58,7 @@ public class ConsolePlayer extends Player
 	public Coordinates selectDestination(Piece selected)
 	{
 		getBoard().showBoard(selected);
-		System.out.println("Select the destination of the piece");
+		console.getConsoleOutput().println("Select the destination of the piece");
 		return getCoordinates();
 	}
 

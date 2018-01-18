@@ -69,5 +69,7 @@ public class ConsoleBracketsBoard extends ConsoleBoard {
 				console.getConsoleOutput().print(" ");
 			}
 		}
+		
+		console.getConsoleOutput().println();
 	}
 }

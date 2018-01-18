@@ -17,7 +17,6 @@ public class Rook extends Piece
 	@Override
 	protected boolean canMove(Coordinates newCoords)
 	{
-		// By default, the choice is not valid
 		boolean valid = false;
 		// Creates integers to store whether x and y is smaller or larger and to store x and y difference
 		int yRelative, xRelative, xDifference, yDifference;
@@ -116,7 +115,6 @@ public class Rook extends Piece
 		}
 		//Returns valid
 		return valid;
-
 	}
 
 	@Override

@@ -74,6 +74,7 @@ public class Knight extends Piece
 			// Captures the designated piece
 			getBoard().capture(newCoords);
 		}
-
+		
+		setCoords(newCoords);
 	}
 }

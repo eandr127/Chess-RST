@@ -85,6 +85,11 @@ public abstract class Piece {
 		return coords;
 	}
 	
+	protected void setCoords(Coordinates coords)
+	{
+		this.coords = coords;
+	}
+	
 	/**
 	 * Checks whether the piece has a board and coordinates
 	 * 
@@ -136,8 +141,8 @@ public abstract class Piece {
 	public Coordinates[] getValidMoves() {
 		List<Coordinates> coordsList = new ArrayList<>();
 		
-		for(int i = 1; i < 8; i++) {
-			for(int j = i; j < 8; j++) {
+		for(int i = 1; i <= 8; i++) {
+			for(int j = 1; j <= 8; j++) {
 				Coordinates coords = new Coordinates(i, j);
 				
 				if(canMove(coords)) {
