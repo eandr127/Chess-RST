@@ -98,6 +98,9 @@ public class ConsoleIO
 		do {
 			consoleOutput.print(requirements.message());
 			userInput = input.next();
+			if (!requirements.valid(userInput)) {
+				consoleOutput.print(requirements.invalid());
+			}
 			if (userInput.toLowerCase().equals(requirements.abortMessage())) {
 				return userInput.toLowerCase();
 			}
@@ -140,6 +143,7 @@ public class ConsoleIO
 	public static interface Requirements {
 		
 		public boolean valid(String in) throws IllegalArgumentException;
+		public String invalid();
 		public String message();
 		public String abortMessage();
 	}

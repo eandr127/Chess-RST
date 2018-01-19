@@ -51,6 +51,10 @@ public class ConsolePlayer extends Player
 			return "Enter the coordinates of the piece: ";
 		}
 		
+		public String invalid() {
+			return "Invalid input. Try again!\n";
+		}
+		
 		@Override
 		public String abortMessage() 
 		{
@@ -78,7 +82,7 @@ public class ConsolePlayer extends Player
 	@Override
 	public void invalidMove()
 	{
-		console.getConsoleOutput().println("Invalid move");
+		console.getConsoleOutput().println("Invalid move.");
 	}
 
 	@Override
