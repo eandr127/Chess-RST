@@ -98,6 +98,9 @@ public class ConsoleIO
 		do {
 			consoleOutput.print(requirements.message());
 			userInput = input.next();
+			if (userInput.toLowerCase().equals(requirements.abortMessage())) {
+				return userInput.toLowerCase();
+			}
 		}
 		while(!requirements.valid(userInput));
 		

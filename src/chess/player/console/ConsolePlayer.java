@@ -25,8 +25,15 @@ public class ConsolePlayer extends Player
 	}
 	
 	public Coordinates getCoordinates () {
-		String in = console.getStringFromUser(new CoordinateRequirements());
-		return new Coordinates(in.charAt(0), Character.getNumericValue(in.charAt(1)));
+		boolean abort = false;
+		CoordinateRequirements coordinateRequirements = new CoordinateRequirements();
+		String in = console.getStringFromUser(coordinateRequirements);
+		if (in == coordinateRequirements.abortMessage()) {
+			abort = true;
+		}
+		Coordinates coords = new Coordinates(in.charAt(0), Character.getNumericValue(in.charAt(1)));
+		coords.setAbort(abort);
+		return coords;
 		
 	}
 	

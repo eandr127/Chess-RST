@@ -9,6 +9,10 @@ public class Coordinates
 	 * The column and row
 	 */
 	private final int x, y;
+	/**
+	 * Whether the coordinate selection is being aborted
+	 */
+	private boolean abort;
 	
 	/**
 	 * Creates coordinates from chess notation (column as letter, row from 8->1)
@@ -68,6 +72,20 @@ public class Coordinates
 	 */
 	public Coordinates add(int x, int y) {
 		return new Coordinates(getX() + x, getY() + y);
+	}
+	
+	/**
+	 * Set new abort value.
+	 */
+	public void setAbort(boolean newAbort) {
+		abort = newAbort;
+	}
+	
+	/**
+	 * Check abort value.
+	 */
+	public boolean getAbort() {
+		return abort;
 	}
 	
 	@Override
