@@ -125,10 +125,10 @@ public class ConsoleIO
 			String userInput;
 			userInput = input.nextLine();
 			
-			if (userInput.equalsIgnoreCase("y")) {
+			if (userInput.equalsIgnoreCase("y") || userInput.equalsIgnoreCase("yes")) {
 				valid = true;
 				yes = true;
-			} else if (userInput.equalsIgnoreCase("n")) {
+			} else if (userInput.equalsIgnoreCase("n") || userInput.equalsIgnoreCase("no")) {
 				valid = true;
 				yes = false;
 			} else {
