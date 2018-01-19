@@ -116,8 +116,27 @@ public class ConsoleIO
 	 * @return Whether the user said yes or not
 	 */
 	public boolean getUserBoolean() {
-		// User said y or Y
-		return input.next().equalsIgnoreCase("y");
+		//Checks if user input is valid.
+		boolean valid = false;
+		//Checks if user said yes or not.
+		boolean yes = false;
+		
+		do {
+			String userInput;
+			userInput = input.nextLine();
+			
+			if (userInput.equalsIgnoreCase("y")) {
+				valid = true;
+				yes = true;
+			} else if (userInput.equalsIgnoreCase("n")) {
+				valid = true;
+				yes = false;
+			} else {
+				valid = false;
+				System.out.println("Invalid input. Please type Y or N.");
+			}
+		} while (!valid);
+		return yes;
 	}
 	
 	/**
