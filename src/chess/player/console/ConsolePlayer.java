@@ -44,6 +44,12 @@ public class ConsolePlayer extends Player
 			return "Enter the coordinates of the piece: ";
 		}
 		
+		@Override
+		public String abortMessage() 
+		{
+			return "cancel";
+		}
+		
 	}
 	
 	@Override

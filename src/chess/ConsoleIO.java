@@ -69,9 +69,10 @@ public class ConsoleIO
 	}
 	
 	/**
+	 * Reduces string to a certain length. Ex.: A13 shortened to a length of 2 would return A1.
 	 * 
-	 * @param string: The string to be checked.
-	 * @param length: The length to be checked.
+	 * @param string The string to be checked.
+	 * @param length The length to be checked.
 	 * @return Did the string match length?
 	 */
 	public String stringToLength (String error, int length) {
@@ -86,6 +87,12 @@ public class ConsoleIO
 		return word;
 	}
 	
+	/**
+	 * Gets user input against certain requirements, defined by the requirements argument.
+	 * 
+	 * @param requirements The Requirements for the user input
+	 * @return The user's input.
+	 */
 	public String getStringFromUser(Requirements requirements) {
 		String userInput;
 		do {
@@ -131,6 +138,7 @@ public class ConsoleIO
 		
 		public boolean valid(String in) throws IllegalArgumentException;
 		public String message();
+		public String abortMessage();
 	}
 	
 }
