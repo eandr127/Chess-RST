@@ -25,8 +25,15 @@ public class ConsolePlayer extends Player
 	}
 	
 	public Coordinates getCoordinates () {
-		String in = console.getStringFromUser(new CoordinateRequirements());
-		return new Coordinates(in.charAt(0), Character.getNumericValue(in.charAt(1)));
+		boolean abort = false;
+		CoordinateRequirements coordinateRequirements = new CoordinateRequirements();
+		String in = console.getStringFromUser(coordinateRequirements);
+		if (in == coordinateRequirements.abortMessage()) {
+			abort = true;
+		}
+		Coordinates coords = new Coordinates(in.charAt(0), Character.getNumericValue(in.charAt(1)));
+		coords.setAbort(abort);
+		return coords;
 		
 	}
 	
@@ -35,13 +42,23 @@ public class ConsolePlayer extends Player
 		@Override
 		public boolean valid(String in) throws IllegalArgumentException
 		{
-			return in.length() == 2 && Character.isAlphabetic(in.charAt(0)) && Character.isDigit(in.charAt(1));
+			return in.length() == 2 && Character.isAlphabetic(in.charAt(0)) && Character.isDigit(in.charAt(1)) && in.charAt(0) < 'i' && Character.getNumericValue(in.charAt(1)) < 9;
 		}
 
 		@Override
 		public String message()
 		{
 			return "Enter the coordinates of the piece: ";
+		}
+		
+		public String invalid() {
+			return "Invalid input. Try again!\n";
+		}
+		
+		@Override
+		public String abortMessage() 
+		{
+			return "cancel";
 		}
 		
 	}
@@ -65,7 +82,7 @@ public class ConsolePlayer extends Player
 	@Override
 	public void invalidMove()
 	{
-		console.getConsoleOutput().println("Invalid move");
+		console.getConsoleOutput().println("Invalid move.");
 	}
 
 	@Override

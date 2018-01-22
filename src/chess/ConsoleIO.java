@@ -69,9 +69,10 @@ public class ConsoleIO
 	}
 	
 	/**
+	 * Reduces string to a certain length. Ex.: A13 shortened to a length of 2 would return A1.
 	 * 
-	 * @param string: The string to be checked.
-	 * @param length: The length to be checked.
+	 * @param string The string to be checked.
+	 * @param length The length to be checked.
 	 * @return Did the string match length?
 	 */
 	public String stringToLength (String error, int length) {
@@ -86,11 +87,23 @@ public class ConsoleIO
 		return word;
 	}
 	
+	/**
+	 * Gets user input against certain requirements, defined by the requirements argument.
+	 * 
+	 * @param requirements The Requirements for the user input
+	 * @return The user's input.
+	 */
 	public String getStringFromUser(Requirements requirements) {
 		String userInput;
 		do {
 			consoleOutput.print(requirements.message());
 			userInput = input.next();
+			if (!requirements.valid(userInput)) {
+				consoleOutput.print(requirements.invalid());
+			}
+			if (userInput.toLowerCase().equals(requirements.abortMessage())) {
+				return userInput.toLowerCase();
+			}
 		}
 		while(!requirements.valid(userInput));
 		
@@ -103,8 +116,27 @@ public class ConsoleIO
 	 * @return Whether the user said yes or not
 	 */
 	public boolean getUserBoolean() {
-		// User said y or Y
-		return input.next().equalsIgnoreCase("y");
+		//Checks if user input is valid.
+		boolean valid = false;
+		//Checks if user said yes or not.
+		boolean yes = false;
+		
+		do {
+			String userInput;
+			userInput = input.nextLine();
+			
+			if (userInput.equalsIgnoreCase("y") || userInput.equalsIgnoreCase("yes")) {
+				valid = true;
+				yes = true;
+			} else if (userInput.equalsIgnoreCase("n") || userInput.equalsIgnoreCase("no")) {
+				valid = true;
+				yes = false;
+			} else {
+				valid = false;
+				System.out.println("Invalid input. Please type Y or N.");
+			}
+		} while (!valid);
+		return yes;
 	}
 	
 	/**
@@ -130,7 +162,9 @@ public class ConsoleIO
 	public static interface Requirements {
 		
 		public boolean valid(String in) throws IllegalArgumentException;
+		public String invalid();
 		public String message();
+		public String abortMessage();
 	}
 	
 }
