@@ -14,7 +14,7 @@ public class King extends Piece
 	}
 
 	@Override
-	protected boolean canMove(Coordinates newCoords)
+	public boolean canMove(Coordinates newCoords)
 	{
 		boolean valid = false;
 		

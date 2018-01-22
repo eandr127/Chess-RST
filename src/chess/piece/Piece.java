@@ -124,7 +124,7 @@ public abstract class Piece {
 			throw new IllegalStateException("Piece must be initialized before it can be moved");
 		}
 		
-		if(canMove(newCoords)) {
+		if(checkSafe(newCoords) && canMove(newCoords)) {
 			doMove(newCoords);
 			return true;
 		}
@@ -145,7 +145,7 @@ public abstract class Piece {
 			for(int j = 1; j <= 8; j++) {
 				Coordinates coords = new Coordinates(i, j);
 				
-				if(canMove(coords)) {
+				if(checkSafe(coords) && canMove(coords)) {
 					coordsList.add(coords);
 				}
 			}
@@ -154,13 +154,23 @@ public abstract class Piece {
 		return coordsList.toArray(new Coordinates[0]);
 	}
 	
+	private boolean checkSafe(Coordinates coords) {
+		Move move = new Move(this, coords.getX() - getCoords().getX(), coords.getX() - getCoords().getX());
+		if(board.kingInCheck(getTeam())) {
+			return board.savesKingFromCheck(move);
+		}
+		else {
+			return board.putsKingInCheck(move);
+		}
+	}
+	
 	/**
 	 * Determines whether the piece can move or not
 	 * 
 	 * @param newCoords The location to test
 	 * @return Whether the move is possible
 	 */
-	protected abstract boolean canMove(Coordinates newCoords);
+	public abstract boolean canMove(Coordinates newCoords);
 	
 	/**
 	 * Completes the move and captures pieces as necessary

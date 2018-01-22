@@ -15,7 +15,7 @@ public class Rook extends Piece
 	}
 
 	@Override
-	protected boolean canMove(Coordinates newCoords)
+	public boolean canMove(Coordinates newCoords)
 	{
 		return false;
 /*		

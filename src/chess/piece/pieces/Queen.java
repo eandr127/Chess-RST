@@ -14,7 +14,7 @@ public class Queen extends Piece
 	}
 
 	@Override
-	protected boolean canMove(Coordinates newCoords)
+	public boolean canMove(Coordinates newCoords)
 	{
 		// TODO Auto-generated method stub
 		return false;
