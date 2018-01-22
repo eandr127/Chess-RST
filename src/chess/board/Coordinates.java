@@ -83,6 +83,7 @@ public class Coordinates
 	
 	/**
 	 * Check abort value.
+	 * @return Did the user abort their action?
 	 */
 	public boolean getAbort() {
 		return abort;

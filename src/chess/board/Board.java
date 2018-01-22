@@ -207,7 +207,6 @@ public abstract class Board {
 		// Try to move the piece
 		if(move.execute()) {
 			// Convert piece coordinates to array coordinates
-			// TODO Auto-generated method stubstart = convertToArray(start)
 			start = convertToArray(start);
 			end = convertToArray(end);
 			

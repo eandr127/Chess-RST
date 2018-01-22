@@ -42,7 +42,7 @@ public class ConsolePlayer extends Player
 		@Override
 		public boolean valid(String in) throws IllegalArgumentException
 		{
-			return in.length() == 2 && Character.isAlphabetic(in.charAt(0)) && Character.isDigit(in.charAt(1));
+			return in.length() == 2 && Character.isAlphabetic(in.charAt(0)) && Character.isDigit(in.charAt(1)) && in.charAt(0) < 'i' && Character.getNumericValue(in.charAt(1)) < 9;
 		}
 
 		@Override
