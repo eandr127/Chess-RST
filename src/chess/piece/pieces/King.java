@@ -75,5 +75,7 @@ public class King extends Piece
 			// Captures the designated piece
 			getBoard().capture(newCoords);
 		}
+		
+		setCoords(newCoords);
 	}
 }

@@ -41,15 +41,16 @@ public class Bishop extends Piece
 		}
 
 		// If the new coordinate is not diagonal from the current location
-		if (absXDifference - absYDifference != 0)
+		if (absXDifference - absYDifference != 0 || xDifference == 0 || yDifference == 0)
 		{
 			// Return false
 			return false;
 		} else
 		{
 			//Moves 1 tile towards the final destination
-			for (int i = xDifference / absXDifference, j = yDifference / absYDifference; i != xDifference
-					&& j != yDifference; i += xDifference / absXDifference, j += yDifference / absYDifference)
+			for (int i = xDifference / absXDifference, j = yDifference / absYDifference; 
+					i != xDifference + absXDifference / xDifference; 
+					i += xDifference / absXDifference, j += yDifference / absYDifference)
 			{
 				//If there is a piece in the way and it is not the final location
 				if (i != xDifference && j != yDifference
@@ -102,5 +103,7 @@ public class Bishop extends Piece
 			// Captures the designated piece
 			getBoard().capture(newCoords);
 		}
+		
+		setCoords(newCoords);
 	}
 }

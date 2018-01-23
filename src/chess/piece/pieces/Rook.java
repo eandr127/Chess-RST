@@ -61,7 +61,7 @@ public class Rook extends Piece
 			}
 
 			// Allows to check for any pieces that are in the way for each square up until the desired location
-			for (int i = xRelative; i != xDifference; i += xRelative)
+			for (int i = xRelative; i != xDifference + xRelative; i += xRelative)
 			{
 				// If there is a piece in the way and it is not the final location
 				if (!getBoard().getPiece(getCoords().add(i, 0)).getTeam().equals(Team.NONE) && i != xDifference)
@@ -97,7 +97,7 @@ public class Rook extends Piece
 			}
 
 			//Allows to cycle tiles until reaches the final location
-			for (int i = yRelative; i != yDifference; i += yRelative)
+			for (int i = yRelative; i != yDifference + yRelative; i += yRelative)
 			{
 				//If the final location has not been reached and there is not an empty tile spot
 				if (!getBoard().getPiece(getCoords().add(0, i)).getTeam().equals(Team.NONE) && i != yDifference)
@@ -139,5 +139,7 @@ public class Rook extends Piece
 			// Captures the designated piece
 			getBoard().capture(newCoords);
 		}
+		
+		setCoords(newCoords);
 	}
 }
