@@ -1,9 +1,13 @@
 package chess.board.console.brackets;
 
+import java.util.List;
+
 import chess.ConsoleIO;
 import chess.board.Board;
 import chess.board.Coordinates;
 import chess.board.console.ConsoleBoard;
+import chess.piece.Move;
+import chess.piece.Piece;
 import chess.piece.console.ConsolePieces;
 
 /**
@@ -19,6 +23,16 @@ public class ConsoleBracketsBoard extends ConsoleBoard {
 	 */
 	public ConsoleBracketsBoard(ConsolePieces pieces, ConsoleIO console) {
 		super(pieces, console);
+	}
+	
+	/**
+	 * Creates a ConsoleBracketsBoard with a specified console
+	 * 
+	 * @param pieces What the pieces look like
+	 * @param console The console to print to
+	 */
+	public ConsoleBracketsBoard(Piece[][] arrangement, ConsolePieces pieces, ConsoleIO console) {
+		super(arrangement, pieces, console);
 	}
 
 	/**
@@ -71,5 +85,18 @@ public class ConsoleBracketsBoard extends ConsoleBoard {
 		}
 		
 		console.getConsoleOutput().println();
+	}
+	
+	@Override
+	protected Board make(Piece[][] arrangement, List<Move> moves)
+	{
+		Board board = new ConsoleBracketsBoard(arrangement, renderer.getPieces(), console);
+		for(Move move : moves) {
+			board.addMove(move);
+		}
+		
+		board.setCheckSafe(false);
+		
+		return board;
 	}
 }

@@ -41,15 +41,22 @@ public class Chess {
 		// Enter the user into the help prompt
 		backend.getHelp().helpPrompt();
 		
-		// Draw the board to target
-		backend.getBoard().showBoard();
-		
-		while(true) {
+		boolean checkmate = false;
+		while(!checkmate) {
 			//TODO: caelan - finish this bit
+			if(backend.getBoard().isCheckmate(backend.getPlayer1().getTeam())) {
+				backend.getBoard().showBoard();
+				System.out.println("Player 2 wins");
+				return;
+			}
 			backend.getPlayer1().takeTurn();
-			backend.getBoard().showBoard();
+			
+			if(backend.getBoard().isCheckmate(backend.getPlayer1().getTeam())) {
+				System.out.println("Player 1 wins");
+				backend.getBoard().showBoard();
+				return;
+			}
 			backend.getPlayer2().takeTurn();
-			backend.getBoard().showBoard();
 		}
 	}
 	

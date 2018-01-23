@@ -2,7 +2,9 @@ package chess.board;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import chess.piece.Move;
 import chess.piece.Piece;
@@ -43,6 +45,8 @@ public abstract class Board {
 	 * The moves that take place on this board
 	 */
 	private final List<Move> moves;
+	
+	private boolean checkSafe = true;
 	
 	/**
 	 * Creates a board with the starting arrangement
@@ -216,7 +220,7 @@ public abstract class Board {
 			getArrangement()[end.getX()][end.getY()] = piece;
 			
 			// Add piece to move history
-			moves.add(move);
+			addMove(move);
 			
 			// Return successful
 			return true;
@@ -254,15 +258,15 @@ public abstract class Board {
 	}
 	
 	public boolean kingInCheck(Team team) {
-		return kingInCheck(team, getArrangement());
+		return kingInCheck(team, this);
 	}
 	
-	public boolean kingInCheck(Team team, Piece[][] arrangement) {
-		King king = findKingForTeam(team);
+	public boolean kingInCheck(Team team, Board board) {
+		King king = board.findKingForTeam(team);
 		
-		for(Piece[] row : arrangement) {
+		for(Piece[] row : board.arrangement) {
 			for(Piece piece : row) {
-				if(piece.canMove(king.getCoords())) {
+				if(piece.canMove(king.getCoords()) && piece.getTeam() != team) {
 					return true;
 				}
 			}
@@ -288,40 +292,27 @@ public abstract class Board {
 		if(kingInCheck(team)) {
 			for(Piece[] pieces : arrangement) {
 				for(Piece piece : pieces) {
-					for(Coordinates coords : piece.getValidMoves()) {
-						Move move = new Move(piece, coords.getX() - piece.getCoords().getX(), coords.getX() - piece.getCoords().getX());
-						if(savesKingFromCheck(move)) {
-							return false;
+					if(piece.getTeam() == team) {
+						for(Coordinates coords : piece.getValidMoves()) {
+							Move move = new Move(piece, coords.getX() - piece.getCoords().getX(), coords.getX() - piece.getCoords().getX());
+							if(savesKingFromCheck(move)) {
+								return false;
+							}
 						}
 					}
 				}
 			}
-			return false;
+			return true;
 		}
 		else {
-			return true;
+			return false;
 		}
 	}
 	
-	private Piece[][] showMove(Move move) {
-		Piece[][] newArrangement = new Piece[BOARD_SIZE][BOARD_SIZE];
-		for(int i = 0; i < BOARD_SIZE; i++) {
-			for(int j = 0; j < BOARD_SIZE; j++) {
-				newArrangement[i][j] = arrangement[i][j];
-			}
-		}
-		
-		Piece piece = move.getPiece();
-		
-		// Convert piece coordinates to array coordinates
-		Coordinates start = convertToArray(piece.getCoords());
-		Coordinates end = convertToArray(piece.getCoords().add(move.getDeltaX(), move.getDeltaY()));
-		
-		// Movement was successful so update the board
-		newArrangement[start.getX()][start.getY()] = PieceType.EMPTY_PIECE;
-		newArrangement[end.getX()][end.getY()] = piece;
-		
-		return newArrangement;
+	private Board showMove(Move move) {
+		Board copy = copy();
+		copy.movePiece(move.getPiece().getCoords(), move.getPiece().getCoords().add(move.getDeltaX(), move.getDeltaY()));
+		return copy;
 	}
 	
 	/**
@@ -383,5 +374,52 @@ public abstract class Board {
 		
 		// Return the list
 		return pieceMoves;
+	}
+	
+	protected abstract Board make(Piece[][] arrangement, List<Move> moves);
+	
+	public Board copy() {
+		Map<Piece, Piece> pieceMapping = new HashMap<>();
+		for(Piece[] row : arrangement) {
+			for(Piece piece : row) {
+				if(!pieceMapping.containsKey(piece)) {
+					switch(piece.getTeam()) {
+						case BLACK:
+							pieceMapping.put(piece, piece.getPieceType().black());
+							break;
+						case WHITE:
+						default:
+							pieceMapping.put(piece, piece.getPieceType().white());
+					}
+					
+				}
+			}
+		}
+		
+		Piece[][] newArrangement = new Piece[BOARD_SIZE][BOARD_SIZE];
+		for(int i = 0; i < BOARD_SIZE; i++) {
+			for(int j = 0; j < BOARD_SIZE; j++) {
+				newArrangement[i][j] = pieceMapping.get(arrangement[i][j]);
+			}
+		}
+		
+		List<Move> moves = new ArrayList<Move>(this.moves);
+		for(Move move : this.moves) {
+			moves.add(new Move(pieceMapping.get(move.getPiece()), move.getDeltaX(), move.getDeltaY()));
+		}
+		
+		return make(newArrangement, moves);
+	}
+	
+	public void addMove(Move move) {
+		moves.add(move);
+	}
+	
+	public void setCheckSafe(boolean checkSafe) {
+		this.checkSafe = checkSafe;
+	}
+	
+	public boolean isCheckSafe() {
+		return checkSafe;
 	}
 }

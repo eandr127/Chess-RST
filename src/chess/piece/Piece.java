@@ -124,7 +124,7 @@ public abstract class Piece {
 			throw new IllegalStateException("Piece must be initialized before it can be moved");
 		}
 		
-		if(checkSafe(newCoords) && canMove(newCoords)) {
+		if((!board.isCheckSafe() || checkSafe(newCoords)) && canMove(newCoords)) {
 			doMove(newCoords);
 			return true;
 		}
@@ -155,12 +155,12 @@ public abstract class Piece {
 	}
 	
 	private boolean checkSafe(Coordinates coords) {
-		Move move = new Move(this, coords.getX() - getCoords().getX(), coords.getX() - getCoords().getX());
+		Move move = new Move(this, coords.getX() - getCoords().getX(), coords.getY() - getCoords().getY());
 		if(board.kingInCheck(getTeam())) {
 			return board.savesKingFromCheck(move);
 		}
 		else {
-			return board.putsKingInCheck(move);
+			return !board.putsKingInCheck(move);
 		}
 	}
 	

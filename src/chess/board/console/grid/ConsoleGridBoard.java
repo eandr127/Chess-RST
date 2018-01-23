@@ -1,9 +1,12 @@
 package chess.board.console.grid;
 
+import java.util.List;
+
 import chess.ConsoleIO;
 import chess.board.Board;
 import chess.board.Coordinates;
 import chess.board.console.ConsoleBoard;
+import chess.piece.Move;
 import chess.piece.Piece;
 import chess.piece.console.ConsolePieces;
 
@@ -26,6 +29,18 @@ public class ConsoleGridBoard extends ConsoleBoard {
 	 */
 	public ConsoleGridBoard(ConsolePieces pieces, ConsoleGrid grid, ConsoleIO console) {
 		super(pieces, console);
+		this.grid = grid;
+	}
+	
+	/**
+	 * Creates a ConsoleGridBoard using a specified console
+	 * 
+	 * @param pieces The look of the pieces
+	 * @param grid The look of the grid
+	 * @param console Where to print the board
+	 */
+	public ConsoleGridBoard(Piece[][] arrangement, ConsolePieces pieces, ConsoleGrid grid, ConsoleIO console) {
+		super(arrangement, pieces, console);
 		this.grid = grid;
 	}
 	
@@ -147,5 +162,18 @@ public class ConsoleGridBoard extends ConsoleBoard {
 		
 		// Move cursor to next line
 		console.getConsoleOutput().println();
+	}
+
+	@Override
+	protected Board make(Piece[][] arrangement, List<Move> moves)
+	{
+		Board board = new ConsoleGridBoard(arrangement, renderer.getPieces(), grid, console);
+		for(Move move : moves) {
+			board.addMove(move);
+		}
+		
+		board.setCheckSafe(false);
+		
+		return board;
 	}
 }
