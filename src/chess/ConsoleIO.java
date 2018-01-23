@@ -101,9 +101,6 @@ public class ConsoleIO
 			if (!requirements.valid(userInput)) {
 				consoleOutput.print(requirements.invalid());
 			}
-			if (userInput.toLowerCase().equals(requirements.abortMessage())) {
-				return userInput.toLowerCase();
-			}
 		}
 		while(!requirements.valid(userInput));
 		
@@ -164,7 +161,6 @@ public class ConsoleIO
 		public boolean valid(String in) throws IllegalArgumentException;
 		public String invalid();
 		public String message();
-		public String abortMessage();
 	}
 	
 }

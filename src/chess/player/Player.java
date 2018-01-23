@@ -28,13 +28,7 @@ public abstract class Player
 		
 		do {
 			Coordinates start = selectPiece();
-			if (start.getAbort()) {
-				this.abortTurn();
-			}
 			Coordinates end = selectDestination(board.getPiece(start));
-			if (end.getAbort()) {
-				this.abortTurn();
-			}
 			
 			// Only valid pieces should be selected in the first place, but just in case
 			done = board.movePiece(start, end);
@@ -44,10 +38,6 @@ public abstract class Player
 			}
 		}
 		while(!done);
-	}
-	
-	public void abortTurn() {
-		//TODO: Abort code
 	}
 	
 	public abstract Coordinates selectPiece();

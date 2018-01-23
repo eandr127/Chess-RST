@@ -44,8 +44,11 @@ public class Chess {
 		// Draw the board to target
 		backend.getBoard().showBoard();
 		
-		for(int i = 0; i < 12; i++) {
+		while(true) {
+			//TODO: caelan - finish this bit
 			backend.getPlayer1().takeTurn();
+			backend.getBoard().showBoard();
+			backend.getPlayer2().takeTurn();
 			backend.getBoard().showBoard();
 		}
 	}

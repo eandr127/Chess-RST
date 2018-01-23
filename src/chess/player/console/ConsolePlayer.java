@@ -25,16 +25,10 @@ public class ConsolePlayer extends Player
 	}
 	
 	public Coordinates getCoordinates () {
-		boolean abort = false;
 		CoordinateRequirements coordinateRequirements = new CoordinateRequirements();
 		String in = console.getStringFromUser(coordinateRequirements);
-		if (in == coordinateRequirements.abortMessage()) {
-			abort = true;
-		}
 		Coordinates coords = new Coordinates(in.charAt(0), Character.getNumericValue(in.charAt(1)));
-		coords.setAbort(abort);
 		return coords;
-		
 	}
 	
 	private static class CoordinateRequirements implements Requirements {
@@ -55,20 +49,18 @@ public class ConsolePlayer extends Player
 			return "Invalid input. Try again!\n";
 		}
 		
-		@Override
-		public String abortMessage() 
-		{
-			return "cancel";
-		}
-		
 	}
 	
 	@Override
 	public Coordinates selectPiece()
 	{
+		Coordinates coords = new Coordinates(0, 0);
 		getBoard().showBoard(getTeam());
-		console.getConsoleOutput().println("Select the piece to move");
-		return getCoordinates();
+		do {
+			console.getConsoleOutput().println("Select the piece to move");
+			coords = (getCoordinates());
+		} while (getBoard().getPiece(coords).getTeam() != this.getTeam());
+		return coords;
 	}
 
 	@Override
