@@ -19,4 +19,16 @@ public enum Team
 	 * No team
 	 */
 	NONE;
+	
+	public Team opposite() {
+		if(this == BLACK) {
+			return WHITE;
+		}
+		else if(this == WHITE) {
+			return BLACK;
+		}
+		else {
+			return NONE;
+		}
+	}
 }

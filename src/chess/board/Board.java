@@ -8,6 +8,7 @@ import chess.piece.Move;
 import chess.piece.Piece;
 import chess.piece.PieceType;
 import chess.piece.Team;
+import chess.piece.pieces.King;
 
 /**
  * Represents a board that can display somewhere
@@ -238,6 +239,89 @@ public abstract class Board {
 		
 		// Make captured piece empty
 		getArrangement()[coords.getX()][coords.getY()] = PieceType.EMPTY_PIECE;
+	}
+	
+	public King findKingForTeam(Team team) {
+		for(Piece[] row : arrangement) {
+			for(Piece piece : row) {
+				if(piece instanceof King && piece.getTeam() == team) {
+					return (King) piece;
+				}
+			}
+		}
+		
+		return null;
+	}
+	
+	public boolean kingInCheck(Team team) {
+		return kingInCheck(team, getArrangement());
+	}
+	
+	public boolean kingInCheck(Team team, Piece[][] arrangement) {
+		King king = findKingForTeam(team);
+		
+		for(Piece[] row : arrangement) {
+			for(Piece piece : row) {
+				if(piece.canMove(king.getCoords())) {
+					return true;
+				}
+			}
+		}
+		
+		return false;
+	}
+	
+	public boolean putsKingInCheck(Move move) {
+		return kingInCheck(move.getPiece().getTeam(), showMove(move));
+	}
+	
+	public boolean savesKingFromCheck(Move move) {
+		if(kingInCheck(move.getPiece().getTeam())) {
+			return !kingInCheck(move.getPiece().getTeam(), showMove(move));
+		}
+		else {
+			return true;
+		}
+	}
+	
+	public boolean isCheckmate(Team team) {
+		if(kingInCheck(team)) {
+			for(Piece[] pieces : arrangement) {
+				for(Piece piece : pieces) {
+					for(Coordinates coords : piece.getValidMoves()) {
+						Move move = new Move(piece, coords.getX() - piece.getCoords().getX(), coords.getX() - piece.getCoords().getX());
+						if(savesKingFromCheck(move)) {
+							return false;
+						}
+					}
+				}
+			}
+			return false;
+		}
+		else {
+			return true;
+		}
+	}
+	
+	private Piece[][] showMove(Move move) {
+		Piece[][] newArrangement = new Piece[BOARD_SIZE][BOARD_SIZE];
+		for(int i = 0; i < BOARD_SIZE; i++) {
+			for(int j = 0; j < BOARD_SIZE; j++) {
+				newArrangement[i][j] = arrangement[i][j];
+			}
+		}
+		
+		Piece piece = move.getPiece();
+		
+		// Convert piece coordinates to array coordinates
+		Coordinates start = convertToArray(piece.getCoords());
+		Coordinates end = convertToArray(piece.getCoords().add(move.getDeltaX(), move.getDeltaY()));
+		
+		// Movement was successful so update the board
+		newArrangement[start.getX()][start.getY()] = PieceType.EMPTY_PIECE;
+		newArrangement[end.getX()][end.getY()] = piece;
+		
+		return newArrangement;
 	}
 	
 	/**

@@ -116,7 +116,7 @@ public enum PieceType {
     	}
 
 		@Override
-		protected boolean canMove(Coordinates newCoords) {
+		public boolean canMove(Coordinates newCoords) {
 			return false;
 		}
 

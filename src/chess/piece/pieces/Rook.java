@@ -7,381 +7,139 @@ import chess.piece.Team;
 
 public class Rook extends Piece
 {
-	private Team oppositeTeam;
-	
+	private Team oppositeTeam, sameTeam;
+
 	public Rook(PieceType pieceType, Team team)
 	{
 		super(pieceType, team);
 	}
 
 	@Override
-	protected boolean canMove(Coordinates newCoords)
+	public boolean canMove(Coordinates newCoords)
 	{
-		return false;
-/*		
 		boolean valid = false;
-		
-		// If the player's team is black
+		// Creates integers to store whether x and y is smaller or larger and to store x and y difference
+		int yRelative, xRelative, xDifference, yDifference;
+
+		// If it is the black team's turn
 		if (getTeam().equals(Team.BLACK))
 		{
-			// If the new y value is equal to the current y value
-			if (newCoords.getY() == getCoords().getY())
-			{
-				// If the new x value is less than the current x value
-				if (newCoords.getX() < getCoords().getX())
-				{
-					for (int i = getCoords().getX(); i >= newCoords.getX(); i--)
-					{
-						// If the final x value has not been reached
-						if (i != newCoords.getX())
-						{
-							// If the checked coordinate is not empty
-							if (!getBoard().getPiece(getCoords().add(i, 0)).getTeam().equals(Team.NONE))
-							{
-								break;
-							}
-						}
-						// The final x value has been reached
-						else
-						{
-							// If the square with the final coordinate contains a piece that is not on the black team
-							if (!getBoard().getPiece(newCoords).getTeam().equals(Team.BLACK))
-							{
-								valid = true;
-							}
-							// The square with the final coordinate contains a piece that is on the black team
-							else
-							{
-								
-							}
-						}
-
-					}
-				}
-
-				// If the new x value is greater than the current x value
-				else if (newCoords.getX() > getCoords().getX())
-				{
-					for (int i = getCoords().getX(); i <= newCoords.getX(); i++)
-					{
-						// If the final x value has not been reached
-						if (i != newCoords.getX())
-						{
-							// If the checked coordinate is not empty
-							if (!getBoard().getPiece(getCoords().add(i, 0)).getTeam().equals(Team.NONE))
-							{
-								break;
-							}
-						}
-						// The final x value has been reached
-						else
-						{
-							// If the square with the final coordinate contains a piece that is not on the black team
-							if (!getBoard().getPiece(newCoords).getTeam().equals(Team.BLACK))
-							{
-								valid = true;
-							}
-							// The square with the final coordinate contains a piece that is on the black team
-							else
-							{
-
-							}
-						}
-
-					}
-				}
-
-				// The new x value is equal to the current x value
-				else
-				{
-					try
-					{
-						throw new Exception("The new coordinate is identical to the current one.");
-					} catch (Exception e)
-					{
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}
-
-			}
-
-			// If the new x value is equal to the current x value
-			if (newCoords.getX() == getCoords().getX())
-			{
-				// If the new y value is less than the current y value
-				if (newCoords.getY() < getCoords().getY())
-				{
-					for (int i = getCoords().getY(); i >= newCoords.getY(); i--)
-					{
-						// If the final y value has not been reached
-						if (i != newCoords.getY())
-						{
-							// If the checked coordinate is not empty
-							if (!getBoard().getPiece(getCoords().add(0, i)).getTeam().equals(Team.NONE))
-							{
-								break;
-							}
-						}
-						// The final y value has been reached
-						else
-						{
-							// If the square with the final coordinate contains a piece that is not on the black team
-							if (!getBoard().getPiece(newCoords).getTeam().equals(Team.BLACK))
-							{
-								valid = true;
-							}
-							// The square with the final coordinate contains a piece that is on the black team
-							else
-							{
-
-							}
-						}
-
-					}
-				}
-
-				// If the new y value is greater than the current y value
-				else if (newCoords.getY() > getCoords().getY())
-				{
-					for (int i = getCoords().getY(); i <= newCoords.getY(); i++)
-					{
-						// If the final y value has not been reached
-						if (i != newCoords.getY())
-						{
-							// If the checked coordinate is not empty
-							if (!getBoard().getPiece(getCoords().add(0, i)).getTeam().equals(Team.NONE))
-							{
-								break;
-							}
-						}
-						// The final y value has been reached
-						else
-						{
-							// If the square with the final coordinate contains a piece that is not on the black team
-							if (!getBoard().getPiece(newCoords).getTeam().equals(Team.BLACK))
-							{
-								valid = true;
-							}
-							// The square with the final coordinate contains a piece that is on the black team
-							else
-							{
-								
-							}
-						}
-
-					}
-				}
-
-				// The new y value is equal to the current y value
-				else
-				{
-					try
-					{
-						throw new Exception("The new coordinate is identical to the current one.");
-					} catch (Exception e)
-					{
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}
-
-			}
-
-		}
-		//If the player's team is white
-		if (getTeam().equals(Team.WHITE))
+			// The opposite team is the white team
+			oppositeTeam = Team.WHITE;
+			// The same team is the black team
+			sameTeam = Team.BLACK;
+		} else
+		// If it is the white team's turn
 		{
-			// If the new y value is equal to the current y value
-			if (newCoords.getY() == getCoords().getY())
-			{
-				// If the new x value is less than the current x value
-				if (newCoords.getX() < getCoords().getX())
-				{
-					for (int i = getCoords().getX(); i >= newCoords.getX(); i--)
-					{
-						// If the final x value has not been reached
-						if (i != newCoords.getX())
-						{
-							// If the checked coordinate is not empty
-							if (!getBoard().getPiece(getCoords().add(i, 0)).getTeam().equals(Team.NONE))
-							{
-								break;
-							}
-						}
-						// The final x value has been reached
-						else
-						{
-							// If the square with the final coordinate contains a piece that is not on the white team
-							if (!getBoard().getPiece(newCoords).getTeam().equals(Team.WHITE))
-							{
-								valid = true;
-							}
-							// The square with the final coordinate contains a piece that is on the white team
-							else
-							{
-
-							}
-						}
-
-					}
-				}
-
-				// If the new x value is greater than the current x value
-				else if (newCoords.getX() > getCoords().getX())
-				{
-					for (int i = getCoords().getX(); i <= newCoords.getX(); i++)
-					{
-						// If the final x value has not been reached
-						if (i != newCoords.getX())
-						{
-							// If the checked coordinate is not empty
-							if (!getBoard().getPiece(getCoords().add(i, 0)).getTeam().equals(Team.NONE))
-							{
-								break;
-							}
-						}
-						// The final x value has been reached
-						else
-						{
-							// If the square with the final coordinate contains a piece that is not on the white team
-							if (!getBoard().getPiece(newCoords).getTeam().equals(Team.WHITE))
-							{
-								valid = true;
-							}
-							// The square with the final coordinate contains a piece that is on the white team
-							else
-							{
-								
-							}
-						}
-
-					}
-				}
-
-				// The new x value is equal to the current x value
-				else
-				{
-					try
-					{
-						throw new Exception("The new coordinate is identical to the current one.");
-					} catch (Exception e)
-					{
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}
-
-			}
-
-			// If the new x value is equal to the current x value
-			if (newCoords.getX() == getCoords().getX())
-			{
-				// If the new y value is less than the current y value
-				if (newCoords.getY() < getCoords().getY())
-				{
-					for (int i = getCoords().getY(); i >= newCoords.getY(); i--)
-					{
-						// If the final y value has not been reached
-						if (i != newCoords.getY())
-						{
-							// If the checked coordinate is not empty
-							if (!getBoard().getPiece(getCoords().add(0, i)).getTeam().equals(Team.NONE))
-							{
-								break;
-							}
-						}
-						// The final y value has been reached
-						else
-						{
-							// If the square with the final coordinate contains a piece that is not on the white team
-							if (!getBoard().getPiece(newCoords).getTeam().equals(Team.WHITE))
-							{
-								valid = true;
-							}
-							// The square with the final coordinate contains a piece that is on the white team
-							else
-							{
-								
-							}
-						}
-
-					}
-				}
-
-				// If the new y value is greater than the current y value
-				else if (newCoords.getY() > getCoords().getY())
-				{
-					for (int i = getCoords().getY(); i <= newCoords.getY(); i++)
-					{
-						// If the final y value has not been reached
-						if (i != newCoords.getY())
-						{
-							// If the checked coordinate is not empty
-							if (!getBoard().getPiece(getCoords().add(0, i)).getTeam().equals(Team.NONE))
-							{
-								break;
-							}
-						}
-						// The final y value has been reached
-						else
-						{
-							// If the square with the final coordinate contains a piece that is not on the white team
-							if (!getBoard().getPiece(newCoords).getTeam().equals(Team.WHITE))
-							{
-								valid = true;
-							}
-							// The square with the final coordinate contains a piece that is on the black team
-							else
-							{
-								
-							}
-						}
-
-					}
-				}
-
-				// The new y value is equal to the current y value
-				else
-				{
-					try
-					{
-						throw new Exception("The new coordinate is identical to the current one.");
-					} catch (Exception e)
-					{
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}
-
-			}
-
+			// The opposite team is the black team
+			oppositeTeam = Team.BLACK;
+			// The same team is the white team
+			sameTeam = Team.WHITE;
 		}
 
-		return valid;*/
+		// If the y coordinate remains unchanged
+		if (newCoords.getY() == getCoords().getY())
+		{
+			// Gets the difference between the x of the new location and the current location
+			xDifference = newCoords.getX() - getCoords().getX();
+
+			// If the new x coordinate value is less than the old x coordinate value
+			if (newCoords.getX() < getCoords().getX())
+			{
+				// New x value has a negative relation to the current x value
+				xRelative = -1;
+			} else if (newCoords.getX() > getCoords().getX())
+			{
+				// New x value has a positive relation to the current x value
+				xRelative = 1;
+			}
+			// The piece has not moved
+			else
+			{
+				// Returns false
+				return false;
+			}
+
+			// Allows to check for any pieces that are in the way for each square up until the desired location
+			for (int i = xRelative; i != xDifference + xRelative; i += xRelative)
+			{
+				// If there is a piece in the way and it is not the final location
+				if (!getBoard().getPiece(getCoords().add(i, 0)).getTeam().equals(Team.NONE) && i != xDifference)
+				{
+					// Returns false
+					return false;
+					// If there is a piece on the final location that is not on the same team
+				} else if (i == xDifference && !getBoard().getPiece(newCoords).getTeam().equals(sameTeam))
+				{
+					// Returns true
+					return true;
+				}
+			}
+			// If the x coordinate remains unchanged
+		} else if (newCoords.getX() == getCoords().getX())
+		{
+			// Calculates the difference between the new coordinate and the old coordinate
+			yDifference = newCoords.getY() - getCoords().getY();
+
+			//If the new y coordinate is less than the current y coordinate
+			if (newCoords.getY() < getCoords().getY())
+			{
+				//New y value has a negative relation to the current y value
+				yRelative = -1;
+			} else if (newCoords.getY() > getCoords().getY())
+			{
+				//New y value has a positive relation to the current y value
+				yRelative = 1;
+			} else
+			{
+				//Return false
+				return false;
+			}
+
+			//Allows to cycle tiles until reaches the final location
+			for (int i = yRelative; i != yDifference + yRelative; i += yRelative)
+			{
+				//If the final location has not been reached and there is not an empty tile spot
+				if (!getBoard().getPiece(getCoords().add(0, i)).getTeam().equals(Team.NONE) && i != yDifference)
+				{
+					//Return false 
+					return false;
+					//If the final location has been reached and there is a piece that is not on the same team
+				} else if (i == yDifference && !getBoard().getPiece(newCoords).getTeam().equals(sameTeam))
+				{
+					//Return true
+					return true;
+				}
+
+			}
+		}
+		//Returns valid
+		return valid;
 	}
 
 	@Override
 	protected void doMove(Coordinates newCoords)
 	{
-		//If the piece is on the black team
-		if(getTeam().equals(Team.BLACK))
+		// If the piece is on the black team
+		if (getTeam().equals(Team.BLACK))
 		{
-			//The white team is the enemy team
+			// The white team is the enemy team
 			oppositeTeam = Team.WHITE;
 		}
-		//Otherwise...
+		// Otherwise...
 		else
 		{
-			//The black team is the enemy team
+			// The black team is the enemy team
 			oppositeTeam = Team.BLACK;
 		}
+
+		// If the new location is on the opposite team
+		if (getBoard().getPiece(newCoords).getTeam().equals(oppositeTeam))
+		{
+			// Captures the designated piece
+			getBoard().capture(newCoords);
+		}
 		
-//If the new location is on the opposite team
-if(getBoard().getPiece(newCoords).getTeam().equals(oppositeTeam))
-{
-	//Captures the designated piece
-	getBoard().capture(newCoords);
-}
+		setCoords(newCoords);
 	}
 }
