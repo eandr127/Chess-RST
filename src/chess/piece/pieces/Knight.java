@@ -20,6 +20,7 @@ public class Knight extends Piece
 		// By default the move is invalid
 		boolean valid = false;
 
+		//Gets the difference between the new x and y coordinate and the current x and y coordinate
 		int xDifference = Math.abs(newCoords.getX() - getCoords().getX());
 		int yDifference = Math.abs(newCoords.getY() - getCoords().getY());
 		
