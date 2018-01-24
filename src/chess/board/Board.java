@@ -223,13 +223,8 @@ public abstract class Board {
 		
 		// Try to move the piece
 		if(move.execute()) {
-			// Convert piece coordinates to array coordinates
-			start = convertToArray(start);
-			end = convertToArray(end);
-			
-			// Movement was successful so update the board
-			getArrangement()[start.getX()][start.getY()] = PieceType.EMPTY_PIECE;
-			getArrangement()[end.getX()][end.getY()] = piece;
+			// Update the location of the piece on the board
+			updatePieceLocation(piece);
 			
 			// Add piece to move history
 			addMove(move);
@@ -242,6 +237,21 @@ public abstract class Board {
 			// Return failure
 			return false;
 		}
+	}
+	
+	/**
+	 * Updates the location of the piece
+	 * 
+	 * @param piece The piece to update the location for
+	 */
+	public void updatePieceLocation(Piece piece) {
+		// Convert piece coordinates to array coordinates
+		Coordinates start = convertToArray(getLocation(piece));
+		Coordinates end = convertToArray(piece.getCoords());
+					
+		// Movement was successful so update the board
+		getArrangement()[start.getX()][start.getY()] = PieceType.EMPTY_PIECE;
+		getArrangement()[end.getX()][end.getY()] = piece;
 	}
 	
 	/**
