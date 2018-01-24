@@ -93,6 +93,7 @@ public class King extends Piece
 			getBoard().capture(newCoords);
 		}
 		
+
 		if(getBoard().getMovesForPiece(getBoard().getPiece(getCoords())).size() == 0
 				&& getBoard().getMovesForPiece(getBoard().getPiece(newCoords)).size() == 0
 				&& getBoard().getPiece(newCoords).getPieceType().equals(PieceType.ROOK))
@@ -104,6 +105,6 @@ public class King extends Piece
 		{
 			setCoords(newCoords);
 		}
-		
+
 	}
 }
