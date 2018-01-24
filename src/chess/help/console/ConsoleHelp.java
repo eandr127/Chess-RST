@@ -120,6 +120,8 @@ public class ConsoleHelp extends Help
 	 * @param helpTypes The different pieces that have help options
 	 */
 	private void displayHelpMessage(PieceType[] helpTypes) {
+		console.getConsoleOutput().println();
+		
 		// Loop through each piece type that has help
 		for(int i = 0; i < helpTypes.length; i++) {
 			// Get the piece type at the index of the loop

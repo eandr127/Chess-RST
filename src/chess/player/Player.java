@@ -28,14 +28,21 @@ public abstract class Player
 	private final Help help;
 	
 	/**
+	 * The player's name
+	 */
+	private final String name;
+	
+	/**
 	 * Creates an instance of Player with a set team and board to use.
 	 * @param team The team of this player.
 	 * @param board The board this player will use.
+	 * @param name The name of the player.
 	 */
-	public Player(Team team, Board board, Help help) {
+	public Player(Team team, Board board, Help help, String name) {
 		this.team = team;
 		this.board = board;
 		this.help = help;
+		this.name = name;
 	}
 	
 	/**
@@ -52,6 +59,14 @@ public abstract class Player
 	 */
 	public Board getBoard() {
 		return board;
+	}
+	
+	/**
+	 * Gets the name of the player
+	 * @return The player's name
+	 */
+	public String getName() {
+		return name;
 	}
 	
 	/**

@@ -46,8 +46,8 @@ public class Chess {
 			if(backend.getBoard().isCheckmate(backend.getPlayer1().getTeam())) {
 				//Player 2 wins
 				backend.getBoard().showBoard();
-				System.out.println("Player 2 wins");
-				return;
+				console.getConsoleOutput().println(backend.getBoard().getPlayer2().getName() + " wins!");
+				break;
 			}
 			//Take player 1's turn
 			backend.getPlayer1().takeTurn();
@@ -55,12 +55,17 @@ public class Chess {
 			//If there is a checkmate against Player 2
 			if(backend.getBoard().isCheckmate(backend.getPlayer1().getTeam())) {
 				//Player 1 wins
-				System.out.println("Player 1 wins");
+				console.getConsoleOutput().println(backend.getBoard().getPlayer1().getName() + " wins!");
 				backend.getBoard().showBoard();
-				return;
+				break;
 			}
 			//Take player 2's turn
 			backend.getPlayer2().takeTurn();
+		}
+		
+		console.getConsoleOutput().print("Would you like to play again (Y/N): ");
+		if(console.getUserBoolean()) {
+			main(args);
 		}
 	}
 	
@@ -73,7 +78,7 @@ public class Chess {
 	public static Backend setUpConsoleBoard(ConsoleIO console) {
 		// Initialize booleans with default values
 		boolean useGrid = true;
-		boolean useUTF8 = true;
+		boolean useUTF8 = false;
 		
 		// Output rules on first run
 		console.getConsoleOutput().println(Help.GAME_RULES);
@@ -86,9 +91,6 @@ public class Chess {
 		
 		//Create pieces variable
 		ConsolePieces pieces;
-		
-		//Create console help
-		help = new ConsoleHelp(null, console);
 		
 		if(useUTF8) {
 			pieces = ConsolePieces.UTF8;
@@ -114,9 +116,18 @@ public class Chess {
 			board = new ConsoleBracketsBoard(pieces, console);
 		}
 		
+		console.getConsoleOutput().print("Enter white player's name: ");
+		String player1Name = console.getInput().next();
+		
+		console.getConsoleOutput().print("Enter black player's name: ");
+		String player2Name = console.getInput().next();
+		
+		//Create console help
+		help = new ConsoleHelp(pieces, console);
+		
 		// Create the game players
-		Player player1 = new ConsolePlayer(Team.WHITE, board, console, help);
-		Player player2 = new ConsolePlayer(Team.BLACK, board, console, help);
+		Player player1 = new ConsolePlayer(Team.WHITE, board, console, help, player1Name);
+		Player player2 = new ConsolePlayer(Team.BLACK, board, console, help, player2Name);
 		
 		// Let Board know who the players are
 		board.setPlayer1(player1);

@@ -135,7 +135,7 @@ public class ConsoleIO
 		do {
 			String userInput;
 			//Get the user's input
-			userInput = input.nextLine();
+			userInput = input.next();
 			
 			//If the user said yes, the input is valid and the response was "yes".
 			if (userInput.equalsIgnoreCase("y") || userInput.equalsIgnoreCase("yes")) {
