@@ -185,11 +185,8 @@ public class ConsoleIO
 		 * 
 		 * @param in The user input
 		 * @return Whether the user input is valid
-		 * @throws IllegalArgumentException (Unused)
-		 * @deprecated Not actually, just needs to be reworked to use the IllegalArgumentException
 		 */
-		@Deprecated
-		public boolean valid(String in) throws IllegalArgumentException;
+		public boolean valid(String in);
 		
 		/**
 		 * The message to print when input is invalid

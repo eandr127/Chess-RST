@@ -77,6 +77,9 @@ public class ConsolePlayer extends Player
 		
 	}
 	
+	/**
+	 * Requirements for getting the type to promot a pawn
+	 */
 	private static class PawnPromotionRequirements implements Requirements {
 
 		@Override
@@ -98,6 +101,9 @@ public class ConsolePlayer extends Player
 		
 	}
 	
+	/**
+	 * Requirements for choosing what to do at the start of a turn
+	 */
 	private static class TurnInitializationRequirements implements Requirements {
 
 		@Override
@@ -177,10 +183,8 @@ public class ConsolePlayer extends Player
 	{
 		Coordinates coords = new Coordinates(0, 0);
 		getBoard().showBoard(getTeam());
-		do {
-			console.getConsoleOutput().println("Select the piece to move");
-			coords = (getCoordinates());
-		} while (getBoard().getPiece(coords).getTeam() != this.getTeam());
+		console.getConsoleOutput().println("Select the piece to move");
+		coords = (getCoordinates());
 		return coords;
 	}
 

@@ -33,20 +33,9 @@ public class Chess {
 		
 		// Show a little welcome thing
 		console.getConsoleOutput().println("    Welcome to Chess\n~~~~~~~~~~~~~~~~~~~~~~~~\n");
-		// Ask the user whether they would like to use the console
-		console.getConsoleOutput().print("Would you like to use the console (y/y): ");
 		
 		// Set up a board that prints to console
-		if(console.getUserBoolean()) {
-			console.getConsoleOutput().println();
-			backend = setUpConsoleBoard(console);
-		}
-		else {
-			console.getConsoleOutput().println();
-			backend = setUpConsoleBoard(console);
-		}
-		
-		// Enter the user into the help prompt
+		backend = setUpConsoleBoard(console);
 		
 		
 		//Is there a checkmate taking place?
@@ -83,18 +72,8 @@ public class Chess {
 	 */
 	public static Backend setUpConsoleBoard(ConsoleIO console) {
 		// Initialize booleans with default values
-		boolean useGrid = false;
-		boolean useUTF8 = false;
-		
-		// Ask whether to use grid or not
-		console.getConsoleOutput().print("Do you have a large area to display a chess board (y/n): ");
-		useGrid = console.getUserBoolean();
-		console.getConsoleOutput().println();
-		
-		// Ask whether to use unicode characters
-		console.getConsoleOutput().print("Can you display special characters that may not work on Windows and older versions of Eclipse (y/n): ");
-		useUTF8 = console.getUserBoolean();
-		console.getConsoleOutput().println();
+		boolean useGrid = true;
+		boolean useUTF8 = true;
 		
 		// Output rules on first run
 		console.getConsoleOutput().println(Help.GAME_RULES);

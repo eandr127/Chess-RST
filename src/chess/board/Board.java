@@ -827,6 +827,10 @@ public abstract class Board {
 	 * @return The number of equal configurations (including itself)
 	 */
 	private int findLargestEqual(List<Piece[][]> pieces) {
+		if(pieces.size() == 0) {
+			return 0;
+		}
+		
 		// Hold the number of equal pieces
 		int numEqual = 0;
 		
