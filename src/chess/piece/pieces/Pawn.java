@@ -133,12 +133,6 @@ public class Pawn extends Piece
 			// The white team is the enemy team
 			oppositeTeam = Team.WHITE;
 			yModifier = -1;
-
-			// Pawn promotion
-			if (newCoords.getY() == 1)
-			{
-				// getBoard().replacePieceType();
-			}
 		}
 		// Otherwise...
 		else
@@ -146,11 +140,6 @@ public class Pawn extends Piece
 			// The black team is the enemy team
 			oppositeTeam = Team.BLACK;
 			yModifier = 1;
-
-			if (newCoords.getY() == 8)
-			{
-				// getBoard().replacePieceType(newCoords, pawnPromotion());
-			}
 		}
 
 		// If the new location is on the opposite team
@@ -174,5 +163,15 @@ public class Pawn extends Piece
 
 		// Sets new coordinates for the piece
 		setCoords(newCoords);
+		
+		// Pawn promotion
+		if (newCoords.getY() == 1 && getTeam().equals(Team.BLACK))
+			{
+					
+			}
+		else if (newCoords.getY() == 8 && getTeam().equals(Team.WHITE))
+		{
+			
+		}
 	}
 }
