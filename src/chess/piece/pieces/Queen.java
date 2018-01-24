@@ -4,11 +4,11 @@ import chess.board.Coordinates;
 import chess.piece.Piece;
 import chess.piece.PieceType;
 import chess.piece.Team;
+import chess.player.Player;
 
 /*
  * Queen.java
  * Movement and capturing for the queen
- * Dmitry Tsarapkine
  * ICS3U
  * January 24th, 2018
  */
@@ -22,9 +22,9 @@ public class Queen extends Piece
 	 * 
 	 * @param pieceType and team
 	 */
-	public Queen(PieceType pieceType, Team team)
+	public Queen(PieceType pieceType, Team team, Player player)
 	{
-		super(pieceType, team);
+		super(pieceType, team, player);
 	}
 
 	/**

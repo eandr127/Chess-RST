@@ -11,6 +11,7 @@ import chess.piece.Piece;
 import chess.piece.PieceType;
 import chess.piece.Team;
 import chess.piece.pieces.King;
+import chess.player.Player;
 
 /**
  * Represents a board that can display somewhere
@@ -21,6 +22,11 @@ public abstract class Board {
 	 * The side length of the board
 	 */
 	public static final int BOARD_SIZE = 8;
+	
+	/**
+	 * The players
+	 */
+	private Player player1, player2;
 	
 	/**
 	 * What the starting arrangement of chess looks like
@@ -79,8 +85,11 @@ public abstract class Board {
 			// Loop through each column
 			for(int j = 0; j < BOARD_SIZE; j++) {
 				// Initialize piece
-				arrangement[i][j].lateInit(convertFromArray(new Coordinates(i, j)), this);
-				
+				if (arrangement[i][j].getTeam().equals(Team.WHITE)) {
+					arrangement[i][j].lateInit(convertFromArray(new Coordinates(i, j)), this, getPlayer1());
+				} else {
+					arrangement[i][j].lateInit(convertFromArray(new Coordinates(i, j)), this, getPlayer2());
+				}
 				// Put it in the new array
 				this.arrangement[i][j] = arrangement[i][j];
 			}
@@ -426,7 +435,11 @@ public abstract class Board {
 		}
 		
 		// Initialize the piece with its coordinates
-		newPiece.lateInit(coords, this);
+		if (newPiece.getTeam().equals(Team.WHITE)) {
+			newPiece.lateInit(coords, this, getPlayer1());
+		} else {
+			newPiece.lateInit(coords, this, getPlayer2());
+		}
 		
 		// Convert coordinates to array coordinates to update board
 		coords = convertToArray(coords);
@@ -555,5 +568,37 @@ public abstract class Board {
 	 */
 	public boolean isCheckSafe() {
 		return checkSafe;
+	}
+	
+	/**
+	 * Sets this board's Player 1 to a new player.
+	 * @param player The new player.
+	 */
+	public void setPlayer1 (Player player) {
+		player1 = player;
+	}
+	
+	/**
+	 * Sets this board's Player 2 to a new player.
+	 * @param player The new player.
+	 */
+	public void setPlayer2 (Player player) {
+		player2 = player;
+	}
+	
+	/**
+	 * Returns this board's player 1.
+	 * @return The player 1 this board has
+	 */
+	public Player getPlayer1 () {
+		return player1;
+	}
+	
+	/**
+	 * Returns this board's player 2.
+	 * @return The player 2 this board has
+	 */
+	public Player getPlayer2 () {
+		return player2;
 	}
 }

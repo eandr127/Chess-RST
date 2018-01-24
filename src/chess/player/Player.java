@@ -6,6 +6,7 @@ import chess.help.Help;
 import chess.piece.Piece;
 import chess.piece.PieceType;
 import chess.piece.Team;
+import chess.piece.pieces.Pawn;
 
 /**
  * A player that can take a turn in chess
@@ -101,9 +102,10 @@ public abstract class Player
 	public abstract String turnInit();
 	
 	/**
-	 * Returns a piece type for pawn promotion. Checks user input against PawnPromotionRequirements.
+	 * Asks a user if they want to promote a specific pawn. User then chooses between 4 new types, and the game
+	 * replaces the pawn with a new piece of the user's selected type.
 	 */
-	public abstract PieceType pawnPromotion();
+	public abstract void pawnPromotion(Pawn pawn);
 	
 	/**
 	 * Asks user to select a piece on the board that is of the same team as their own.

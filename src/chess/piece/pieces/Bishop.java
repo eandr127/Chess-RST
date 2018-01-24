@@ -4,11 +4,11 @@ import chess.board.Coordinates;
 import chess.piece.Piece;
 import chess.piece.PieceType;
 import chess.piece.Team;
+import chess.player.Player;
 
 /*
  * Bishop.java
  * Movement and capturing for the bishop
- * Dmitry Tsarapkine
  * ICS3U
  * January 24th, 2018
  */
@@ -20,11 +20,13 @@ public class Bishop extends Piece
 	/**
 	 * Creates a new instance of a bishop
 	 * 
-	 * @param pieceType and team
+	 * @param pieceType The type of piece
+	 * @param team The team of this piece
+	 * @param player The player owner of this piece
 	 */
-	public Bishop(PieceType pieceType, Team team)
+	public Bishop(PieceType pieceType, Team team, Player player)
 	{
-		super(pieceType, team);
+		super(pieceType, team, player);
 	}
 
 	/**

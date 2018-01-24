@@ -4,11 +4,11 @@ import chess.board.Coordinates;
 import chess.piece.Piece;
 import chess.piece.PieceType;
 import chess.piece.Team;
+import chess.player.Player;
 
 /*
  * Pawn.java
  * Movement and capturing for the pawn
- * Dmitry Tsarapkine
  * ICS3U
  * January 24th, 2018
  */
@@ -21,11 +21,13 @@ public class Pawn extends Piece
 	/**
 	 * Creates a new instance of a pawn
 	 * 
-	 * @param pieceType and team
+	 * @param pieceType The type of piece
+	 * @param team The team of this piece
+	 * @param player The player owner of this piece
 	 */
-	public Pawn(PieceType pieceType, Team team)
+	public Pawn(PieceType pieceType, Team team, Player player)
 	{
-		super(pieceType, team);
+		super(pieceType, team, player);
 	}
 
 	/**
@@ -165,13 +167,11 @@ public class Pawn extends Piece
 		setCoords(newCoords);
 		
 		// Pawn promotion
-		if (newCoords.getY() == 1 && getTeam().equals(Team.BLACK))
-			{
-					
-			}
-		else if (newCoords.getY() == 8 && getTeam().equals(Team.WHITE))
-		{
-			
+		if (newCoords.getY() == 1 && getTeam().equals(Team.BLACK)) {
+			this.getPlayer().pawnPromotion(this);
+		}
+		else if (newCoords.getY() == 8 && getTeam().equals(Team.WHITE)) {
+			this.getPlayer().pawnPromotion(this);
 		}
 	}
 }

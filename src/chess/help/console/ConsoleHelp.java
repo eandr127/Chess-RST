@@ -9,9 +9,6 @@ import chess.piece.console.ConsolePieces;
 /**
  * Class to be used specifically for the console. Contains functions that allow console users to select docs / info on
  * different piece types and moves.
- * 
- * @author Caelan
- *
  */
 public class ConsoleHelp extends Help
 {
