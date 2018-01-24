@@ -133,6 +133,9 @@ public abstract class Player
 				resign = true;
 				done = true;
 				break;
+			case "draw":
+				wantsToDraw = true;
+				break;
 			}
 		}
 		// Continue to take turn until done
@@ -173,12 +176,19 @@ public abstract class Player
 	 * 
 	 * @return Whether to offer draw
 	 */
-	public abstract boolean offerDraw();
+	public boolean offerDraw() {
+		return wantsToDraw;
+	}
 
 	/**
 	 * Checks if the opponent wants to draw
 	 */
-	public abstract void checkDrawOffer();
+	public boolean checkDrawOffer() {
+		if (board.canOfferDraw(getTeam())) {
+			wantsToDraw = true;
+		}
+		return wantsToDraw;
+	}
 
 	/**
 	 * Set a new opponent for this player.

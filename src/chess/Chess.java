@@ -11,8 +11,12 @@ import chess.piece.console.ConsolePieces;
 import chess.player.Player;
 import chess.player.console.ConsolePlayer;
 
-/**
- * The class that holds the client code for chess
+/*
+ * A game of chess
+ * Chess.java
+ * ICS3U
+ * January 24th, 2018
+ * Ryan Larkin, Caelan Douglas, Dmitry Tsarapkine
  */
 public class Chess
 {
@@ -52,6 +56,11 @@ public class Chess
 				win(backend, console, backend.getPlayer2());
 				break;
 			}
+			//Check for draw offers
+			if (backend.getPlayer1().checkDrawOffer()) {
+				win(backend, console, null);
+				break;
+			}
 			// Take player 1's turn
 			backend.getPlayer1().takeTurn();
 			
@@ -67,6 +76,11 @@ public class Chess
 			{
 				// Player 1 wins
 				win(backend, console, backend.getPlayer1());
+				break;
+			}
+			//Check for draw offers
+			if (backend.getPlayer2().checkDrawOffer()) {
+				win(backend, console, null);
 				break;
 			}
 			// Take player 2's turn
@@ -95,7 +109,11 @@ public class Chess
 	 */
 	public static void win(Backend backend, ConsoleIO console, Player winner) {
 		backend.getBoard().showBoard();
-		console.getConsoleOutput().println(winner.getName() + " wins!");
+		if (winner == null) {
+			console.getConsoleOutput().println("Draw!");
+		} else {
+			console.getConsoleOutput().println(winner.getName() + " wins!");
+		}
 	}
 
 	/**
@@ -108,7 +126,7 @@ public class Chess
 	{
 		// Initialize booleans with default values
 		boolean useGrid = true;
-		boolean useUTF8 = true;
+		boolean useUTF8 = false;
 
 		// Output rules on first run
 		console.getConsoleOutput().println(Help.GAME_RULES);

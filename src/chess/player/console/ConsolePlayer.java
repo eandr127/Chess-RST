@@ -121,28 +121,17 @@ public class ConsolePlayer extends Player
 		@Override
 		public boolean valid(String in) throws IllegalArgumentException
 		{
-			if (getBoard().canOfferDraw(getTeam()))
-			{
-				return in.toLowerCase().equals("h") || in.toLowerCase().equals("p") || in.toLowerCase().equals("r")
-						|| in.toLowerCase().equals("d") || in.toLowerCase().equals("help")
-						|| in.toLowerCase().equals("play") || in.toLowerCase().equals("resign")
-						|| in.toLowerCase().equals("draw");
-
-			} else
-				return in.toLowerCase().equals("h") || in.toLowerCase().equals("p") || in.toLowerCase().equals("r")
-						|| in.toLowerCase().equals("help") || in.toLowerCase().equals("play")
-						|| in.toLowerCase().equals("resign");
+			return in.toLowerCase().equals("h") || in.toLowerCase().equals("p") || in.toLowerCase().equals("r")
+					|| in.toLowerCase().equals("d") || in.toLowerCase().equals("help")
+					|| in.toLowerCase().equals("play") || in.toLowerCase().equals("resign")
+					|| in.toLowerCase().equals("draw");
 		}
 
 		@Override
 		public String message()
 		{
 			console.getConsoleOutput().println("\nIt's " + getName() + "'s turn");
-			if (getBoard().canOfferDraw(getTeam()))
-			{
-				return "What do you want to do?\nGet help\nPlay your turn\nResign\nOffer Draw to other player\n([H]elp/[P]lay/[R]esign/[D]raw):";
-			} else
-				return "What do you want to do?\n([H]elp/[P]lay/[R]esign): ";
+			return "What do you want to do?\nGet help\nPlay your turn\nResign\nOffer Draw to other player\n([H]elp/[P]lay/[R]esign/[D]raw):";
 		}
 
 		public String invalid()
@@ -158,7 +147,7 @@ public class ConsolePlayer extends Player
 		final String promotionRequest = "Your Pawn at location " + String.valueOf((char) (pawn.getCoords().getY() + 64))
 				+ pawn.getCoords().getX() + " can be promoted. Would you like to promote it? (y/n)";
 
-		System.out.println(promotionRequest);
+		console.getConsoleOutput().println(promotionRequest);
 		if (console.getUserBoolean())
 		{
 			String in = console.getStringFromUser(new PawnPromotionRequirements());
@@ -207,7 +196,7 @@ public class ConsolePlayer extends Player
 			break;
 		case "d":
 		case "draw":
-			offerDraw();
+			choice = "draw";
 			break;
 		}
 
@@ -242,21 +231,16 @@ public class ConsolePlayer extends Player
 	}
 
 	@Override
-	public boolean offerDraw()
-	{
-		return wantsToDraw;
-	}
-
-	@Override
-	public void checkDrawOffer()
+	public boolean checkDrawOffer()
 	{
 		if (getOpponent().offerDraw())
 		{
-			System.out.println("Your opponent wants to draw. Do you accept?");
+			console.getConsoleOutput().println("Your opponent wants or needs to draw. Do you accept?");
 			if (console.getUserBoolean())
 			{
 				wantsToDraw = true;
 			}
 		}
+		return wantsToDraw;
 	}
 }
