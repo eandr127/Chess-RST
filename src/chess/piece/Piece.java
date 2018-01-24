@@ -85,7 +85,7 @@ public abstract class Piece {
 		return coords;
 	}
 	
-	protected void setCoords(Coordinates coords)
+	public void setCoords(Coordinates coords)
 	{
 		this.coords = coords;
 	}

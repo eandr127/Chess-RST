@@ -41,6 +41,9 @@ public abstract class Board {
 	 */
 	private final Piece[][] arrangement = new Piece[BOARD_SIZE][BOARD_SIZE];
 	
+	private final List<Piece[][]> whiteSetup = new ArrayList<>();
+	private final List<Piece[][]> blackSetup = new ArrayList<>();
+	
 	/**
 	 * The moves that take place on this board
 	 */
@@ -555,5 +558,102 @@ public abstract class Board {
 	 */
 	public boolean isCheckSafe() {
 		return checkSafe;
+	}
+	
+	public boolean isDraw(Team team) {
+		return isStalemate(team) || numIdenticalPositions(team) >= 5 || turnLimit75(team);
+	}
+	
+	private boolean isStalemate(Team team) {
+		if(kingInCheck(team)) {
+			return false;
+		}
+		
+		for(Piece[] row : arrangement) {
+			for(Piece piece : row) {
+				if(piece.getTeam() == team && piece.getValidMoves().length != 0) {
+					return false;
+				}
+			}
+		}
+		
+		return true;
+	}
+	
+	public boolean canOfferDraw(Team team) {
+		return insufficiantMaterial() || numIdenticalPositions(team) >= 3 || turnLimit50(team);
+	}
+	
+	private boolean turnLimit50(Team team) {
+		return false;
+	}
+	
+	private boolean turnLimit75(Team team) {
+		return false;
+	}
+	
+	private int numIdenticalPositions(Team team) {
+		return 0;
+	}
+	
+	private boolean insufficiantMaterial() {
+		List<Piece> whitePieces = new ArrayList<>();
+		List<Piece> blackPieces = new ArrayList<>();
+		
+		for(Piece[] row : arrangement) {
+			for(Piece piece : row) {
+				if(piece.getTeam() == Team.WHITE) {
+					whitePieces.add(piece);
+				}
+				else if(piece.getTeam() == Team.BLACK) {
+					blackPieces.add(piece);
+				}
+			}
+		}
+		
+		if(whitePieces.size() == 1 && getPieceForType(whitePieces, PieceType.KING) != null
+				&& blackPieces.size() == 1 &&  getPieceForType(blackPieces, PieceType.KING) != null) {
+			return true;
+		}
+		else if(whitePieces.size() == 2 && getPieceForType(whitePieces, PieceType.KING) != null && getPieceForType(whitePieces, PieceType.BISHOP) != null
+				&& blackPieces.size() == 1 &&  getPieceForType(blackPieces, PieceType.KING) != null) {
+			return true;
+		}
+		else if(whitePieces.size() == 1 && getPieceForType(blackPieces, PieceType.KING) != null
+				&& blackPieces.size() == 2 &&  getPieceForType(whitePieces, PieceType.KING) != null && getPieceForType(whitePieces, PieceType.BISHOP) != null) {
+			return true;
+		}
+		else if(whitePieces.size() == 2 && getPieceForType(whitePieces, PieceType.KING) != null && getPieceForType(whitePieces, PieceType.KNIGHT) != null
+				&& blackPieces.size() == 1 &&  getPieceForType(blackPieces, PieceType.KING) != null) {
+			return true;
+		}
+		else if(whitePieces.size() == 1 && getPieceForType(blackPieces, PieceType.KING) != null 
+				&& blackPieces.size() == 2 &&  getPieceForType(whitePieces, PieceType.KING) != null && getPieceForType(whitePieces, PieceType.KNIGHT) != null) {
+			return true;
+		}
+		else if(whitePieces.size() == 2 && getPieceForType(whitePieces, PieceType.KING) != null  && getPieceForType(whitePieces, PieceType.BISHOP) != null
+				&& blackPieces.size() == 2 &&  getPieceForType(blackPieces, PieceType.KING) != null && getPieceForType(blackPieces, PieceType.BISHOP) != null
+				&& isBlackSquare(getPieceForType(whitePieces, PieceType.BISHOP).getCoords()) ==  isBlackSquare(getPieceForType(whitePieces, PieceType.BISHOP).getCoords())) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	
+	private boolean isBlackSquare(Coordinates coords) {
+		return (coords.getX() % 2 == 0 && coords.getY() % 2 == 0)
+				|| (coords.getX() % 2 != 0 && coords.getY() % 2 != 0);
+	}
+	
+	private Piece getPieceForType(List<Piece> pieces, PieceType type) {
+		for(int i = 0; i < pieces.size(); i++) {
+			Piece piece = pieces.get(i);
+			if(piece.getPieceType() == type) {
+				return piece;
+			}
+		}
+		
+		return null;
 	}
 }
