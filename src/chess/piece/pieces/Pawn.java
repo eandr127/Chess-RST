@@ -8,7 +8,7 @@ import chess.piece.Team;
 public class Pawn extends Piece
 {
 	private Team oppositeTeam;
-	
+
 	public Pawn(PieceType pieceType, Team team)
 	{
 		super(pieceType, team);
@@ -18,7 +18,7 @@ public class Pawn extends Piece
 	protected boolean canMove(Coordinates newCoords)
 	{
 		boolean valid = false, firstMove = getBoard().getMovesForPiece(this).size() == 0;
-		
+
 		int yModifier;
 
 		// If it is the black team's turn
@@ -54,42 +54,53 @@ public class Pawn extends Piece
 		} else if (getBoard().getPiece(newCoords).getTeam().equals(oppositeTeam)
 				&& newCoords.equals(getCoords().add(1, yModifier)))
 		{
-			//The move is valid
+			// The move is valid
 			valid = true;
 		} else if (getBoard().getPiece(newCoords).getTeam().equals(oppositeTeam)
 				&& newCoords.equals(getCoords().add(-1, yModifier)))
 		{
-			//The move is valid
+			// The move is valid
 			valid = true;
 		}
 
-		//Returns whether the move is valid
+		// Returns whether the move is valid
 		return valid;
 	}
 
 	@Override
 	protected void doMove(Coordinates newCoords)
-	{	
-		//If the piece is on the black team
-		if(getTeam().equals(Team.BLACK))
+	{
+		// If the piece is on the black team
+		if (getTeam().equals(Team.BLACK))
 		{
-			//The white team is the enemy team
+			// The white team is the enemy team
 			oppositeTeam = Team.WHITE;
+
+			//Pawn promotion
+			if (newCoords.getY() == 1)
+			{
+				//getBoard().replacePieceType(newCoords, pawnPromotion());
+			}
 		}
-		//Otherwise...
+		// Otherwise...
 		else
 		{
-			//The black team is the enemy team
+			// The black team is the enemy team
 			oppositeTeam = Team.BLACK;
+			
+			if(newCoords.getY() == 8)
+			{
+				//getBoard().replacePieceType(newCoords, pawnPromotion());
+			}
 		}
-		
-		//If the new location is on the opposite team
-		if(getBoard().getPiece(newCoords).getTeam().equals(oppositeTeam))
+
+		// If the new location is on the opposite team
+		if (getBoard().getPiece(newCoords).getTeam().equals(oppositeTeam))
 		{
-			//Captures the designated piece
+			// Captures the designated piece
 			getBoard().capture(newCoords);
 		}
-		
+
 		setCoords(newCoords);
 	}
 }

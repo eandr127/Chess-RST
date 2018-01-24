@@ -14,6 +14,11 @@ public class King extends Piece
 		super(pieceType, team);
 	}
 
+	/**
+	 * Checks the given location for the king is a valid move
+	 * @param the new coordinates
+	 * @return whether the location is valid
+	 */
 	@Override
 	protected boolean canMove(Coordinates newCoords)
 	{
@@ -37,22 +42,34 @@ public class King extends Piece
 		int yDifference = Math.abs(newCoords.getY() - getCoords().getY());
 
 		// Checks if the movement location is within a 1 tile radius around the current location of the king
-		if (xDifference == 1 && yDifference == 1 || xDifference == 1 && yDifference == 0 || xDifference == 0
-				&& yDifference == 1)
+		if (xDifference == 1 && yDifference == 1 || xDifference == 1 && yDifference == 0
+				|| xDifference == 0 && yDifference == 1)
+
 		{
-			//If the new location has an empty tile or a piece from the opposite team
+			// If the new location has an empty tile or a piece from the opposite team
 			if (getBoard().getPiece(newCoords).getTeam().equals(oppositeTeam)
 					|| getBoard().getPiece(newCoords).getTeam().equals(Team.NONE))
 			{
-				//The location is valid
+				// The location is valid
 				valid = true;
 			}
+		} else if (getBoard().getMovesForPiece(getBoard().getPiece(getCoords())).size() == 0
+				&& getBoard().getMovesForPiece(getBoard().getPiece(newCoords)).size() == 0
+				&& getBoard().getPiece(newCoords).getPieceType().equals(PieceType.ROOK)
+				&& newCoords.getX() == getCoords().getX())
+		{
+			valid = true;
 		}
 
-		//Returns valid
+		// Returns valid
 		return valid;
 	}
 
+	/**
+	 * Does the move
+	 * @param the new coordinates
+	 * @return none
+	 */
 	@Override
 	protected void doMove(Coordinates newCoords)
 	{
@@ -75,5 +92,18 @@ public class King extends Piece
 			// Captures the designated piece
 			getBoard().capture(newCoords);
 		}
+		
+		if(getBoard().getMovesForPiece(getBoard().getPiece(getCoords())).size() == 0
+				&& getBoard().getMovesForPiece(getBoard().getPiece(newCoords)).size() == 0
+				&& getBoard().getPiece(newCoords).getPieceType().equals(PieceType.ROOK))
+				{
+					setCoords(getCoords().add(newCoords.getX() - getCoords().getX() * 2, 0));
+					
+				}
+		else
+		{
+			setCoords(newCoords);
+		}
+		
 	}
 }
