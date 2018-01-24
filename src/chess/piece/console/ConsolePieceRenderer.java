@@ -23,8 +23,8 @@ public class ConsolePieceRenderer implements PieceRenderer
 	/**
 	 * Creates a new console renderer that prints to System.out
 	 * 
-	 * @param pieces What the pieces look like
-	 * @param console Where to print output
+	 * pre: pieces What the pieces look like
+	 * pre: console Where to print output
 	 */
 	public ConsolePieceRenderer(ConsolePieces pieces, ConsoleIO console)
 	{
@@ -35,7 +35,7 @@ public class ConsolePieceRenderer implements PieceRenderer
 	/**
 	 * Gets the pieces
 	 * 
-	 * @return The pieces
+	 * post: The pieces
 	 */
 	public ConsolePieces getPieces()
 	{
@@ -45,7 +45,7 @@ public class ConsolePieceRenderer implements PieceRenderer
 	/**
 	 * Gets the console to print to
 	 * 
-	 * @return The console to print to
+	 * post: The console to print to
 	 */
 	public ConsoleIO getConsole()
 	{

@@ -20,12 +20,12 @@ public class ConsolePlayer extends Player
 	/**
 	 * Sets up a player for that allows for console input
 	 * 
-	 * @param team The team of the player being set up
-	 * @param board The board for the player being set up
-	 * @param console The ConsoleIO for the player being set up
-	 * @param help The help for this player
-	 * @param opponent The opponent for the player
-	 * @param name The name of the player
+	 * pre: team The team of the player being set up
+	 * pre: board The board for the player being set up
+	 * pre: console The ConsoleIO for the player being set up
+	 * pre: help The help for this player
+	 * pre: opponent The opponent for the player
+	 * pre: name The name of the player
 	 */
 	public ConsolePlayer(Team team, Board board, ConsoleIO console, Help help, Player opponent, String name)
 	{
@@ -36,7 +36,7 @@ public class ConsolePlayer extends Player
 	/**
 	 * Get the current ConsoleIO for this player.
 	 * 
-	 * @return The current ConsoleIO for this player
+	 * post: The current ConsoleIO for this player
 	 */
 	public ConsoleIO getConsole()
 	{
@@ -46,7 +46,7 @@ public class ConsolePlayer extends Player
 	/**
 	 * Get coordinates from user input, checked against CoordinateRequirements.
 	 * 
-	 * @return The user's inputed coordinates.
+	 * post: The user's inputed coordinates.
 	 */
 	public Coordinates getCoordinates()
 	{

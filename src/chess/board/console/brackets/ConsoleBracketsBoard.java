@@ -19,8 +19,8 @@ public class ConsoleBracketsBoard extends ConsoleBoard
 	/**
 	 * Creates a ConsoleBracketsBoard with a specified console
 	 * 
-	 * @param pieces What the pieces look like
-	 * @param console The console to print to
+	 * pre: pieces What the pieces look like
+	 * pre: console The console to print to
 	 */
 	public ConsoleBracketsBoard(ConsolePieces pieces, ConsoleIO console)
 	{
@@ -30,8 +30,8 @@ public class ConsoleBracketsBoard extends ConsoleBoard
 	/**
 	 * Creates a ConsoleBracketsBoard with a specified console
 	 * 
-	 * @param pieces What the pieces look like
-	 * @param console The console to print to
+	 * pre: pieces What the pieces look like
+	 * pre: console The console to print to
 	 */
 	public ConsoleBracketsBoard(Piece[][] arrangement, ConsolePieces pieces, ConsoleIO console)
 	{
@@ -101,8 +101,8 @@ public class ConsoleBracketsBoard extends ConsoleBoard
 	/**
 	 * Creates a board with a set arrangement a list of moves made.
 	 * 
-	 * @param arrangement The arrangement to use for this board.
-	 * @param moves The list of moves made.
+	 * pre: arrangement The arrangement to use for this board.
+	 * pre: moves The list of moves made.
 	 */
 	@Override
 	protected Board make(Piece[][] arrangement, List<Move> moves)

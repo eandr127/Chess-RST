@@ -25,8 +25,8 @@ public abstract class ConsoleBoard extends Board
 	/**
 	 * Creates a ConsoleBoard that can print to a console
 	 * 
-	 * @param pieces What the pieces look like
-	 * @param console The console to print to
+	 * pre: pieces What the pieces look like
+	 * pre: console The console to print to
 	 */
 	public ConsoleBoard(ConsolePieces pieces, ConsoleIO console)
 	{
@@ -39,8 +39,8 @@ public abstract class ConsoleBoard extends Board
 	/**
 	 * Creates a ConsoleBoard that can print to a console
 	 * 
-	 * @param pieces What the pieces look like
-	 * @param console The console to print to
+	 * pre: pieces What the pieces look like
+	 * pre: console The console to print to
 	 */
 	public ConsoleBoard(Piece[][] arrangement, ConsolePieces pieces, ConsoleIO console)
 	{

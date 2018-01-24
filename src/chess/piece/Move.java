@@ -18,9 +18,9 @@ public class Move
 	/**
 	 * Creates a move
 	 * 
-	 * @param piece The piece making the move
-	 * @param deltaX The change in rows
-	 * @param deltaY The change in columns
+	 * pre: piece The piece making the move
+	 * pre: deltaX The change in rows
+	 * pre: deltaY The change in columns
 	 */
 	public Move(Piece piece, int deltaX, int deltaY)
 	{
@@ -32,7 +32,7 @@ public class Move
 	/**
 	 * Gets the piece making the move
 	 * 
-	 * @return The piece
+	 * post: The piece
 	 */
 	public Piece getPiece()
 	{
@@ -42,7 +42,7 @@ public class Move
 	/**
 	 * Gets the change in columns
 	 * 
-	 * @return The change in columns
+	 * post: The change in columns
 	 */
 	public int getDeltaX()
 	{
@@ -52,7 +52,7 @@ public class Move
 	/**
 	 * Gets the change in rows
 	 * 
-	 * @return The change in rows
+	 * post: The change in rows
 	 */
 	public int getDeltaY()
 	{
@@ -62,7 +62,7 @@ public class Move
 	/**
 	 * Attempts to perform the turn with the piece
 	 * 
-	 * @return Whether the move was successful or not
+	 * post: Whether the move was successful or not
 	 */
 	public boolean execute()
 	{

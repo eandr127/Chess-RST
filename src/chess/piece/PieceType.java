@@ -146,7 +146,7 @@ public enum PieceType
 	/**
 	 * Creates a type of piece
 	 * 
-	 * @param factory The factory to make the piece with
+	 * pre: factory The factory to make the piece with
 	 */
 	private PieceType(PieceFactory factory)
 	{
@@ -156,7 +156,7 @@ public enum PieceType
 	/**
 	 * Creates a new black piece
 	 * 
-	 * @return The new piece
+	 * post: The new piece
 	 */
 	public Piece black()
 	{
@@ -166,7 +166,7 @@ public enum PieceType
 	/**
 	 * Creates a new white piece
 	 * 
-	 * @return The new piece
+	 * post: The new piece
 	 */
 	public Piece white()
 	{
@@ -190,8 +190,8 @@ public enum PieceType
 		/**
 		 * Makes a new piece for a given team
 		 * 
-		 * @param team The team to make the piece for
-		 * @return The new piece
+		 * pre: team The team to make the piece for
+		 * post: The new piece
 		 */
 		public Piece makePiece(Team team);
 	}

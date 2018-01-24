@@ -84,7 +84,7 @@ public abstract class Board
 	/**
 	 * Creates a board with another arrangement
 	 * 
-	 * @param arrangement The custom arrangement
+	 * pre: arrangement The custom arrangement
 	 */
 	public Board(Piece[][] arrangement)
 	{
@@ -96,7 +96,7 @@ public abstract class Board
 	/**
 	 * Fills the board with fully initialized pieces
 	 * 
-	 * @param pieces The arrangement to initialize the pieces with
+	 * pre: pieces The arrangement to initialize the pieces with
 	 */
 	private void fillBoard(Piece[][] arrangement)
 	{
@@ -123,7 +123,7 @@ public abstract class Board
 	/**
 	 * Gets the arrangement of the board
 	 * 
-	 * @return The board arrangement
+	 * post: The board arrangement
 	 */
 	protected Piece[][] getArrangement()
 	{
@@ -141,7 +141,7 @@ public abstract class Board
 	/**
 	 * Displays board with all pieces that can be moved selected highlighted
 	 * 
-	 * @param team The team to highlight pieces for
+	 * pre: team The team to highlight pieces for
 	 */
 	public void showBoard(Team team)
 	{
@@ -169,7 +169,7 @@ public abstract class Board
 	/**
 	 * Displays the board with all locations that a piece can be moved highlighted
 	 * 
-	 * @param piece The piece to highlight locations for
+	 * pre: piece The piece to highlight locations for
 	 */
 	public void showBoard(Piece piece)
 	{
@@ -189,15 +189,15 @@ public abstract class Board
 	/**
 	 * Display the board
 	 * 
-	 * @param pieces All array coordinates to highlight
+	 * pre: pieces All array coordinates to highlight
 	 */
 	protected abstract void displayBoard(Coordinates[] pieces);
 
 	/**
 	 * Converts standard piece coordinates to ones that are properly interpreted by the array
 	 * 
-	 * @param coords The coordinates to convert
-	 * @return The converted coordinates
+	 * pre: coords The coordinates to convert
+	 * post: The converted coordinates
 	 */
 	private Coordinates convertToArray(Coordinates coords)
 	{
@@ -207,8 +207,8 @@ public abstract class Board
 	/**
 	 * Convert array coordinates to piece coordinates
 	 * 
-	 * @param coords The coordinates to convert
-	 * @return The converted coordinates
+	 * pre: coords The coordinates to convert
+	 * post: The converted coordinates
 	 */
 	private Coordinates convertFromArray(Coordinates coords)
 	{
@@ -218,8 +218,8 @@ public abstract class Board
 	/**
 	 * Gets a piece on the board
 	 * 
-	 * @param coords The location of the piece
-	 * @return The piece
+	 * pre: coords The location of the piece
+	 * post: The piece
 	 */
 	public Piece getPiece(Coordinates coords)
 	{
@@ -230,8 +230,8 @@ public abstract class Board
 	/**
 	 * Gets the location of a piece on the board
 	 * 
-	 * @param piece The piece to locate
-	 * @return The location of the piece
+	 * pre: piece The piece to locate
+	 * post: The location of the piece
 	 */
 	public Coordinates getLocation(Piece piece)
 	{
@@ -257,9 +257,9 @@ public abstract class Board
 	/**
 	 * Moves a piece from one place to another
 	 * 
-	 * @param start The location of the piece to move
-	 * @param end The destination of the piece
-	 * @return Whether the piece was successfully moved or not
+	 * pre: start The location of the piece to move
+	 * pre: end The destination of the piece
+	 * post: Whether the piece was successfully moved or not
 	 */
 	public boolean movePiece(Coordinates start, Coordinates end)
 	{
@@ -297,7 +297,7 @@ public abstract class Board
 	/**
 	 * Updates the location of the piece
 	 * 
-	 * @param piece The piece to update the location for
+	 * pre: piece The piece to update the location for
 	 */
 	public void updatePieceLocation(Piece piece)
 	{
@@ -313,7 +313,7 @@ public abstract class Board
 	/**
 	 * Captures a piece
 	 * 
-	 * @param coords The location to capture
+	 * pre: coords The location to capture
 	 */
 	public void capture(Coordinates coords)
 	{
@@ -329,8 +329,8 @@ public abstract class Board
 	/**
 	 * Gets the king for a certain team
 	 * 
-	 * @param team The team to find the king for
-	 * @return The king for the team
+	 * pre: team The team to find the king for
+	 * post: The king for the team
 	 */
 	public King findKingForTeam(Team team)
 	{
@@ -355,8 +355,8 @@ public abstract class Board
 	/**
 	 * Checks if the king is in check in the current board configuration
 	 * 
-	 * @param team The team of the king
-	 * @return Whether the king is in check
+	 * pre: team The team of the king
+	 * post: Whether the king is in check
 	 */
 	public boolean kingInCheck(Team team)
 	{
@@ -366,9 +366,9 @@ public abstract class Board
 	/**
 	 * Checks if the king is in check for a board configuration
 	 * 
-	 * @param team The team of the king
-	 * @param board The board configuration
-	 * @return Whether the king is in check
+	 * pre: team The team of the king
+	 * pre: board The board configuration
+	 * post: Whether the king is in check
 	 */
 	public boolean kingInCheck(Team team, Board board)
 	{
@@ -396,8 +396,8 @@ public abstract class Board
 	/**
 	 * Checks if a move will put the king in check
 	 * 
-	 * @param move The move to check
-	 * @return Whether the move will put the king in check
+	 * pre: move The move to check
+	 * post: Whether the move will put the king in check
 	 */
 	public boolean putsKingInCheck(Move move)
 	{
@@ -407,8 +407,8 @@ public abstract class Board
 	/**
 	 * Checks if a move will save the king from check
 	 * 
-	 * @param move The move to check
-	 * @return Whether the move will save the king from check
+	 * pre: move The move to check
+	 * post: Whether the move will save the king from check
 	 */
 	public boolean savesKingFromCheck(Move move)
 	{
@@ -427,8 +427,8 @@ public abstract class Board
 	/**
 	 * Determines if a king is in checkmate
 	 * 
-	 * @param team The team of the king
-	 * @return Whether the king is in checkmate
+	 * pre: team The team of the king
+	 * post: Whether the king is in checkmate
 	 */
 	public boolean isCheckmate(Team team)
 	{
@@ -471,8 +471,8 @@ public abstract class Board
 	/**
 	 * Creates a board that shows a move applied to it
 	 * 
-	 * @param move The move to apply
-	 * @return A copy of the board with a move applied
+	 * pre: move The move to apply
+	 * post: A copy of the board with a move applied
 	 */
 	private Board showMove(Move move)
 	{
@@ -490,8 +490,8 @@ public abstract class Board
 	/**
 	 * Replaces one piece with another with a different type
 	 * 
-	 * @param coords The piece to change
-	 * @param newPieceType The new piece type
+	 * pre: coords The piece to change
+	 * pre: newPieceType The new piece type
 	 */
 	public void replacePieceType(Coordinates coords, PieceType newPieceType)
 	{
@@ -527,7 +527,7 @@ public abstract class Board
 	/**
 	 * Gets the all previous moves on the board
 	 * 
-	 * @return The list of moves
+	 * post: The list of moves
 	 */
 	public List<Move> getMoves()
 	{
@@ -537,8 +537,8 @@ public abstract class Board
 	/**
 	 * Gets the moves for a certain piece
 	 * 
-	 * @param piece The piece to get moves for
-	 * @return The list of moves for a specific piece
+	 * pre: piece The piece to get moves for
+	 * post: The list of moves for a specific piece
 	 */
 	public List<Move> getMovesForPiece(Piece piece)
 	{
@@ -563,16 +563,16 @@ public abstract class Board
 	/**
 	 * Makes a board with a pre-existing set of moves
 	 * 
-	 * @param arrangement The arrangement of the board
-	 * @param moves The already executed moves
-	 * @return The new board
+	 * pre: arrangement The arrangement of the board
+	 * pre: moves The already executed moves
+	 * post: The new board
 	 */
 	protected abstract Board make(Piece[][] arrangement, List<Move> moves);
 
 	/**
 	 * Makes a copy of the board
 	 * 
-	 * @return The copy of the board
+	 * post: The copy of the board
 	 */
 	public Board copy()
 	{
@@ -634,7 +634,7 @@ public abstract class Board
 	/**
 	 * Adds a move to the list of moves
 	 * 
-	 * @param move The move to add
+	 * pre: move The move to add
 	 */
 	public void addMove(Move move)
 	{
@@ -653,7 +653,7 @@ public abstract class Board
 	/**
 	 * Set whether to check for moves that would put the king in checkmate
 	 * 
-	 * @param checkSafe Whether to move check-safe or not
+	 * pre: checkSafe Whether to move check-safe or not
 	 */
 	public void setCheckSafe(boolean checkSafe)
 	{
@@ -663,7 +663,7 @@ public abstract class Board
 	/**
 	 * Whether to ensure moves do not put king in check
 	 * 
-	 * @return Whether to move check-safe or not
+	 * post: Whether to move check-safe or not
 	 */
 	public boolean isCheckSafe()
 	{
@@ -673,7 +673,7 @@ public abstract class Board
 	/**
 	 * Sets this board's Player 1 to a new player.
 	 * 
-	 * @param player The new player.
+	 * pre: player The new player.
 	 */
 	public void setPlayer1(Player player)
 	{
@@ -683,7 +683,7 @@ public abstract class Board
 	/**
 	 * Sets this board's Player 2 to a new player.
 	 * 
-	 * @param player The new player.
+	 * pre: player The new player.
 	 */
 	public void setPlayer2(Player player)
 	{
@@ -693,7 +693,7 @@ public abstract class Board
 	/**
 	 * Returns this board's player 1.
 	 * 
-	 * @return The player 1 this board has
+	 * post: The player 1 this board has
 	 */
 	public Player getPlayer1()
 	{
@@ -703,7 +703,7 @@ public abstract class Board
 	/**
 	 * Returns this board's player 2.
 	 * 
-	 * @return The player 2 this board has
+	 * post: The player 2 this board has
 	 */
 	public Player getPlayer2()
 	{
@@ -713,8 +713,8 @@ public abstract class Board
 	/**
 	 * Checks if there is a forced draw
 	 * 
-	 * @param team The team to check for
-	 * @return Whether it is a forced draw
+	 * pre: team The team to check for
+	 * post: Whether it is a forced draw
 	 */
 	public boolean isDraw(Team team)
 	{
@@ -724,8 +724,8 @@ public abstract class Board
 	/**
 	 * Checks whether a player can move any pieces
 	 * 
-	 * @param team The team of the player
-	 * @return Whether it is a stalemate
+	 * pre: team The team of the player
+	 * post: Whether it is a stalemate
 	 */
 	private boolean isStalemate(Team team)
 	{
@@ -756,8 +756,8 @@ public abstract class Board
 	/**
 	 * Checks to see whether a team can offer a draw to the other
 	 * 
-	 * @param team The team to offer the draw
-	 * @return Whether it is legal to offer a draw
+	 * pre: team The team to offer the draw
+	 * post: Whether it is legal to offer a draw
 	 */
 	public boolean canOfferDraw(Team team)
 	{
@@ -767,8 +767,8 @@ public abstract class Board
 	/**
 	 * Checks to see if it has been 50 turns since a pawn has moved or a piece has been captured
 	 * 
-	 * @param team The team to check for
-	 * @return Whether the 50 turn rule has passed
+	 * pre: team The team to check for
+	 * post: Whether the 50 turn rule has passed
 	 */
 	private boolean turnLimit50(Team team)
 	{
@@ -787,8 +787,8 @@ public abstract class Board
 	/**
 	 * Checks to see if it has been 75 turns since a pawn has moved or a piece has been captured
 	 * 
-	 * @param team The team to check for
-	 * @return Whether the 75 turn rule has passed
+	 * pre: team The team to check for
+	 * post: Whether the 75 turn rule has passed
 	 */
 	private boolean turnLimit75(Team team)
 	{
@@ -807,8 +807,8 @@ public abstract class Board
 	/**
 	 * Gets the number of times that the board has been in its current state
 	 * 
-	 * @param team The team to check the state of
-	 * @return The number of identical configurations
+	 * pre: team The team to check the state of
+	 * post: The number of identical configurations
 	 */
 	private int numIdenticalPositions(Team team)
 	{
@@ -827,7 +827,7 @@ public abstract class Board
 	/**
 	 * Checks whether there is insufficient material to lead to checkmate
 	 * 
-	 * @return Whether checkmate is possible
+	 * post: Whether checkmate is possible
 	 */
 	private boolean insufficientMaterial()
 	{
@@ -893,8 +893,8 @@ public abstract class Board
 	/**
 	 * Checks if the square at a set of coordinates is black
 	 * 
-	 * @param coords The coordinates
-	 * @return Whether the square is black or not
+	 * pre: coords The coordinates
+	 * post: Whether the square is black or not
 	 */
 	private boolean isBlackSquare(Coordinates coords)
 	{
@@ -904,9 +904,9 @@ public abstract class Board
 	/**
 	 * Gets the first piece found for a given type of pieces
 	 * 
-	 * @param pieces The pieces to search through
-	 * @param type The type of piece to search through
-	 * @return The first occurrence of the piece type
+	 * pre: pieces The pieces to search through
+	 * pre: type The type of piece to search through
+	 * post: The first occurrence of the piece type
 	 */
 	private Piece getPieceForType(List<Piece> pieces, PieceType type)
 	{
@@ -928,8 +928,8 @@ public abstract class Board
 	/**
 	 * Finds number of identical board configurations to the current one
 	 * 
-	 * @param pieces The different board configurations
-	 * @return The number of equal configurations (including itself)
+	 * pre: pieces The different board configurations
+	 * post: The number of equal configurations (including itself)
 	 */
 	private int findLargestEqual(List<Piece[][]> pieces)
 	{
@@ -961,9 +961,9 @@ public abstract class Board
 	/**
 	 * Checks whether to board configurations are equal
 	 * 
-	 * @param arrangement1 The first board configuration
-	 * @param arrangement2 The second board configuration
-	 * @return Whether they are the same
+	 * pre: arrangement1 The first board configuration
+	 * pre: arrangement2 The second board configuration
+	 * post: Whether they are the same
 	 */
 	private boolean isEqual(Piece[][] arrangement1, Piece[][] arrangement2)
 	{

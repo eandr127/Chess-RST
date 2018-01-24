@@ -79,17 +79,17 @@ public enum ConsoleGrid
 	/**
 	 * Creates a ConsoleGrid with a certain look
 	 * 
-	 * @param topLeftCorner The top left corner of the board
-	 * @param topRightCorner The top right corner of the board
-	 * @param bottomLeftCorner The bottom left corner of the board
-	 * @param bottomRightCorner The bottom right corner of the board
-	 * @param rightSide The left side of the board
-	 * @param leftSide The left side of the board
-	 * @param bottomSide The bottom side of the board
-	 * @param topSide The top side of the board
-	 * @param cross The four way cross of the board
-	 * @param vertical The vertical line of the board
-	 * @param horizontal The horizontal line of the board
+	 * pre: topLeftCorner The top left corner of the board
+	 * pre: topRightCorner The top right corner of the board
+	 * pre: bottomLeftCorner The bottom left corner of the board
+	 * pre: bottomRightCorner The bottom right corner of the board
+	 * pre: rightSide The left side of the board
+	 * pre: leftSide The left side of the board
+	 * pre: bottomSide The bottom side of the board
+	 * pre: topSide The top side of the board
+	 * pre: cross The four way cross of the board
+	 * pre: vertical The vertical line of the board
+	 * pre: horizontal The horizontal line of the board
 	 */
 	private ConsoleGrid(char topLeftCorner, char topRightCorner, char bottomLeftCorner, char bottomRightCorner,
 			char rightSide, char leftSide, char bottomSide, char topSide, char cross, char vertical, char horizontal)

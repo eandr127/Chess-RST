@@ -13,8 +13,8 @@ public class Coordinates
 	/**
 	 * Creates coordinates from chess notation (column as letter, row from 8->1)
 	 * 
-	 * @param column The column
-	 * @param row The row
+	 * pre: column The column
+	 * pre: row The row
 	 */
 	public Coordinates(char column, int row)
 	{
@@ -24,8 +24,8 @@ public class Coordinates
 	/**
 	 * Creates coordinates with a row and column value
 	 * 
-	 * @param x The column
-	 * @param y The row
+	 * pre: x The column
+	 * pre: y The row
 	 */
 	public Coordinates(int x, int y)
 	{
@@ -36,7 +36,7 @@ public class Coordinates
 	/**
 	 * Gets the column
 	 * 
-	 * @return The column
+	 * post: The column
 	 */
 	public int getX()
 	{
@@ -46,7 +46,7 @@ public class Coordinates
 	/**
 	 * Gets the row
 	 * 
-	 * @return The row
+	 * post: The row
 	 */
 	public int getY()
 	{
@@ -56,8 +56,8 @@ public class Coordinates
 	/**
 	 * Adds another set of coordinates to this one
 	 * 
-	 * @param coords The other coordinates
-	 * @return The added coordinates
+	 * pre: coords The other coordinates
+	 * post: The added coordinates
 	 */
 	public Coordinates add(Coordinates coords)
 	{
@@ -67,9 +67,9 @@ public class Coordinates
 	/**
 	 * Adds another set of coordinates to this one
 	 * 
-	 * @param x The row of the other coordinates
-	 * @param y The column of the other coordinates
-	 * @return The added coordinates
+	 * pre: x The row of the other coordinates
+	 * pre: y The column of the other coordinates
+	 * post: The added coordinates
 	 */
 	public Coordinates add(int x, int y)
 	{

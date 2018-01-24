@@ -23,7 +23,7 @@ public enum Team
 	/**
 	 * Gets the opposite for a team
 	 * 
-	 * @return The opposite team
+	 * post: The opposite team
 	 */
 	public Team opposite()
 	{

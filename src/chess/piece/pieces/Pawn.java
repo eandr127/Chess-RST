@@ -21,9 +21,9 @@ public class Pawn extends Piece
 	/**
 	 * Creates a new instance of a pawn
 	 * 
-	 * @param pieceType The type of piece
-	 * @param team The team of this piece
-	 * @param player The player owner of this piece
+	 * pre: pieceType The type of piece
+	 * pre: team The team of this piece
+	 * pre: player The player owner of this piece
 	 */
 	public Pawn(PieceType pieceType, Team team, Player player)
 	{
@@ -33,8 +33,8 @@ public class Pawn extends Piece
 	/**
 	 * Checks the given location for the pawn is a valid move
 	 * 
-	 * @param the new coordinates
-	 * @return whether the location is valid
+	 * pre: the new coordinates
+	 * post: whether the location is valid
 	 */
 	@Override
 	public boolean canMove(Coordinates newCoords)
@@ -117,8 +117,8 @@ public class Pawn extends Piece
 	/**
 	 * Does the move and capturing if applicable
 	 * 
-	 * @param the new coordinates
-	 * @return none
+	 * pre: the new coordinates
+	 * post: none
 	 */
 	@Override
 	protected void doMove(Coordinates newCoords)

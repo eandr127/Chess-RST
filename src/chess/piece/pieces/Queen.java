@@ -20,7 +20,7 @@ public class Queen extends Piece
 	/**
 	 * Creates a new instance of a queen
 	 * 
-	 * @param pieceType and team
+	 * pre: pieceType and team
 	 */
 	public Queen(PieceType pieceType, Team team, Player player)
 	{
@@ -30,8 +30,8 @@ public class Queen extends Piece
 	/**
 	 * Checks the given location for the queen is a valid move
 	 * 
-	 * @param the new coordinates
-	 * @return whether the location is valid
+	 * pre: the new coordinates
+	 * post: whether the location is valid
 	 */
 	@Override
 	public boolean canMove(Coordinates newCoords)
@@ -181,8 +181,8 @@ public class Queen extends Piece
 	/**
 	 * Does the move and capturing if applicable
 	 * 
-	 * @param the new coordinates
-	 * @return none
+	 * pre: the new coordinates
+	 * post: none
 	 */
 	@Override
 	protected void doMove(Coordinates newCoords)

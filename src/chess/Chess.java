@@ -29,7 +29,7 @@ public class Chess
 	/**
 	 * The entrypoint for the program
 	 * 
-	 * @param args The arguments for the program (unused)
+	 * pre: args The arguments for the program (unused)
 	 */
 	public static void main(String[] args)
 	{
@@ -103,9 +103,9 @@ public class Chess
 	
 	/**
 	 * The winner of the game.
-	 * @param backend The backend
-	 * @param console The ConsoleIO
-	 * @param winner The player who won
+	 * pre: backend The backend
+	 * pre: console The ConsoleIO
+	 * pre: winner The player who won
 	 */
 	public static void win(Backend backend, ConsoleIO console, Player winner) {
 		backend.getBoard().showBoard();
@@ -119,8 +119,8 @@ public class Chess
 	/**
 	 * Creates a console board from user preferences
 	 * 
-	 * @param scanner The scanner to get user input with
-	 * @return The created board
+	 * pre: scanner The scanner to get user input with
+	 * post: The created board
 	 */
 	public static Backend setUpConsoleBoard(ConsoleIO console)
 	{

@@ -46,8 +46,8 @@ public abstract class Piece
 	/**
 	 * Creates a piece
 	 * 
-	 * @param pieceType The type of piece
-	 * @param team The piece's team
+	 * pre: pieceType The type of piece
+	 * pre: team The piece's team
 	 */
 	protected Piece(PieceType pieceType, Team team, Player player)
 	{
@@ -59,7 +59,7 @@ public abstract class Piece
 	/**
 	 * Gets the piece type
 	 * 
-	 * @return The piece type
+	 * post: The piece type
 	 */
 	public PieceType getPieceType()
 	{
@@ -69,7 +69,7 @@ public abstract class Piece
 	/**
 	 * Gets the team of the piece
 	 * 
-	 * @return The piece team
+	 * post: The piece team
 	 */
 	public Team getTeam()
 	{
@@ -79,7 +79,7 @@ public abstract class Piece
 	/**
 	 * Gets the board the piece is on
 	 * 
-	 * @return The board
+	 * post: The board
 	 */
 	public Board getBoard()
 	{
@@ -89,7 +89,7 @@ public abstract class Piece
 	/**
 	 * Gets the player owner of this piece.
 	 * 
-	 * @return The player owner of this piece
+	 * post: The player owner of this piece
 	 */
 	public Player getPlayer()
 	{
@@ -99,7 +99,7 @@ public abstract class Piece
 	/**
 	 * Gets the coordinates of the piece
 	 * 
-	 * @return The coordinates
+	 * post: The coordinates
 	 */
 	public Coordinates getCoords()
 	{
@@ -114,7 +114,7 @@ public abstract class Piece
 	/**
 	 * Checks whether the piece has a board and coordinates
 	 * 
-	 * @return Whether the piece is fully initialized or not
+	 * post: Whether the piece is fully initialized or not
 	 */
 	public boolean isInitialized()
 	{
@@ -124,9 +124,9 @@ public abstract class Piece
 	/**
 	 * Initializes the piece with coordinates and a board
 	 * 
-	 * @param coords The location of the piece on the board
-	 * @param board The board the piece is on
-	 * @param player The player owner of this piece
+	 * pre: coords The location of the piece on the board
+	 * pre: board The board the piece is on
+	 * pre: player The player owner of this piece
 	 */
 	public void lateInit(Coordinates coords, Board board, Player player)
 	{
@@ -140,8 +140,8 @@ public abstract class Piece
 	/**
 	 * Moves the piece to a new location
 	 * 
-	 * @param newCoords The new location of the piece
-	 * @return Whether the move was successful
+	 * pre: newCoords The new location of the piece
+	 * post: Whether the move was successful
 	 * @throws IllegalStateException When the piece has not been fully initialized
 	 */
 	public boolean move(Coordinates newCoords) throws IllegalStateException
@@ -164,7 +164,7 @@ public abstract class Piece
 	/**
 	 * Checks whether the piece has any valid moves
 	 * 
-	 * @return Whether the piece has a valid move
+	 * post: Whether the piece has a valid move
 	 */
 	public Coordinates[] getValidMoves()
 	{
@@ -201,15 +201,15 @@ public abstract class Piece
 	/**
 	 * Determines whether the piece can move or not
 	 * 
-	 * @param newCoords The location to test
-	 * @return Whether the move is possible
+	 * pre: newCoords The location to test
+	 * post: Whether the move is possible
 	 */
 	public abstract boolean canMove(Coordinates newCoords);
 
 	/**
 	 * Completes the move and captures pieces as necessary
 	 * 
-	 * @param newCoords The coordinates to move to
+	 * pre: newCoords The coordinates to move to
 	 */
 	protected abstract void doMove(Coordinates newCoords);
 }

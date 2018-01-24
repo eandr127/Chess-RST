@@ -9,7 +9,7 @@ public interface PieceRenderer
 	/**
 	 * Renders a piece
 	 * 
-	 * @param piece The piece to render
+	 * pre: piece The piece to render
 	 */
 	public void render(Piece piece);
 }

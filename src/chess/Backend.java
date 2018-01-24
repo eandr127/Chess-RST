@@ -21,8 +21,8 @@ public class Backend
 	/**
 	 * Creates a backend
 	 * 
-	 * @param board The board to display with
-	 * @param help The help prompt to give information to the player
+	 * pre: board The board to display with
+	 * pre: help The help prompt to give information to the player
 	 */
 	public Backend(Board board, Player player1, Player player2)
 	{
@@ -34,7 +34,7 @@ public class Backend
 	/**
 	 * Gets the board to display with
 	 * 
-	 * @return The board
+	 * post: The board
 	 */
 	public Board getBoard()
 	{
@@ -44,7 +44,7 @@ public class Backend
 	/**
 	 * Gets the first player
 	 * 
-	 * @return The first player
+	 * post: The first player
 	 */
 	public Player getPlayer1()
 	{
@@ -54,7 +54,7 @@ public class Backend
 	/**
 	 * Gets the second player
 	 * 
-	 * @return The second player
+	 * post: The second player
 	 */
 	public Player getPlayer2()
 	{

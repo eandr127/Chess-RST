@@ -36,8 +36,8 @@ public class ConsoleHelp extends Help
 	/**
 	 * Create constructor for pieces and input
 	 * 
-	 * @param pieces The different looks of console pieces
-	 * @param console The console to interact with the user with
+	 * pre: pieces The different looks of console pieces
+	 * pre: console The console to interact with the user with
 	 */
 	public ConsoleHelp(ConsolePieces pieces, ConsoleIO console)
 	{
@@ -118,7 +118,7 @@ public class ConsoleHelp extends Help
 	/**
 	 * Displays each numbered help option
 	 * 
-	 * @param helpTypes The different pieces that have help options
+	 * pre: helpTypes The different pieces that have help options
 	 */
 	private void displayHelpMessage(PieceType[] helpTypes)
 	{

@@ -49,9 +49,9 @@ public abstract class Player
 	/**
 	 * Creates an instance of Player with a set team and board to use.
 	 * 
-	 * @param team The team of this player.
-	 * @param board The board this player will use.
-	 * @param name The name of the player.
+	 * pre: team The team of this player.
+	 * pre: board The board this player will use.
+	 * pre: name The name of the player.
 	 */
 	public Player(Team team, Board board, Help help, Player opponent, String name)
 	{
@@ -65,7 +65,7 @@ public abstract class Player
 	/**
 	 * Gets the current team of this player.
 	 * 
-	 * @return The current team of this player
+	 * post: The current team of this player
 	 */
 	public Team getTeam()
 	{
@@ -75,7 +75,7 @@ public abstract class Player
 	/**
 	 * Gets the current board used by this player.
 	 * 
-	 * @return The board used by this player
+	 * post: The board used by this player
 	 */
 	public Board getBoard()
 	{
@@ -85,7 +85,7 @@ public abstract class Player
 	/**
 	 * Gets the name of the player
 	 * 
-	 * @return The player's name
+	 * post: The player's name
 	 */
 	public String getName()
 	{
@@ -161,8 +161,8 @@ public abstract class Player
 	/**
 	 * Gets the location to move the piece to
 	 * 
-	 * @param selected The piece to be moved
-	 * @return The new location
+	 * pre: selected The piece to be moved
+	 * post: The new location
 	 */
 	public abstract Coordinates selectDestination(Piece selected);
 
@@ -174,7 +174,7 @@ public abstract class Player
 	/**
 	 * Finds out whether the player wants to offer a draw
 	 * 
-	 * @return Whether to offer draw
+	 * post: Whether to offer draw
 	 */
 	public boolean offerDraw() {
 		return wantsToDraw;
@@ -193,7 +193,7 @@ public abstract class Player
 	/**
 	 * Set a new opponent for this player.
 	 * 
-	 * @param opponent The opponent of this player.
+	 * pre: opponent The opponent of this player.
 	 */
 	public void setOpponent(Player opponent)
 	{
@@ -203,7 +203,7 @@ public abstract class Player
 	/**
 	 * Get the opponent of this player.
 	 * 
-	 * @return The opponent of this player
+	 * post: The opponent of this player
 	 */
 	public Player getOpponent()
 	{
@@ -212,7 +212,7 @@ public abstract class Player
 	
 	/**
 	 * Does this player want to resign
-	 * @return Whether the player wants to resign
+	 * post: Whether the player wants to resign
 	 */
 	public boolean resign() {
 		return resign;

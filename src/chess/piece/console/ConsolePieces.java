@@ -64,8 +64,8 @@ public enum ConsolePieces {
 	/**
 	 * Creates the holder for all of the console pieces
 	 * 
-	 * @param length The length of all Strings
-	 * @param pieces The map of pieces and Strings
+	 * pre: length The length of all Strings
+	 * pre: pieces The map of pieces and Strings
 	 */
 	private ConsolePieces(int length, Map<PieceType, Map<Team, String>> pieces) {
 		this.length = length;
@@ -75,9 +75,9 @@ public enum ConsolePieces {
 	/**
 	 * Makes an unmodifiable map with a String with a certain length from another map
 	 * 
-	 * @param length The length that each String must be
-	 * @param pieces The unsafe map
-	 * @return An unmodifiable map with Strings of only the specified length
+	 * pre: length The length that each String must be
+	 * pre: pieces The unsafe map
+	 * post: An unmodifiable map with Strings of only the specified length
 	 */
 	private static Map<PieceType, Map<Team, String>> safeMap(int length, Map<PieceType, Map<Team, String>> pieces) {
 		// Copy pieces to different Map so they don't edit the originals
@@ -102,9 +102,9 @@ public enum ConsolePieces {
 	
 	/**
 	 * Makes the String the correct length
-	 * @param length The length of the String
-	 * @param s The String to change
-	 * @return The String made the correct length
+	 * pre: length The length of the String
+	 * pre: s The String to change
+	 * post: The String made the correct length
 	 */
 	private static String cutToLength(int length, String s) {
 		// Figure out how many spaces must be added to make it the correct length
@@ -129,8 +129,8 @@ public enum ConsolePieces {
 	/**
 	 * Get the String representation of a piece
 	 * 
-	 * @param piece The piece to get
-	 * @return The String representation of the piece
+	 * pre: piece The piece to get
+	 * post: The String representation of the piece
 	 */
 	public String get(PieceType pieceType, Team team) {
 		return pieces.get(pieceType).get(team);
@@ -139,9 +139,9 @@ public enum ConsolePieces {
 	/**
 	 * Get the String representation of a piece or another value if it can't be found
 	 * 
-	 * @param piece The piece to get
-	 * @param defaultValue The value to return if the key can't be found
-	 * @return The String representation of the piece or default
+	 * pre: piece The piece to get
+	 * pre: defaultValue The value to return if the key can't be found
+	 * post: The String representation of the piece or default
 	 */
 	public String getOrDefault(PieceType pieceType, Team team, String defaultValue) {
 		Map<Team, String> map = pieces.get(pieceType);
@@ -160,8 +160,8 @@ public enum ConsolePieces {
 	/**
 	 * Creates a map from an array of entries
 	 * 
-	 * @param entries The entries to make a map of
-	 * @return The map
+	 * pre: entries The entries to make a map of
+	 * post: The map
 	 */
 	@SafeVarargs
 	private static <K, V> Map<K, V> ofEntries(Map.Entry<K, V>...entries) {
@@ -181,9 +181,9 @@ public enum ConsolePieces {
 	/**
 	 * Creates a new Map entry
 	 * 
-	 * @param key The key of the entry
-	 * @param value The value of the entry
-	 * @return The entry
+	 * pre: key The key of the entry
+	 * pre: value The value of the entry
+	 * post: The entry
 	 */
 	private static <K, V> Entry<K, V> entry(final K key, final V value) {
 		// Create a new Map entry that holds the key and value

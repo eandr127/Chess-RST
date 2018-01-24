@@ -33,8 +33,8 @@ public class ConsoleIO
 	/**
 	 * Creates a new console
 	 * 
-	 * @param consoleOutput The {@code PrintStream} to print to
-	 * @param consoleInput The {@code InputStream} to read user input from
+	 * pre: consoleOutput The {@code PrintStream} to print to
+	 * pre: consoleInput The {@code InputStream} to read user input from
 	 */
 	public ConsoleIO(PrintStream consoleOutput, InputStream consoleInput)
 	{
@@ -74,9 +74,9 @@ public class ConsoleIO
 	/**
 	 * Reduces string to a certain length. Ex.: A13 shortened to a length of 2 would return A1.
 	 * 
-	 * @param string The string to be checked.
-	 * @param length The length to be checked.
-	 * @return Did the string match length?
+	 * pre: string The string to be checked.
+	 * pre: length The length to be checked.
+	 * post: Did the string match length?
 	 */
 	public String stringToLength(String error, int length)
 	{
@@ -100,8 +100,8 @@ public class ConsoleIO
 	/**
 	 * Gets user input against certain requirements, defined by the requirements argument.
 	 * 
-	 * @param requirements The Requirements for the user input
-	 * @return The user's input.
+	 * pre: requirements The Requirements for the user input
+	 * post: The user's input.
 	 */
 	public String getStringFromUser(Requirements requirements)
 	{
@@ -132,7 +132,7 @@ public class ConsoleIO
 	/**
 	 * Gets the user input as a boolean
 	 * 
-	 * @return Whether the user said yes or not
+	 * post: Whether the user said yes or not
 	 */
 	public boolean getUserBoolean()
 	{
@@ -172,7 +172,7 @@ public class ConsoleIO
 	/**
 	 * Gets the {@code PrintStream} used to print
 	 * 
-	 * @return The {@code PrintStream}
+	 * post: The {@code PrintStream}
 	 */
 	public PrintStream getConsoleOutput()
 	{
@@ -182,7 +182,7 @@ public class ConsoleIO
 	/**
 	 * Gets the {@code Scanner} used to get user input
 	 * 
-	 * @return The {@code Scanner}
+	 * post: The {@code Scanner}
 	 */
 	public Scanner getInput()
 	{
@@ -198,22 +198,22 @@ public class ConsoleIO
 		/**
 		 * Checks whether a user input is valid
 		 * 
-		 * @param in The user input
-		 * @return Whether the user input is valid
+		 * pre: in The user input
+		 * post: Whether the user input is valid
 		 */
 		public boolean valid(String in);
 
 		/**
 		 * The message to print when input is invalid
 		 * 
-		 * @return The message to print
+		 * post: The message to print
 		 */
 		public String invalid();
 
 		/**
 		 * The initial message to print
 		 * 
-		 * @return The message to print
+		 * post: The message to print
 		 */
 		public String message();
 	}

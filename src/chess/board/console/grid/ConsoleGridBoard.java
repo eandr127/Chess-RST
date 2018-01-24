@@ -24,9 +24,9 @@ public class ConsoleGridBoard extends ConsoleBoard
 	/**
 	 * Creates a ConsoleGridBoard using a specified console
 	 * 
-	 * @param pieces The look of the pieces
-	 * @param grid The look of the grid
-	 * @param console Where to print the board
+	 * pre: pieces The look of the pieces
+	 * pre: grid The look of the grid
+	 * pre: console Where to print the board
 	 */
 	public ConsoleGridBoard(ConsolePieces pieces, ConsoleGrid grid, ConsoleIO console)
 	{
@@ -37,9 +37,9 @@ public class ConsoleGridBoard extends ConsoleBoard
 	/**
 	 * Creates a ConsoleGridBoard using a specified console
 	 * 
-	 * @param pieces The look of the pieces
-	 * @param grid The look of the grid
-	 * @param console Where to print the board
+	 * pre: pieces The look of the pieces
+	 * pre: grid The look of the grid
+	 * pre: console Where to print the board
 	 */
 	public ConsoleGridBoard(Piece[][] arrangement, ConsolePieces pieces, ConsoleGrid grid, ConsoleIO console)
 	{
@@ -116,7 +116,7 @@ public class ConsoleGridBoard extends ConsoleBoard
 	/**
 	 * Makes a divider line
 	 * 
-	 * @return The divider line
+	 * post: The divider line
 	 */
 	private String makeDividerLine()
 	{
@@ -149,8 +149,8 @@ public class ConsoleGridBoard extends ConsoleBoard
 	/**
 	 * Print line of pieces to grid
 	 * 
-	 * @param pieces The row of pieces
-	 * @param row The row number starting at 1
+	 * pre: pieces The row of pieces
+	 * pre: row The row number starting at 1
 	 */
 	private void printPiecesLine(Piece[] pieces, int row, Coordinates[] coordinates)
 	{
