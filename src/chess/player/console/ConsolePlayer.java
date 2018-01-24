@@ -4,6 +4,7 @@ import chess.ConsoleIO;
 import chess.ConsoleIO.Requirements;
 import chess.board.Board;
 import chess.board.Coordinates;
+import chess.help.Help;
 import chess.piece.Piece;
 import chess.piece.PieceType;
 import chess.piece.Team;
@@ -22,9 +23,9 @@ public class ConsolePlayer extends Player
 	 * @param board The board for the player being set up
 	 * @param console The ConsoleIO for the player being set up
 	 */
-	public ConsolePlayer(Team team, Board board, ConsoleIO console)
+	public ConsolePlayer(Team team, Board board, ConsoleIO console, Help help)
 	{
-		super(team, board);
+		super(team, board, help);
 		
 		this.console = console;
 	}
@@ -80,8 +81,8 @@ public class ConsolePlayer extends Player
 		@Override
 		public boolean valid(String in) throws IllegalArgumentException
 		{
-			return in.toLowerCase() == "q" ||  in.toLowerCase() == "k" || in.toLowerCase() == "b" || in.toLowerCase() == "r"
-				|| in.toLowerCase() == "queen" ||  in.toLowerCase() == "knight" || in.toLowerCase() == "bishop" || in.toLowerCase() == "rook";
+			return in.toLowerCase().equals("q") ||  in.toLowerCase().equals("k") || in.toLowerCase().equals("b") || in.toLowerCase().equals("r")
+				|| in.toLowerCase().equals("queen") ||  in.toLowerCase().equals("knight") || in.toLowerCase().equals("bishop") || in.toLowerCase().equals("rook");
 		}
 
 		@Override
@@ -96,10 +97,27 @@ public class ConsolePlayer extends Player
 		
 	}
 	
+	private static class TurnInitializationRequirements implements Requirements {
+
+		@Override
+		public boolean valid(String in) throws IllegalArgumentException
+		{
+			return in.toLowerCase().equals("h") ||  in.toLowerCase().equals("p") || in.toLowerCase().equals("r")
+				|| in.toLowerCase().equals("help") ||  in.toLowerCase().equals("play") || in.toLowerCase().equals("resign");
+		}
+
+		@Override
+		public String message()
+		{
+			return "What do you want to do?\nGet help\nPlay your turn\nResign\n(h/p/r):";
+		}
+		
+		public String invalid() {
+			return "Invalid input. Try again!\n";
+		}
+		
+	}
 	
-	/**
-	 * Returns a piece type for pawn promotion. Checks user input against PawnPromotionRequirements.
-	 */
 	@Override
 	public PieceType pawnPromotion() {
 		PieceType pieceType = null;
@@ -128,9 +146,30 @@ public class ConsolePlayer extends Player
 		return pieceType;
 	}
 	
-	/**
-	 * Asks user to select a piece on the board that is of the same team as their own.
-	 */
+	@Override
+	public String turnInit()
+	{
+		String choice = null;
+		
+		String in = console.getStringFromUser(new TurnInitializationRequirements());
+		switch (in.toLowerCase()) {
+			case "h":
+			case "help":
+				choice = "help";
+				break;
+			case "p":
+			case "play":
+				choice = "play";
+				break;
+			case "r":
+			case "resign":
+				choice = "resign";
+				break;
+		}
+		
+		return choice;
+	}
+	
 	@Override
 	public Coordinates selectPiece()
 	{
@@ -143,10 +182,6 @@ public class ConsolePlayer extends Player
 		return coords;
 	}
 
-	/**
-	 * Asks user to select a destination for a selected piece
-	 * @param selected The selected piece to be moved.
-	 */
 	@Override
 	public Coordinates selectDestination(Piece selected)
 	{
@@ -155,9 +190,6 @@ public class ConsolePlayer extends Player
 		return getCoordinates();
 	}
 
-	/**
-	 * Outputs "Invalid move." to the console.
-	 */
 	@Override
 	public void invalidMove()
 	{

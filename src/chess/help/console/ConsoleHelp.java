@@ -22,7 +22,7 @@ public class ConsoleHelp extends Help
 	private static final String HELP_COMMAND = "HELP";
 	
 	/**
-	 * The command to type whe the user wants to exit
+	 * The command to type when the user wants to exit
 	 */
 	private static final String EXIT_COMMAND = "EXIT";
 	
