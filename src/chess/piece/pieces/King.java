@@ -5,10 +5,23 @@ import chess.piece.Piece;
 import chess.piece.PieceType;
 import chess.piece.Team;
 
+/*
+ * King.java
+ * Movement and capturing for the king
+ * Dmitry Tsarapkine + Ryan Larkin (castling)
+ * ICS3U
+ * January 24th, 2018
+ */
+
 public class King extends Piece
 {
 	private Team oppositeTeam;
 
+	/**
+	 * Creates a new instance of a king
+	 * 
+	 * @param pieceType and team
+	 */
 	public King(PieceType pieceType, Team team)
 	{
 		super(pieceType, team);
@@ -23,6 +36,7 @@ public class King extends Piece
 	@Override
 	public boolean canMove(Coordinates newCoords)
 	{
+		// Creates variable to store whether it is valid, by default it is false
 		boolean valid = false;
 
 		// If the piece is on the black team
@@ -42,12 +56,14 @@ public class King extends Piece
 		int xDifference = Math.abs(newCoords.getX() - getCoords().getX());
 		int yDifference = Math.abs(newCoords.getY() - getCoords().getY());
 		int xRawDifference = newCoords.getX() - getCoords().getX();
-		int xRelative = 0;  
-		if(xDifference - xRawDifference != 0)
+		// By default xRelative is 0
+		int xRelative = 0;
+		// Gets the x direction of the move
+		if (xDifference - xRawDifference != 0)
 		{
 			xRelative = xDifference / xRawDifference;
 		}
-		
+
 		// Checks if the movement location is within a 1 tile radius around the current location of the king
 		if (xDifference == 1 && yDifference == 1 || xDifference == 1 && yDifference == 0
 				|| xDifference == 0 && yDifference == 1)
@@ -60,31 +76,16 @@ public class King extends Piece
 				// The location is valid
 				valid = true;
 			}
-		} else if (getBoard().getMovesForPiece(this).size() == 0
-				&& getBoard().getMovesForPiece(getBoard().getPiece(newCoords)).size() == 0
-				&& getBoard().getPiece(newCoords).getPieceType().equals(PieceType.ROOK)
-				&& newCoords.getY() == getCoords().getY() && xRelative != 0)
-		{
-			for (int i = xRelative; i != newCoords.getX() + xRelative; i += xRelative)
-			{
-				if (!getBoard().getPiece(getCoords().add(i, 0)).getTeam().equals(Team.NONE) && i != xRelative)
-				{
-					return false;
-				}
-				else if(i == xDifference)
-				{
-					return true;
-				}
-			}
-			valid = true;
 		}
 
 		// Returns valid
 		return valid;
+
 	}
 
 	/**
-	 * Does the move
+	 * Does the move and capturing if applicable
+	 * 
 	 * @param the new coordinates
 	 * @return none
 	 */
@@ -110,20 +111,9 @@ public class King extends Piece
 			// Captures the designated piece
 			getBoard().capture(newCoords);
 		}
-		
 
-		if(getBoard().getMovesForPiece(getBoard().getPiece(getCoords())).size() == 0
-				&& getBoard().getMovesForPiece(getBoard().getPiece(newCoords)).size() == 0
-				&& getBoard().getPiece(newCoords).getPieceType().equals(PieceType.ROOK))
-				{
-					setCoords(getCoords().add(newCoords.getX() - getCoords().getX() * 2, 0));
-					//getBoard().movePiece(newCoords, )
-					
-				}
-		else
-		{
-			setCoords(newCoords);
-		}
+		// Sets new coordinates for the piece
+		setCoords(newCoords);
 
 	}
 }

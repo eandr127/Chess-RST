@@ -5,25 +5,44 @@ import chess.piece.Piece;
 import chess.piece.PieceType;
 import chess.piece.Team;
 
+/*
+ * Knight.java
+ * Movement and capturing for the knight
+ * Dmitry Tsarapkine
+ * ICS3U
+ * January 24th, 2018
+ */
+
 public class Knight extends Piece
 {
 	private Team oppositeTeam;
 
+	/**
+	 * Creates a new instance of a knight
+	 * 
+	 * @param pieceType and team
+	 */
 	public Knight(PieceType pieceType, Team team)
 	{
 		super(pieceType, team);
 	}
 
+	/**
+	 * Checks the given location for the knight is a valid move
+	 * 
+	 * @param the new coordinates
+	 * @return whether the location is valid
+	 */
 	@Override
 	public boolean canMove(Coordinates newCoords)
 	{
 		// By default the move is invalid
 		boolean valid = false;
 
-		//Gets the difference between the new x and y coordinate and the current x and y coordinate
+		// Gets the difference between the new x and y coordinate and the current x and y coordinate
 		int xDifference = Math.abs(newCoords.getX() - getCoords().getX());
 		int yDifference = Math.abs(newCoords.getY() - getCoords().getY());
-		
+
 		// If the piece is on the black team
 		if (getTeam().equals(Team.BLACK))
 		{
@@ -52,6 +71,12 @@ public class Knight extends Piece
 		return valid;
 	}
 
+	/**
+	 * Does the move and capturing if applicable
+	 * 
+	 * @param the new coordinates
+	 * @return none
+	 */
 	@Override
 	protected void doMove(Coordinates newCoords)
 	{
@@ -74,7 +99,8 @@ public class Knight extends Piece
 			// Captures the designated piece
 			getBoard().capture(newCoords);
 		}
-		
+
+		// Sets new coordinates for the piece
 		setCoords(newCoords);
 	}
 }

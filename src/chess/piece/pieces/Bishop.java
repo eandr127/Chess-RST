@@ -5,27 +5,46 @@ import chess.piece.Piece;
 import chess.piece.PieceType;
 import chess.piece.Team;
 
+/*
+ * Bishop.java
+ * Movement and capturing for the bishop
+ * Dmitry Tsarapkine
+ * ICS3U
+ * January 24th, 2018
+ */
+
 public class Bishop extends Piece
 {
 	private Team oppositeTeam;
 
+	/**
+	 * Creates a new instance of a bishop
+	 * 
+	 * @param pieceType and team
+	 */
 	public Bishop(PieceType pieceType, Team team)
 	{
 		super(pieceType, team);
 	}
 
+	/**
+	 * Checks the given location for the bishop is a valid move
+	 * 
+	 * @param the new coordinates
+	 * @return whether the location is valid
+	 */
 	@Override
 	public boolean canMove(Coordinates newCoords)
 	{
-		//By default the move invalid
+		// By default the move invalid
 		boolean valid = false;
-		//Gets difference between new coordinates and old coordinates
+		// Gets difference between new coordinates and old coordinates
 		int xDifference = newCoords.getX() - getCoords().getX();
 		int yDifference = newCoords.getY() - getCoords().getY();
-		//Gets absolute value of xDifference and yDifference
+		// Gets absolute value of xDifference and yDifference
 		int absYDifference = Math.abs(yDifference);
 		int absXDifference = Math.abs(xDifference);
-		//Variable to store the team of the player
+		// Variable to store the team of the player
 		Team sameTeam;
 
 		// If it is the black team's turn
@@ -47,29 +66,28 @@ public class Bishop extends Piece
 			return false;
 		} else
 		{
-			//Moves 1 tile towards the final destination
-			for (int i = xDifference / absXDifference, j = yDifference / absYDifference; 
-					i != xDifference + absXDifference / xDifference; 
-					i += xDifference / absXDifference, j += yDifference / absYDifference)
+			// Moves 1 tile towards the final destination
+			for (int i = xDifference / absXDifference, j = yDifference / absYDifference; i != xDifference
+					+ absXDifference / xDifference; i += xDifference
+							/ absXDifference, j += yDifference / absYDifference)
 			{
-				//If there is a piece in the way and it is not the final location
+				// If there is a piece in the way and it is not the final location
 				if (i != xDifference && j != yDifference
 						&& !getBoard().getPiece(getCoords().add(i, j)).getTeam().equals(Team.NONE))
 				{
-					//Return false
+					// Return false
 					return false;
-					//If it is checking the final location
+					// If it is checking the final location
 				} else if (i == xDifference && j == yDifference)
 				{
-					//If there is not a piece from the same team
+					// If there is not a piece from the same team
 					if (!getBoard().getPiece(newCoords).getTeam().equals(sameTeam))
 					{
-						//Returns true
+						// Returns true
 						return true;
-					}
-					else
+					} else
 					{
-						//Returns false
+						// Returns false
 						return false;
 					}
 				}
@@ -77,10 +95,16 @@ public class Bishop extends Piece
 			}
 		}
 
-		//Returns valid
+		// Returns valid
 		return valid;
 	}
 
+	/**
+	 * Does the move and capturing if applicable
+	 * 
+	 * @param the new coordinates
+	 * @return none
+	 */
 	@Override
 	protected void doMove(Coordinates newCoords)
 	{
@@ -103,7 +127,8 @@ public class Bishop extends Piece
 			// Captures the designated piece
 			getBoard().capture(newCoords);
 		}
-		
+
+		// Sets new coordinates for the piece
 		setCoords(newCoords);
 	}
 }
