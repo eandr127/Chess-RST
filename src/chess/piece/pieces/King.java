@@ -71,33 +71,39 @@ public class King extends Piece
 				// The location is valid
 				valid = true;
 			}
-		} else if(getBoard().getMovesForPiece(this).size() == 0 && xDifference == 2 && yDifference == 0 && !getBoard().kingInCheck(getTeam())) {
+		} else if (getBoard().getMovesForPiece(this).size() == 0 && xDifference == 2 && yDifference == 0
+				&& !getBoard().kingInCheck(getTeam()))
+		{
 			boolean direction = newCoords.getX() - getCoords().getX() < 0;
 			Piece rook = findRook(getCoords(), getTeam(), direction);
-			
-			if(getBoard().getMovesForPiece(rook).size() > 0) {
+
+			if (getBoard().getMovesForPiece(rook).size() > 0)
+			{
 				return false;
 			}
-			
+
 			Board copy = getBoard().copy();
 			copy.setCheckSafe(true);
-			
+
 			Coordinates movement = getCoords();
-			for(int i = 0; i < 2; i++) {
+			for (int i = 0; i < 2; i++)
+			{
 				Coordinates oldCoords = movement;
-				
-				if(direction) {
+
+				if (direction)
+				{
 					movement = movement.add(-1, 0);
-				}
-				else {
+				} else
+				{
 					movement = movement.add(1, 0);
 				}
-				
-				if(!copy.movePiece(oldCoords, movement)) {
+
+				if (!copy.movePiece(oldCoords, movement))
+				{
 					return false;
 				}
 			}
-			
+
 			return true;
 		}
 
@@ -105,23 +111,27 @@ public class King extends Piece
 		return valid;
 
 	}
-	
-	private Piece findRook(Coordinates coords, Team team, boolean direction) {
+
+	private Piece findRook(Coordinates coords, Team team, boolean direction)
+	{
 		Piece piece = null;
-		while(piece == null) {
-			if(direction) {
+		while (piece == null)
+		{
+			if (direction)
+			{
 				coords = coords.add(-1, 0);
-			}
-			else {
+			} else
+			{
 				coords = coords.add(1, 0);
 			}
-			
+
 			Piece testedPiece = getBoard().getPiece(coords);
-			if(testedPiece.getPieceType() == PieceType.ROOK && testedPiece.getTeam() == team) {
+			if (testedPiece.getPieceType() == PieceType.ROOK && testedPiece.getTeam() == team)
+			{
 				piece = testedPiece;
 			}
 		}
-		
+
 		return piece;
 	}
 
@@ -153,25 +163,27 @@ public class King extends Piece
 			// Captures the designated piece
 			getBoard().capture(newCoords);
 		}
-		
+
 		// Doing castle
-		if(Math.abs(newCoords.getX() - getCoords().getX()) == 2 && Math.abs(newCoords.getY() - getCoords().getY()) == 0)
+		if (Math.abs(newCoords.getX() - getCoords().getX()) == 2
+				&& Math.abs(newCoords.getY() - getCoords().getY()) == 0)
 		{
 			boolean direction = newCoords.getX() - getCoords().getX() < 0;
 			Piece rook = findRook(getCoords(), getTeam(), direction);
-			
+
 			Coordinates rookCoords = newCoords;
-			if(direction) {
+			if (direction)
+			{
 				rookCoords = rookCoords.add(1, 0);
-			}
-			else {
+			} else
+			{
 				rookCoords = rookCoords.add(-1, 0);
 			}
-			
+
 			rook.setCoords(rookCoords);
 			getBoard().updatePieceLocation(rook);
 		}
-		
+
 		// Sets new coordinates for the piece
 		setCoords(newCoords);
 	}

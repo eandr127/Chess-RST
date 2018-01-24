@@ -173,7 +173,7 @@ public class Queen extends Piece
 			}
 		}
 
-		//Returns valid
+		// Returns valid
 		return valid;
 
 	}

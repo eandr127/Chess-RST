@@ -51,8 +51,7 @@ public class Pawn extends Piece
 			oppositeTeam = Team.WHITE;
 			currentTeam = Team.BLACK;
 			yModifier = -1;
-		} 
-		else
+		} else
 		// If it is the white team's turn
 		{
 			oppositeTeam = Team.BLACK;
@@ -80,38 +79,35 @@ public class Pawn extends Piece
 				// The move is valid
 				valid = true;
 			}
-		} 
+		}
 		// If the new destination has a piece that belongs to the opposite team and it is 1 tile ahead on x and y
 		else if (getBoard().getPiece(newCoords).getTeam().equals(oppositeTeam)
 				&& newCoords.equals(getCoords().add(1, yModifier)))
 		{
 			// The move is valid
 			valid = true;
-		} 
+		}
 		// If the new destination has a piece that belongs to the opposite team and it is 1 tile ahead on x and y
 		else if (getBoard().getPiece(newCoords).getTeam().equals(oppositeTeam)
 				&& newCoords.equals(getCoords().add(-1, yModifier)))
 		{
 			// The move is valid
 			valid = true;
-		} 
-		else if (getCoords().getY() == 4 && currentTeam.equals(Team.BLACK)
+		} else if (getCoords().getY() == 4 && currentTeam.equals(Team.BLACK)
 				|| getCoords().getY() == 5 && currentTeam.equals(Team.WHITE))
 		{
-			//Checks if en passant is applicable
+			// Checks if en passant is applicable
 		}
-			if (Math.abs(newCoords.getX() - getCoords().getX()) == 1
-					&& newCoords.getY() - getCoords().getY() == yModifier
-					&& getBoard().getPiece(newCoords.add(0, -yModifier)).getTeam().equals(oppositeTeam)
-					&& getBoard().getPiece(newCoords.add(0, -yModifier)).getPieceType().equals(PieceType.PAWN)
-					&& getBoard().getMovesForPiece(getBoard().getPiece(newCoords.add(0, -yModifier))).size() == 1
-					&& getBoard().getMoves().get(getBoard().getMoves().size() - 1).getPiece()
-							.equals(getBoard().getPiece(newCoords.add(0, -yModifier))))
-			{
-				//The move is valid
-				valid = true;
-			}
-		
+		if (Math.abs(newCoords.getX() - getCoords().getX()) == 1 && newCoords.getY() - getCoords().getY() == yModifier
+				&& getBoard().getPiece(newCoords.add(0, -yModifier)).getTeam().equals(oppositeTeam)
+				&& getBoard().getPiece(newCoords.add(0, -yModifier)).getPieceType().equals(PieceType.PAWN)
+				&& getBoard().getMovesForPiece(getBoard().getPiece(newCoords.add(0, -yModifier))).size() == 1
+				&& getBoard().getMoves().get(getBoard().getMoves().size() - 1).getPiece()
+						.equals(getBoard().getPiece(newCoords.add(0, -yModifier))))
+		{
+			// The move is valid
+			valid = true;
+		}
 
 		// Returns whether the move is valid
 		return valid;
@@ -149,8 +145,8 @@ public class Pawn extends Piece
 		{
 			// Captures the designated piece
 			getBoard().capture(newCoords);
-		} 
-		//Checks if en passant is applicable
+		}
+		// Checks if en passant is applicable
 		else if (Math.abs(newCoords.getX() - getCoords().getX()) == 1
 				&& newCoords.getY() - getCoords().getY() == yModifier
 				&& getBoard().getPiece(newCoords.add(0, -yModifier)).getTeam().equals(oppositeTeam)
@@ -159,18 +155,19 @@ public class Pawn extends Piece
 				&& getBoard().getMoves().get(getBoard().getMoves().size() - 1).getPiece()
 						.equals(getBoard().getPiece(newCoords.add(0, -yModifier))))
 		{
-			//Captures the piece 1 behind the new desination
+			// Captures the piece 1 behind the new desination
 			getBoard().capture(newCoords.add(0, -yModifier));
 		}
 
 		// Sets new coordinates for the piece
 		setCoords(newCoords);
-		
+
 		// Pawn promotion
-		if (newCoords.getY() == 1 && getTeam().equals(Team.BLACK)) {
+		if (newCoords.getY() == 1 && getTeam().equals(Team.BLACK))
+		{
 			this.getPlayer().pawnPromotion(this);
-		}
-		else if (newCoords.getY() == 8 && getTeam().equals(Team.WHITE)) {
+		} else if (newCoords.getY() == 8 && getTeam().equals(Team.WHITE))
+		{
 			this.getPlayer().pawnPromotion(this);
 		}
 	}

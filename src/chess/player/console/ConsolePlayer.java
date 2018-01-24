@@ -14,9 +14,9 @@ import chess.player.Player;
 public class ConsolePlayer extends Player
 {
 
-	//Create a console input reference
+	// Create a console input reference
 	private final ConsoleIO console;
-	
+
 	/**
 	 * Sets up a player for that allows for console input
 	 * 
@@ -38,33 +38,37 @@ public class ConsolePlayer extends Player
 	 * 
 	 * @return The current ConsoleIO for this player
 	 */
-	public ConsoleIO getConsole() {
+	public ConsoleIO getConsole()
+	{
 		return console;
 	}
-	
+
 	/**
 	 * Get coordinates from user input, checked against CoordinateRequirements.
+	 * 
 	 * @return The user's inputed coordinates.
 	 */
-	public Coordinates getCoordinates () {
+	public Coordinates getCoordinates()
+	{
 		CoordinateRequirements coordinateRequirements = new CoordinateRequirements();
 		String in = console.getStringFromUser(coordinateRequirements);
 		Coordinates coords = new Coordinates(in.charAt(0), Character.getNumericValue(in.charAt(1)));
 		return coords;
 	}
-	
+
 	/**
-	 * An implementation of Requirements that checks for a character length of two,
-	 * a letter in the first character space that is less than "i", and a number
-	 * in the second character space that is less than "9".
+	 * An implementation of Requirements that checks for a character length of two, a letter in the first character
+	 * space that is less than "i", and a number in the second character space that is less than "9".
 	 * 
 	 */
-	private static class CoordinateRequirements implements Requirements {
+	private static class CoordinateRequirements implements Requirements
+	{
 
 		@Override
 		public boolean valid(String in) throws IllegalArgumentException
 		{
-			return in.length() == 2 && Character.isAlphabetic(in.charAt(0)) && Character.isDigit(in.charAt(1)) && in.charAt(0) < 'i' && Character.getNumericValue(in.charAt(1)) < 9;
+			return in.length() == 2 && Character.isAlphabetic(in.charAt(0)) && Character.isDigit(in.charAt(1))
+					&& in.charAt(0) < 'i' && Character.getNumericValue(in.charAt(1)) < 9;
 		}
 
 		@Override
@@ -72,23 +76,27 @@ public class ConsolePlayer extends Player
 		{
 			return "Enter the coordinates of the piece: ";
 		}
-		
-		public String invalid() {
+
+		public String invalid()
+		{
 			return "Invalid input. Try again!\n";
 		}
-		
+
 	}
-	
+
 	/**
 	 * Requirements for getting the type to promot a pawn
 	 */
-	private static class PawnPromotionRequirements implements Requirements {
+	private static class PawnPromotionRequirements implements Requirements
+	{
 
 		@Override
 		public boolean valid(String in) throws IllegalArgumentException
 		{
-			return in.toLowerCase().equals("q") ||  in.toLowerCase().equals("k") || in.toLowerCase().equals("b") || in.toLowerCase().equals("r")
-				|| in.toLowerCase().equals("queen") || in.toLowerCase().equals("knight") || in.toLowerCase().equals("bishop") || in.toLowerCase().equals("rook");
+			return in.toLowerCase().equals("q") || in.toLowerCase().equals("k") || in.toLowerCase().equals("b")
+					|| in.toLowerCase().equals("r") || in.toLowerCase().equals("queen")
+					|| in.toLowerCase().equals("knight") || in.toLowerCase().equals("bishop")
+					|| in.toLowerCase().equals("rook");
 		}
 
 		@Override
@@ -96,107 +104,123 @@ public class ConsolePlayer extends Player
 		{
 			return "Your pawn is being promoted. What would you like to promote it to? You have these options:\nQueen\nKnight\nBishop\nRook\nChoose a promotion option (q/k/b/r): ";
 		}
-		
-		public String invalid() {
+
+		public String invalid()
+		{
 			return "Invalid input. Try again!\n";
 		}
-		
+
 	}
-	
+
 	/**
 	 * Requirements for choosing what to do at the start of a turn
 	 */
-	private class TurnInitializationRequirements implements Requirements {
+	private class TurnInitializationRequirements implements Requirements
+	{
 
 		@Override
 		public boolean valid(String in) throws IllegalArgumentException
 		{
-			if (getBoard().canOfferDraw(getTeam())) {
-				return in.toLowerCase().equals("h") ||  in.toLowerCase().equals("p") || in.toLowerCase().equals("r") || in.toLowerCase().equals("d")
-					|| in.toLowerCase().equals("help") || in.toLowerCase().equals("play") || in.toLowerCase().equals("resign") || in.toLowerCase().equals("draw");
-				
-			} else return in.toLowerCase().equals("h") ||  in.toLowerCase().equals("p") || in.toLowerCase().equals("r")
-					|| in.toLowerCase().equals("help") || in.toLowerCase().equals("play") || in.toLowerCase().equals("resign");
+			if (getBoard().canOfferDraw(getTeam()))
+			{
+				return in.toLowerCase().equals("h") || in.toLowerCase().equals("p") || in.toLowerCase().equals("r")
+						|| in.toLowerCase().equals("d") || in.toLowerCase().equals("help")
+						|| in.toLowerCase().equals("play") || in.toLowerCase().equals("resign")
+						|| in.toLowerCase().equals("draw");
+
+			} else
+				return in.toLowerCase().equals("h") || in.toLowerCase().equals("p") || in.toLowerCase().equals("r")
+						|| in.toLowerCase().equals("help") || in.toLowerCase().equals("play")
+						|| in.toLowerCase().equals("resign");
 		}
 
 		@Override
 		public String message()
 		{
 			console.getConsoleOutput().println("\nIt's " + getName() + "'s turn");
-			if (getBoard().canOfferDraw(getTeam())) {
+			if (getBoard().canOfferDraw(getTeam()))
+			{
 				return "What do you want to do?\nGet help\nPlay your turn\nResign\nOffer Draw to other player\n([H]elp/[P]lay/[R]esign/[D]raw):";
-			} else return "What do you want to do?\n([H]elp/[P]lay/[R]esign): ";
+			} else
+				return "What do you want to do?\n([H]elp/[P]lay/[R]esign): ";
 		}
-		
-		public String invalid() {
+
+		public String invalid()
+		{
 			return "Invalid input. Try again!\n";
 		}
-		
+
 	}
-	
+
 	@Override
-	public void pawnPromotion(Pawn pawn) {
-		final String promotionRequest = "Your Pawn at location " + String.valueOf((char)(pawn.getCoords().getY() + 64)) + pawn.getCoords().getX() + " can be promoted. Would you like to promote it? (y/n)"; 
-		
+	public void pawnPromotion(Pawn pawn)
+	{
+		final String promotionRequest = "Your Pawn at location " + String.valueOf((char) (pawn.getCoords().getY() + 64))
+				+ pawn.getCoords().getX() + " can be promoted. Would you like to promote it? (y/n)";
+
 		System.out.println(promotionRequest);
-		if (console.getUserBoolean()) {
+		if (console.getUserBoolean())
+		{
 			String in = console.getStringFromUser(new PawnPromotionRequirements());
-			switch (in.toLowerCase()) {
-				case "q":
-				case "queen":
-					getBoard().replacePieceType(pawn.getCoords(), PieceType.QUEEN);
-					break;
-				case "k":
-				case "knight":
-					getBoard().replacePieceType(pawn.getCoords(), PieceType.KNIGHT);
-					break;
-				case "b":
-				case "bishop":
-					getBoard().replacePieceType(pawn.getCoords(), PieceType.BISHOP);
-					break;
-				case "r":
-				case "rook":
-					getBoard().replacePieceType(pawn.getCoords(), PieceType.ROOK);
-					break;
-				default:
+			switch (in.toLowerCase())
+			{
+			case "q":
+			case "queen":
+				getBoard().replacePieceType(pawn.getCoords(), PieceType.QUEEN);
+				break;
+			case "k":
+			case "knight":
+				getBoard().replacePieceType(pawn.getCoords(), PieceType.KNIGHT);
+				break;
+			case "b":
+			case "bishop":
+				getBoard().replacePieceType(pawn.getCoords(), PieceType.BISHOP);
+				break;
+			case "r":
+			case "rook":
+				getBoard().replacePieceType(pawn.getCoords(), PieceType.ROOK);
+				break;
+			default:
 			}
 		}
 	}
-	
+
 	@Override
 	public String turnInit()
 	{
 		String choice = null;
-		
+
 		String in = console.getStringFromUser(new TurnInitializationRequirements());
-		switch (in.toLowerCase()) {
-			case "h":
-			case "help":
-				choice = "help";
-				break;
-			case "p":
-			case "play":
-				choice = "play";
-				break;
-			case "r":
-			case "resign":
-				choice = "resign";
-				break;
-			case "d":
-			case "draw":
-				offerDraw();
-				break;
+		switch (in.toLowerCase())
+		{
+		case "h":
+		case "help":
+			choice = "help";
+			break;
+		case "p":
+		case "play":
+			choice = "play";
+			break;
+		case "r":
+		case "resign":
+			choice = "resign";
+			break;
+		case "d":
+		case "draw":
+			offerDraw();
+			break;
 		}
-		
+
 		return choice;
 	}
-	
+
 	@Override
 	public Coordinates selectPiece()
 	{
 		Coordinates coords = new Coordinates(0, 0);
 		getBoard().showBoard(getTeam());
-		do {
+		do
+		{
 			console.getConsoleOutput().println("Select the piece to move");
 			coords = (getCoordinates());
 		} while (getBoard().getPiece(coords).getTeam() != this.getTeam());
@@ -226,26 +250,13 @@ public class ConsolePlayer extends Player
 	@Override
 	public void checkDrawOffer()
 	{
-		if (getOpponent().offerDraw()) {
+		if (getOpponent().offerDraw())
+		{
 			System.out.println("Your opponent wants to draw. Do you accept?");
-			if (console.getUserBoolean()) {
+			if (console.getUserBoolean())
+			{
 				wantsToDraw = true;
 			}
 		}
 	}
-
-	@Override
-	public boolean draw()
-	{
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean resign()
-	{
-		// TODO Auto-generated method stub
-		return false;
-	}
-
 }
