@@ -6,10 +6,23 @@ import chess.piece.Piece;
 import chess.piece.PieceType;
 import chess.piece.Team;
 
+/*
+ * King.java
+ * Movement and capturing for the king
+ * Dmitry Tsarapkine + Ryan Larkin (castling)
+ * ICS3U
+ * January 24th, 2018
+ */
+
 public class King extends Piece
 {
 	private Team oppositeTeam;
 
+	/**
+	 * Creates a new instance of a king
+	 * 
+	 * @param pieceType and team
+	 */
 	public King(PieceType pieceType, Team team)
 	{
 		super(pieceType, team);
@@ -24,6 +37,7 @@ public class King extends Piece
 	@Override
 	public boolean canMove(Coordinates newCoords)
 	{
+		// Creates variable to store whether it is valid, by default it is false
 		boolean valid = false;
 
 		// If the piece is on the black team
@@ -42,7 +56,7 @@ public class King extends Piece
 		// Gets the difference between the x and the y of the new and the current coords
 		int xDifference = Math.abs(newCoords.getX() - getCoords().getX());
 		int yDifference = Math.abs(newCoords.getY() - getCoords().getY());
-		
+
 		// Checks if the movement location is within a 1 tile radius around the current location of the king
 		if (xDifference == 1 && yDifference == 1 || xDifference == 1 && yDifference == 0
 				|| xDifference == 0 && yDifference == 1)
@@ -87,6 +101,7 @@ public class King extends Piece
 
 		// Returns valid
 		return valid;
+
 	}
 	
 	private Piece findRook(Coordinates coords, Team team, boolean direction) {
@@ -109,7 +124,8 @@ public class King extends Piece
 	}
 
 	/**
-	 * Does the move
+	 * Does the move and capturing if applicable
+	 * 
 	 * @param the new coordinates
 	 * @return none
 	 */
@@ -136,7 +152,6 @@ public class King extends Piece
 			getBoard().capture(newCoords);
 		}
 		
-
 		// Doing castle
 		if(Math.abs(newCoords.getX() - getCoords().getX()) == 2 && Math.abs(newCoords.getY() - getCoords().getY()) == 0)
 		{
@@ -155,7 +170,7 @@ public class King extends Piece
 			getBoard().updatePieceLocation(rook);
 		}
 		
-		
+		// Sets new coordinates for the piece
 		setCoords(newCoords);
 	}
 }

@@ -16,6 +16,11 @@ import chess.player.console.ConsolePlayer;
 public class Chess {
 
 	/**
+	 * Chess help. Can be normal or console implementation.
+	 */
+	static Help help;
+	
+	/**
 	 * The entrypoint for the program
 	 * @param args The arguments for the program (unused)
 	 */
@@ -25,6 +30,8 @@ public class Chess {
 		// Create board object that can be drawn anywhere
 		Backend backend;
 		
+		// Show a little welcome thing
+		console.getConsoleOutput().println("    Welcome to Chess\n~~~~~~~~~~~~~~~~~~~~~~~~\n");
 		// Ask the user whether they would like to use the console
 		console.getConsoleOutput().print("Would you like to use the console (y/y): ");
 		
@@ -39,7 +46,7 @@ public class Chess {
 		}
 		
 		// Enter the user into the help prompt
-		backend.getHelp().helpPrompt();
+		
 		
 		//Is there a checkmate taking place?
 		boolean checkmate = false;
@@ -107,6 +114,9 @@ public class Chess {
 			pieces = ConsolePieces.ASCII;
 		}
 		
+		//Create console help
+		help = new ConsoleHelp(pieces, console);
+		
 		// Initialize board based on what user wants
 		if(useGrid) {
 			ConsoleGrid grid;
@@ -125,8 +135,6 @@ public class Chess {
 		}
 		
 		// Send board back to calling statement
-		return new Backend(board, new ConsolePlayer(Team.WHITE, board, console), new ConsolePlayer(Team.BLACK, board, console), new ConsoleHelp(pieces, console));
+		return new Backend(board, new ConsolePlayer(Team.WHITE, board, console, help), new ConsolePlayer(Team.BLACK, board, console, help));
 	}
-	
-
 }

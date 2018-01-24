@@ -5,18 +5,38 @@ import chess.piece.Piece;
 import chess.piece.PieceType;
 import chess.piece.Team;
 
+/*
+ * Rook.java
+ * Movement and capturing for the rook
+ * Dmitry Tsarapkine
+ * ICS3U
+ * January 24th, 2018
+ */
+
 public class Rook extends Piece
 {
 	private Team oppositeTeam, sameTeam;
 
+	/**
+	 * Creates a new instance of a rook
+	 * 
+	 * @param pieceType and team
+	 */
 	public Rook(PieceType pieceType, Team team)
 	{
 		super(pieceType, team);
 	}
 
+	/**
+	 * Checks the given location for the rook is a valid move
+	 * 
+	 * @param the new coordinates
+	 * @return whether the location is valid
+	 */
 	@Override
 	public boolean canMove(Coordinates newCoords)
 	{
+		// Creates variable to store whether it is valid, by default it is false
 		boolean valid = false;
 		// Creates integers to store whether x and y is smaller or larger and to store x and y difference
 		int yRelative, xRelative, xDifference, yDifference;
@@ -81,42 +101,48 @@ public class Rook extends Piece
 			// Calculates the difference between the new coordinate and the old coordinate
 			yDifference = newCoords.getY() - getCoords().getY();
 
-			//If the new y coordinate is less than the current y coordinate
+			// If the new y coordinate is less than the current y coordinate
 			if (newCoords.getY() < getCoords().getY())
 			{
-				//New y value has a negative relation to the current y value
+				// New y value has a negative relation to the current y value
 				yRelative = -1;
 			} else if (newCoords.getY() > getCoords().getY())
 			{
-				//New y value has a positive relation to the current y value
+				// New y value has a positive relation to the current y value
 				yRelative = 1;
 			} else
 			{
-				//Return false
+				// Return false
 				return false;
 			}
 
-			//Allows to cycle tiles until reaches the final location
+			// Allows to cycle tiles until reaches the final location
 			for (int i = yRelative; i != yDifference + yRelative; i += yRelative)
 			{
-				//If the final location has not been reached and there is not an empty tile spot
+				// If the final location has not been reached and there is not an empty tile spot
 				if (!getBoard().getPiece(getCoords().add(0, i)).getTeam().equals(Team.NONE) && i != yDifference)
 				{
-					//Return false 
+					// Return false
 					return false;
-					//If the final location has been reached and there is a piece that is not on the same team
+					// If the final location has been reached and there is a piece that is not on the same team
 				} else if (i == yDifference && !getBoard().getPiece(newCoords).getTeam().equals(sameTeam))
 				{
-					//Return true
+					// Return true
 					return true;
 				}
 
 			}
 		}
-		//Returns valid
+		// Returns valid
 		return valid;
 	}
 
+	/**
+	 * Does the move and capturing if applicable
+	 * 
+	 * @param the new coordinates
+	 * @return none
+	 */
 	@Override
 	protected void doMove(Coordinates newCoords)
 	{
@@ -139,7 +165,8 @@ public class Rook extends Piece
 			// Captures the designated piece
 			getBoard().capture(newCoords);
 		}
-		
+
+		// Sets new coordinates for the piece
 		setCoords(newCoords);
 	}
 }

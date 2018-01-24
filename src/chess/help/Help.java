@@ -12,12 +12,14 @@ import chess.piece.PieceType;
  * @author Caelan
  *
  */
-public abstract class Help
+public class Help
 {
 	/**
 	 * Handles which doc to go to for the UI implementation.
 	 */
-	public abstract void helpPrompt();
+	public void helpPrompt()
+	{
+	}
 
 	/**
 	 * Holds piece type and documentation for each piece
@@ -57,16 +59,14 @@ public abstract class Help
 	/**
 	 * The rules of chess
 	 */
-	public static final String GAME_RULES = "Chess is a two-player board game played on a chessboard, a checkered game board with 64 squares \n"
-			+ "arranged in an eight-by-eight grid.\n" + "\n"
-			+ "Each player begins the game with 16 pieces: one king, one queen, \n"
-			+ "two rooks, two knights, two bishops, and eight pawns. Each of the \n"
-			+ "six piece types moves differently. The most powerful piece is the\n"
-			+ "queen and the least powerful piece is the pawn. The objective is \n"
-			+ "to 'checkmate' the opponent's king by placing it under an \n"
-			+ "inescapable threat of capture. To this end, a player's pieces \n"
-			+ "are used to attack and capture the opponent's pieces, while \n"
-			+ "supporting their own. In addition to checkmate, the game can \n"
-			+ "be won by voluntary resignation by the opponent, which typically \n"
-			+ "occurs when too much material is lost, or if checkmate appears \n" + "unavoidable.\n";
+	public static final String GAME_RULES = "Chess is a two-player-game that takes place on an 8 by 8\n"
+			+ "tile board. Each player starts off with a set of pieces of varying power and movement types, as well as a king.\n"
+			+ "In order to win the game of chess, the player must 'checkmate' the opponent's king by putting it in a place\n"
+			+ "of capture that is unavoidable. In addition, players can call to draw or forfeit to end the game.";
+	
+	/**
+	 * The rules of chess
+	 */
+	public static final String CASTLING = "Castling is a well-known Chess tactic. It is a move performed by the king\n"
+			+ "which involves moving it alongside the Rook ";
 }

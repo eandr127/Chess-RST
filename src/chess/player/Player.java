@@ -2,6 +2,7 @@ package chess.player;
 
 import chess.board.Board;
 import chess.board.Coordinates;
+import chess.help.Help;
 import chess.piece.Piece;
 import chess.piece.PieceType;
 import chess.piece.Team;
@@ -22,13 +23,19 @@ public abstract class Player
 	private final Board board;
 	
 	/**
+	 * The help that can be requested by the player
+	 */
+	private final Help help;
+	
+	/**
 	 * Creates an instance of Player with a set team and board to use.
 	 * @param team The team of this player.
 	 * @param board The board this player will use.
 	 */
-	public Player(Team team, Board board) {
+	public Player(Team team, Board board, Help help) {
 		this.team = team;
 		this.board = board;
+		this.help = help;
 	}
 	
 	/**
@@ -58,25 +65,49 @@ public abstract class Player
 		
 		// Take turn
 		do {
-			// Gets the location of the piece that the player wants to move
-			Coordinates start = selectPiece();
-			
-			// Gets the location that the player want to move the piece to
-			Coordinates end = selectDestination(board.getPiece(start));
-			
-			// Only valid pieces should be selected in the first place, but just in case
-			done = board.movePiece(start, end);
-			
-			// Tell the user that their move was wrong
-			if(!done) {
-				invalidMove();
+			//Asks the user if they want to view help, move a piece.
+			switch (turnInit()) {
+			case "help":
+				done = false;
+				help.helpPrompt();
+				break;
+			case "play":
+				// Gets the location of the piece that the player wants to move
+				Coordinates start = selectPiece();
+				
+				// Gets the location that the player want to move the piece to
+				Coordinates end = selectDestination(board.getPiece(start));
+				
+				// Only valid pieces should be selected in the first place, but just in case
+				done = board.movePiece(start, end);
+				
+				// Tell the user that their move was wrong
+				if(!done) {
+					invalidMove();
+				}
+				break;
+			case "resign":
+				resign();
+				break;
 			}
 		}
 		// Continue to take turn until done
 		while(!done);
 	}
 	
+	/**
+	 * Asks the user what they want to do on the inital part of their turn.
+	 */
+	public abstract String turnInit();
+	
+	/**
+	 * Returns a piece type for pawn promotion. Checks user input against PawnPromotionRequirements.
+	 */
 	public abstract PieceType pawnPromotion();
+	
+	/**
+	 * Asks user to select a piece on the board that is of the same team as their own.
+	 */
 	public abstract Coordinates selectPiece();
 	
 	/**
