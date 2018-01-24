@@ -15,7 +15,7 @@ public class Knight extends Piece
 	}
 
 	@Override
-	protected boolean canMove(Coordinates newCoords)
+	public boolean canMove(Coordinates newCoords)
 	{
 		// By default the move is invalid
 		boolean valid = false;

@@ -15,7 +15,7 @@ public class Queen extends Piece
 	}
 
 	@Override
-	protected boolean canMove(Coordinates newCoords)
+	public boolean canMove(Coordinates newCoords)
 	{
 		//Variable to store whether the move is valid, by default, it is invalid
 		boolean valid = false;

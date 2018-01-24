@@ -11,7 +11,7 @@ import chess.piece.console.ConsolePieces;
 import chess.player.console.ConsolePlayer;
 
 /**
- * The class that holds the client code fo chess
+ * The class that holds the client code for chess
  */
 public class Chess {
 
@@ -41,12 +41,29 @@ public class Chess {
 		// Enter the user into the help prompt
 		backend.getHelp().helpPrompt();
 		
-		// Draw the board to target
-		backend.getBoard().showBoard();
-		
-		for(int i = 0; i < 12; i++) {
+		//Is there a checkmate taking place?
+		boolean checkmate = false;
+		//While there is no checkmate
+		while(!checkmate) {
+			//If there is a checkmate against Player 1
+			if(backend.getBoard().isCheckmate(backend.getPlayer1().getTeam())) {
+				//Player 2 wins
+				backend.getBoard().showBoard();
+				System.out.println("Player 2 wins");
+				return;
+			}
+			//Take player 1's turn
 			backend.getPlayer1().takeTurn();
-			backend.getBoard().showBoard();
+			
+			//If there is a checkmate against Player 2
+			if(backend.getBoard().isCheckmate(backend.getPlayer1().getTeam())) {
+				//Player 1 wins
+				System.out.println("Player 1 wins");
+				backend.getBoard().showBoard();
+				return;
+			}
+			//Take player 2's turn
+			backend.getPlayer2().takeTurn();
 		}
 	}
 	

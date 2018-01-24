@@ -1,9 +1,12 @@
 package chess.board.console.grid;
 
+import java.util.List;
+
 import chess.ConsoleIO;
 import chess.board.Board;
 import chess.board.Coordinates;
 import chess.board.console.ConsoleBoard;
+import chess.piece.Move;
 import chess.piece.Piece;
 import chess.piece.console.ConsolePieces;
 
@@ -26,6 +29,18 @@ public class ConsoleGridBoard extends ConsoleBoard {
 	 */
 	public ConsoleGridBoard(ConsolePieces pieces, ConsoleGrid grid, ConsoleIO console) {
 		super(pieces, console);
+		this.grid = grid;
+	}
+	
+	/**
+	 * Creates a ConsoleGridBoard using a specified console
+	 * 
+	 * @param pieces The look of the pieces
+	 * @param grid The look of the grid
+	 * @param console Where to print the board
+	 */
+	public ConsoleGridBoard(Piece[][] arrangement, ConsolePieces pieces, ConsoleGrid grid, ConsoleIO console) {
+		super(arrangement, pieces, console);
 		this.grid = grid;
 	}
 	
@@ -83,6 +98,7 @@ public class ConsoleGridBoard extends ConsoleBoard {
 			}
 		}
 		
+		// Move the cursor to the next line
 		console.getConsoleOutput().println();
 	}
 	
@@ -147,5 +163,23 @@ public class ConsoleGridBoard extends ConsoleBoard {
 		
 		// Move cursor to next line
 		console.getConsoleOutput().println();
+	}
+
+	@Override
+	protected Board make(Piece[][] arrangement, List<Move> moves)
+	{
+		// Create a new board with the same arrangement and other parameters
+		Board board = new ConsoleGridBoard(arrangement, renderer.getPieces(), grid, console);
+		
+		// Add each move to the board
+		for(Move move : moves) {
+			board.addMove(move);
+		}
+		
+		// Avoid don't check for checkmate to avoid StackOverflowException
+		board.setCheckSafe(false);
+		
+		// Return the new board
+		return board;
 	}
 }

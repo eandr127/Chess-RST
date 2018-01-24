@@ -15,7 +15,7 @@ public class Pawn extends Piece
 	}
 
 	@Override
-	protected boolean canMove(Coordinates newCoords)
+	public boolean canMove(Coordinates newCoords)
 	{
 		boolean valid = false, firstMove = getBoard().getMovesForPiece(this).size() == 0;
 

@@ -20,7 +20,7 @@ public class King extends Piece
 	 * @return whether the location is valid
 	 */
 	@Override
-	protected boolean canMove(Coordinates newCoords)
+	public boolean canMove(Coordinates newCoords)
 	{
 		boolean valid = false;
 

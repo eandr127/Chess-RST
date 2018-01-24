@@ -2,12 +2,15 @@ package chess.board;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import chess.piece.Move;
 import chess.piece.Piece;
 import chess.piece.PieceType;
 import chess.piece.Team;
+import chess.piece.pieces.King;
 
 /**
  * Represents a board that can display somewhere
@@ -42,6 +45,11 @@ public abstract class Board {
 	 * The moves that take place on this board
 	 */
 	private final List<Move> moves;
+	
+	/**
+	 * Determines whether to ensure that moves will not put king in check
+	 */
+	private boolean checkSafe = true;
 	
 	/**
 	 * Creates a board with the starting arrangement
@@ -101,15 +109,21 @@ public abstract class Board {
 	 * @param team The team to highlight pieces for
 	 */
 	public void showBoard(Team team) {
+		// Create list of coordinates to highlight
 		List<Coordinates> coords = new ArrayList<>();
+		
+		// Loop over every piece on board
 		for(Piece[] row : arrangement) {
 			for(Piece piece : row) {
+				// Check if the piece has any possible moves
 				if(piece != PieceType.EMPTY_PIECE  && piece.getTeam() == team && piece.getValidMoves().length != 0) {
+					// Add the coordinates to the list to highlight
 					coords.add(convertToArray(piece.getCoords()));
 				}
 			}
 		}
 		
+		// Display the board with the selected coordinates highlighted
 		displayBoard(coords.toArray(new Coordinates[0]));
 	}
 	
@@ -120,12 +134,15 @@ public abstract class Board {
 	 * @param piece The piece to highlight locations for
 	 */
 	public void showBoard(Piece piece) {
+		// Get all possible moves for piece
 		Coordinates[] coords = piece.getValidMoves();
 		
+		// Convert to array coordinates
 		for(int i = 0; i < coords.length; i++) {
 			coords[i] = convertToArray(coords[i]);
 		}
 		
+		// Display the board witht the selected coordinates highlighted
 		displayBoard(coords);
 	}
 	
@@ -206,17 +223,11 @@ public abstract class Board {
 		
 		// Try to move the piece
 		if(move.execute()) {
-			// Convert piece coordinates to array coordinates
-			// TODO Auto-generated method stubstart = convertToArray(start)
-			start = convertToArray(start);
-			end = convertToArray(end);
-			
-			// Movement was successful so update the board
-			getArrangement()[start.getX()][start.getY()] = PieceType.EMPTY_PIECE;
-			getArrangement()[end.getX()][end.getY()] = piece;
+			// Update the location of the piece on the board
+			updatePieceLocation(piece);
 			
 			// Add piece to move history
-			moves.add(move);
+			addMove(move);
 			
 			// Return successful
 			return true;
@@ -226,6 +237,21 @@ public abstract class Board {
 			// Return failure
 			return false;
 		}
+	}
+	
+	/**
+	 * Updates the location of the piece
+	 * 
+	 * @param piece The piece to update the location for
+	 */
+	public void updatePieceLocation(Piece piece) {
+		// Convert piece coordinates to array coordinates
+		Coordinates start = convertToArray(getLocation(piece));
+		Coordinates end = convertToArray(piece.getCoords());
+					
+		// Movement was successful so update the board
+		getArrangement()[start.getX()][start.getY()] = PieceType.EMPTY_PIECE;
+		getArrangement()[end.getX()][end.getY()] = piece;
 	}
 	
 	/**
@@ -239,6 +265,145 @@ public abstract class Board {
 		
 		// Make captured piece empty
 		getArrangement()[coords.getX()][coords.getY()] = PieceType.EMPTY_PIECE;
+	}
+	
+	/**
+	 * Gets the king for a certain team
+	 * 
+	 * @param team The team to find the king for
+	 * @return The king for the team
+	 */
+	public King findKingForTeam(Team team) {
+		// Loop over each piece
+		for(Piece[] row : arrangement) {
+			for(Piece piece : row) {
+				// Check if the piece is a king and on the same team
+				if(piece instanceof King && piece.getTeam() == team) {
+					// Return the piece as a king
+					return (King) piece;
+				}
+			}
+		}
+		
+		// No king was found
+		return null;
+	}
+	
+	/**
+	 * Checks if the king is in check in the current board configuration
+	 * 
+	 * @param team The team of the king
+	 * @return Whether the king is in check
+	 */
+	public boolean kingInCheck(Team team) {
+		return kingInCheck(team, this);
+	}
+	
+	/**
+	 * Checks if the king is in check for a board configuration
+	 * 
+	 * @param team The team of the king
+	 * @param board The board configuration
+	 * @return Whether the king is in check
+	 */
+	public boolean kingInCheck(Team team, Board board) {
+		// Get the king to determine if checked
+		King king = board.findKingForTeam(team);
+		
+		// Loop over each piece on board
+		for(Piece[] row : board.arrangement) {
+			for(Piece piece : row) {
+				// Check if the piece is on the opposite team and can capture the king 
+				if(piece.getTeam() != team && piece.canMove(king.getCoords())) {
+					// At least one piece can capture the king
+					return true;
+				}
+			}
+		}
+		
+		// No pieces can capture king
+		return false;
+	}
+	
+	/**
+	 * Checks if a move will put the king in check
+	 * 
+	 * @param move The move to check
+	 * @return Whether the move will put the king in check
+	 */
+	public boolean putsKingInCheck(Move move) {
+		return kingInCheck(move.getPiece().getTeam(), showMove(move));
+	}
+	
+	/**
+	 * Checks if a move will save the king from check
+	 * 
+	 * @param move The move to check
+	 * @return Whether the move will save the king from check
+	 */
+	public boolean savesKingFromCheck(Move move) {
+		// Ensure the king is actually in check
+		if(kingInCheck(move.getPiece().getTeam())) {
+			// See if the the king is in check when the move is applied
+			return !kingInCheck(move.getPiece().getTeam(), showMove(move));
+		}
+		else {
+			// King doesn't have to worry about check
+			return true;
+		}
+	}
+	
+	/**
+	 * Determines if a king is in checkmate
+	 * 
+	 * @param team The team of the king
+	 * @return Whether the king is in checkmate
+	 */
+	public boolean isCheckmate(Team team) {
+		// Checks whether the king is even in check
+		if(kingInCheck(team)) {
+			// Loop over each piece
+			for(Piece[] pieces : arrangement) {
+				for(Piece piece : pieces) {
+					// Get only pieces on the same team
+					if(piece.getTeam() == team) {
+						// See if the pieces have any valid moves
+						for(Coordinates coords : piece.getValidMoves()) {
+							// Creates the move from the coordinates of the destination
+							Move move = new Move(piece, coords.getX() - piece.getCoords().getX(), coords.getX() - piece.getCoords().getX());
+							
+							// See if the king is saved by the move
+							if(savesKingFromCheck(move)) {
+								// Checkmate averted
+								return false;
+							}
+						}
+					}
+				}
+			}
+			return true;
+		}
+		else {
+			// King not in check so not in checkmate
+			return false;
+		}
+	}
+	
+	/**
+	 * Creates a board that shows a move applied to it
+	 * 
+	 * @param move The move to apply
+	 * @return A copy of the board with a move applied
+	 */
+	private Board showMove(Move move) {
+		// Make a copy of the board
+		Board copy = copy();
+		
+		// Move the piece on the copy
+		copy.movePiece(move.getPiece().getCoords(), move.getPiece().getCoords().add(move.getDeltaX(), move.getDeltaY()));
+		
+		// Return the board with the move applied
+		return copy;
 	}
 	
 	/**
@@ -302,4 +467,93 @@ public abstract class Board {
 		return pieceMoves;
 	}
 
+	/**
+	 * Makes a board with a pre-existing set of moves
+	 * 
+	 * @param arrangement The arrangement of the board
+	 * @param moves The already executed moves
+	 * @return The new board
+	 */
+	protected abstract Board make(Piece[][] arrangement, List<Move> moves);
+	
+	/**
+	 * Makes a copy of the board
+	 * 
+	 * @return The copy of the board
+	 */
+	public Board copy() {
+		// Map old pieces to the new pieces
+		Map<Piece, Piece> pieceMapping = new HashMap<>();
+		
+		// Loop over each piece
+		for(Piece[] row : arrangement) {
+			for(Piece piece : row) {
+				// Only add piece if it doesn't already have a mapping
+				if(!pieceMapping.containsKey(piece)) {
+					// Create piece for correct team
+					switch(piece.getTeam()) {
+						case BLACK:
+							pieceMapping.put(piece, piece.getPieceType().black());
+							break;
+						case WHITE:
+							pieceMapping.put(piece, piece.getPieceType().white());
+							break;
+						default:
+							pieceMapping.put(piece, PieceType.EMPTY_PIECE);
+					}
+					
+				}
+			}
+		}
+		
+		// Create a copy of the arrangement
+		Piece[][] newArrangement = new Piece[BOARD_SIZE][BOARD_SIZE];
+		
+		// Loop through each index in the 2D array
+		for(int i = 0; i < BOARD_SIZE; i++) {
+			for(int j = 0; j < BOARD_SIZE; j++) {
+				// Assign the correctly mapped piece the same array position
+				newArrangement[i][j] = pieceMapping.get(arrangement[i][j]);
+			}
+		}
+		
+		// Create a list of the same size
+		List<Move> moves = new ArrayList<Move>(this.moves.size());
+		
+		// Add each move to the new list of moves
+		for(Move move : this.moves) {
+			// Add the move with the correctly mapped piece
+			moves.add(new Move(pieceMapping.get(move.getPiece()), move.getDeltaX(), move.getDeltaY()));
+		}
+		
+		// Make the new board with the arrangement and move history
+		return make(newArrangement, moves);
+	}
+	
+	/**
+	 * Adds a move to the list of moves
+	 * 
+	 * @param move The move to add
+	 */
+	public void addMove(Move move) {
+		moves.add(move);
+	}
+	
+	/**
+	 * Set whether to check for moves that would put the king in checkmate
+	 * 
+	 * @param checkSafe Whether to move check-safe or not
+	 */
+	public void setCheckSafe(boolean checkSafe) {
+		this.checkSafe = checkSafe;
+	}
+	
+	/**
+	 * Whether to ensure moves do not put king in check
+	 * 
+	 * @return Whether to move check-safe or not
+	 */
+	public boolean isCheckSafe() {
+		return checkSafe;
+	}
 }

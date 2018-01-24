@@ -15,7 +15,7 @@ public class Bishop extends Piece
 	}
 
 	@Override
-	protected boolean canMove(Coordinates newCoords)
+	public boolean canMove(Coordinates newCoords)
 	{
 		//By default the move invalid
 		boolean valid = false;
