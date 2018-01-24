@@ -1,7 +1,7 @@
 package chess;
 
 import chess.board.Board;
-import chess.help.Help;
+import chess.player.Player;
 
 /**
  * Holds information required for a backend implementation
@@ -12,11 +12,11 @@ public class Backend
 	 * The board to display with
 	 */
 	private final Board board;
-	
+
 	/**
-	 * The help prompt to give information to the player
+	 * The players in the game
 	 */
-	private final Help help;
+	private final Player player1, player2;
 
 	/**
 	 * Creates a backend
@@ -24,11 +24,13 @@ public class Backend
 	 * @param board The board to display with
 	 * @param help The help prompt to give information to the player
 	 */
-	public Backend(Board board, Help help) {
+	public Backend(Board board, Player player1, Player player2)
+	{
 		this.board = board;
-		this.help = help;
+		this.player1 = player1;
+		this.player2 = player2;
 	}
-	
+
 	/**
 	 * Gets the board to display with
 	 * 
@@ -40,12 +42,22 @@ public class Backend
 	}
 
 	/**
-	 * Gets the help prompt to give information to the player
+	 * Gets the first player
 	 * 
-	 * @return The help prompt
+	 * @return The first player
 	 */
-	public Help getHelp()
+	public Player getPlayer1()
 	{
-		return help;
+		return player1;
+	}
+
+	/**
+	 * Gets the second player
+	 * 
+	 * @return The second player
+	 */
+	public Player getPlayer2()
+	{
+		return player2;
 	}
 }

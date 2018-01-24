@@ -9,9 +9,6 @@ import chess.piece.console.ConsolePieces;
 /**
  * Class to be used specifically for the console. Contains functions that allow console users to select docs / info on
  * different piece types and moves.
- * 
- * @author Caelan
- *
  */
 public class ConsoleHelp extends Help
 {
@@ -20,12 +17,12 @@ public class ConsoleHelp extends Help
 	 * The command to type when the user wants help with help
 	 */
 	private static final String HELP_COMMAND = "HELP";
-	
+
 	/**
-	 * The command to type whe the user wants to exit
+	 * The command to type when the user wants to exit
 	 */
 	private static final String EXIT_COMMAND = "EXIT";
-	
+
 	/**
 	 * The different looks of console pieces
 	 */
@@ -59,13 +56,13 @@ public class ConsoleHelp extends Help
 
 		// Display how to get info for each piece
 		displayHelpMessage(helpTypes);
-		
+
 		// Don't stop until user types exit
 		while (true)
 		{
 			// Display prompt for user to enter input
 			displayUserPrompt();
-			
+
 			try
 			{
 				// Get the next line from the input
@@ -78,33 +75,34 @@ public class ConsoleHelp extends Help
 					break;
 				}
 				// User wants to see the help options again
-				else if(choice.equalsIgnoreCase(HELP_COMMAND))
+				else if (choice.equalsIgnoreCase(HELP_COMMAND))
 				{
 					// Display messages again
 					displayHelpMessage(helpTypes);
-				}
-				else
+				} else
 				{
 					// Make the number the user entered 0 indexed
 					int num = Integer.parseInt(choice) - 1;
-					
+
 					// Number is bigger than the last option
-					if(num > helpTypes.length) {
+					if (num > helpTypes.length)
+					{
 						// Throw exception to go to invalid input line
 						throw new Exception();
 					}
 					// User wants help with a piece type
-					else if(num < helpTypes.length) {
+					else if (num < helpTypes.length)
+					{
 						// Find the piece type they want
 						PieceType pieceType = helpTypes[num];
-						
+
 						// Output the helpmap of the specified piece type
 						console.getConsoleOutput().println(Help.HELP_MAP.get(pieceType));
-						
+
 						// Wait for user to press enter
 						console.waitForEnter();
-					}
-					else {
+					} else
+					{
 						// Call method for game rules
 						console.getConsoleOutput().println(Help.GAME_RULES);
 					}
@@ -122,26 +120,31 @@ public class ConsoleHelp extends Help
 	 * 
 	 * @param helpTypes The different pieces that have help options
 	 */
-	private void displayHelpMessage(PieceType[] helpTypes) {
+	private void displayHelpMessage(PieceType[] helpTypes)
+	{
+		console.getConsoleOutput().println();
+
 		// Loop through each piece type that has help
-		for(int i = 0; i < helpTypes.length; i++) {
+		for (int i = 0; i < helpTypes.length; i++)
+		{
 			// Get the piece type at the index of the loop
 			PieceType pieceType = helpTypes[i];
-			
+
 			// Print the help number (1 indexed), and the white/black pieces for the piece type
-			console.getConsoleOutput().println((i + 1) + ": " + pieceType + " (White: " + pieces.get(pieceType, Team.WHITE)
-				+ " / Black: " + pieces.get(pieceType, Team.BLACK) + ")");
+			console.getConsoleOutput().println((i + 1) + ": " + pieceType + " (White: "
+					+ pieces.get(pieceType, Team.WHITE) + " / Black: " + pieces.get(pieceType, Team.BLACK) + ")");
 		}
-		
+
 		// Print separator line and then general rules
 		console.getConsoleOutput().println("=-=-=-=-=-=-=-=-=-=");
 		console.getConsoleOutput().println((helpTypes.length + 1) + ": General rules");
 	}
-	
+
 	/**
 	 * Displays the prompt for user input
 	 */
-	private void displayUserPrompt() {
+	private void displayUserPrompt()
+	{
 		console.getConsoleOutput().println("Type " + HELP_COMMAND + " for help on choosing an option.");
 		console.getConsoleOutput().println("Type " + EXIT_COMMAND + " to exit help.");
 	}

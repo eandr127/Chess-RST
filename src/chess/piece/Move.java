@@ -9,12 +9,12 @@ public class Move
 	 * The piece making the move
 	 */
 	private final Piece piece;
-	
+
 	/**
 	 * The change in columns and rows
 	 */
 	private final int deltaX, deltaY;
-	
+
 	/**
 	 * Creates a move
 	 * 
@@ -22,12 +22,13 @@ public class Move
 	 * @param deltaX The change in rows
 	 * @param deltaY The change in columns
 	 */
-	public Move(Piece piece, int deltaX, int deltaY) {
+	public Move(Piece piece, int deltaX, int deltaY)
+	{
 		this.piece = piece;
 		this.deltaX = deltaX;
 		this.deltaY = deltaY;
 	}
-	
+
 	/**
 	 * Gets the piece making the move
 	 * 
@@ -57,7 +58,7 @@ public class Move
 	{
 		return deltaY;
 	}
-	
+
 	/**
 	 * Attempts to perform the turn with the piece
 	 * 
@@ -65,10 +66,11 @@ public class Move
 	 */
 	public boolean execute()
 	{
-		if(piece.isInitialized()) {
+		if (piece.isInitialized())
+		{
 			return piece.move(piece.getCoords().add(deltaX, deltaY));
-		}
-		else {
+		} else
+		{
 			return false;
 		}
 	}
