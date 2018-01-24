@@ -43,29 +43,41 @@ public class Chess
 		// Is there a checkmate taking place?
 		boolean checkmate = false;
 		// While there is no checkmate
-		while (!checkmate || (backend.getBoard().getPlayer1().offerDraw() && backend.getBoard().getPlayer2().offerDraw()))
+		while (!checkmate || (backend.getPlayer1().offerDraw() && backend.getPlayer2().offerDraw()))
 		{
-			// If there is a checkmate against Player 1
+			// If there is a checkmate against Player 1 OR Player 1 wants to resign
 			if (backend.getBoard().isCheckmate(backend.getPlayer1().getTeam()))
 			{
 				// Player 2 wins
-				backend.getBoard().showBoard();
-				console.getConsoleOutput().println(backend.getBoard().getPlayer2().getName() + " wins!");
+				win(backend, console, backend.getPlayer2());
 				break;
 			}
 			// Take player 1's turn
 			backend.getPlayer1().takeTurn();
-
-			// If there is a checkmate against Player 2
-			if (backend.getBoard().isCheckmate(backend.getPlayer1().getTeam()))
+			
+			// If player 1 wants to resign
+			if (backend.getPlayer1().resign()) {
+				// Player 2 wins
+				win(backend, console, backend.getPlayer2());
+				break;
+			}
+			
+			// If there is a checkmate against Player 2 OR Player 2 wants to resign
+			if (backend.getBoard().isCheckmate(backend.getPlayer2().getTeam()) || backend.getPlayer2().resign())
 			{
 				// Player 1 wins
-				console.getConsoleOutput().println(backend.getBoard().getPlayer1().getName() + " wins!");
-				backend.getBoard().showBoard();
+				win(backend, console, backend.getPlayer1());
 				break;
 			}
 			// Take player 2's turn
 			backend.getPlayer2().takeTurn();
+			
+			// If player 2 wants to resign
+			if (backend.getPlayer2().resign()) {
+				// Player 1 wins
+				win(backend, console, backend.getPlayer1());
+				break;
+			}
 		}
 
 		console.getConsoleOutput().print("Would you like to play again (Y/N): ");
@@ -73,6 +85,17 @@ public class Chess
 		{
 			main(args);
 		}
+	}
+	
+	/**
+	 * The winner of the game.
+	 * @param backend The backend
+	 * @param console The ConsoleIO
+	 * @param winner The player who won
+	 */
+	public static void win(Backend backend, ConsoleIO console, Player winner) {
+		backend.getBoard().showBoard();
+		console.getConsoleOutput().println(winner.getName() + " wins!");
 	}
 
 	/**

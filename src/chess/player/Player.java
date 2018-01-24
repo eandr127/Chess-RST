@@ -36,6 +36,11 @@ public abstract class Player
 	 * Does this player want to draw?
 	 */
 	public boolean wantsToDraw = false;
+
+	/**
+	 * Does this player want to resign?
+	 */
+	public boolean resign = false;
 	/**
 	 * The player's name
 	 */
@@ -125,7 +130,8 @@ public abstract class Player
 				board.showBoard();
 				break;
 			case "resign":
-				resign();
+				resign = true;
+				done = true;
 				break;
 			}
 		}
@@ -192,5 +198,13 @@ public abstract class Player
 	public Player getOpponent()
 	{
 		return opponent;
+	}
+	
+	/**
+	 * Does this player want to resign
+	 * @return Whether the player wants to resign
+	 */
+	public boolean resign() {
+		return resign;
 	}
 }
