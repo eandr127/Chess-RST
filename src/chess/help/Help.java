@@ -10,14 +10,12 @@ import chess.piece.PieceType;
  * Class used for help about various topics; pieces, game rules, etc. Can also be used in any UI implementation.
  *
  */
-public class Help
+public abstract class Help
 {
 	/**
 	 * Handles which doc to go to for the UI implementation.
 	 */
-	public void helpPrompt()
-	{
-	}
+	public abstract void helpPrompt();
 
 	/**
 	 * Holds piece type and documentation for each piece

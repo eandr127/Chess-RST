@@ -23,11 +23,13 @@ public class ConsolePlayer extends Player
 	 * @param team The team of the player being set up
 	 * @param board The board for the player being set up
 	 * @param console The ConsoleIO for the player being set up
+	 * @param help The help for this player
+	 * @param opponent The opponent for the player
+	 * @param name The name of the player
 	 */
-	public ConsolePlayer(Team team, Board board, ConsoleIO console, Help help, Player opponent)
+	public ConsolePlayer(Team team, Board board, ConsoleIO console, Help help, Player opponent, String name)
 	{
-		super(team, board, help, opponent);
-		
+		super(team, board, help, opponent, name);
 		this.console = console;
 	}
 
@@ -42,7 +44,7 @@ public class ConsolePlayer extends Player
 	
 	/**
 	 * Get coordinates from user input, checked against CoordinateRequirements.
-	 * @return The user's inputted coordinates.
+	 * @return The user's inputed coordinates.
 	 */
 	public Coordinates getCoordinates () {
 		CoordinateRequirements coordinateRequirements = new CoordinateRequirements();
@@ -120,9 +122,10 @@ public class ConsolePlayer extends Player
 		@Override
 		public String message()
 		{
+			console.getConsoleOutput().println("\nIt's " + getName() + "'s turn");
 			if (getBoard().canOfferDraw(getTeam())) {
-				return "What do you want to do?\nGet help\nPlay your turn\nResign\nOffer Draw to other player\n(h/p/r/d):";
-			} else return "What do you want to do?\nGet help\nPlay your turn\nResign\n(h/p/r):";
+				return "What do you want to do?\nGet help\nPlay your turn\nResign\nOffer Draw to other player\n([H]elp/[P]lay/[R]esign/[D]raw):";
+			} else return "What do you want to do?\n([H]elp/[P]lay/[R]esign): ";
 		}
 		
 		public String invalid() {
@@ -193,8 +196,10 @@ public class ConsolePlayer extends Player
 	{
 		Coordinates coords = new Coordinates(0, 0);
 		getBoard().showBoard(getTeam());
-		console.getConsoleOutput().println("Select the piece to move");
-		coords = (getCoordinates());
+		do {
+			console.getConsoleOutput().println("Select the piece to move");
+			coords = (getCoordinates());
+		} while (getBoard().getPiece(coords).getTeam() != this.getTeam());
 		return coords;
 	}
 
