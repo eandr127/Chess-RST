@@ -59,10 +59,4 @@ public abstract class Help
 			+ "tile board. Each player starts off with a set of pieces of varying power and movement types, as well as a king.\n"
 			+ "In order to win the game of chess, the player must 'checkmate' the opponent's king by putting it in a place\n"
 			+ "of capture that is unavoidable. In addition, players can call to draw or forfeit to end the game.";
-
-	/**
-	 * The rules of chess
-	 */
-	public static final String CASTLING = "Castling is a well-known Chess tactic. It is a move performed by the king\n"
-			+ "which involves moving it alongside the Rook ";
 }

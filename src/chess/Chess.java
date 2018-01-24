@@ -107,8 +107,8 @@ public class Chess
 	public static Backend setUpConsoleBoard(ConsoleIO console)
 	{
 		// Initialize booleans with default values
-		boolean useGrid = false;
-		boolean useUTF8 = false;
+		boolean useGrid = true;
+		boolean useUTF8 = true;
 
 		// Output rules on first run
 		console.getConsoleOutput().println(Help.GAME_RULES);
