@@ -16,6 +16,7 @@ public class King extends Piece
 
 	/**
 	 * Checks the given location for the king is a valid move
+	 * 
 	 * @param the new coordinates
 	 * @return whether the location is valid
 	 */
@@ -40,7 +41,13 @@ public class King extends Piece
 		// Gets the difference between the x and the y of the new and the current coords
 		int xDifference = Math.abs(newCoords.getX() - getCoords().getX());
 		int yDifference = Math.abs(newCoords.getY() - getCoords().getY());
-
+		int xRawDifference = newCoords.getX() - getCoords().getX();
+		int xRelative = 0;  
+		if(xDifference - xRawDifference != 0)
+		{
+			xRelative = xDifference / xRawDifference;
+		}
+		
 		// Checks if the movement location is within a 1 tile radius around the current location of the king
 		if (xDifference == 1 && yDifference == 1 || xDifference == 1 && yDifference == 0
 				|| xDifference == 0 && yDifference == 1)
@@ -53,11 +60,22 @@ public class King extends Piece
 				// The location is valid
 				valid = true;
 			}
-		} else if (getBoard().getMovesForPiece(getBoard().getPiece(getCoords())).size() == 0
+		} else if (getBoard().getMovesForPiece(this).size() == 0
 				&& getBoard().getMovesForPiece(getBoard().getPiece(newCoords)).size() == 0
 				&& getBoard().getPiece(newCoords).getPieceType().equals(PieceType.ROOK)
-				&& newCoords.getX() == getCoords().getX())
+				&& newCoords.getY() == getCoords().getY() && xRelative != 0)
 		{
+			for (int i = xRelative; i != newCoords.getX() + xRelative; i += xRelative)
+			{
+				if (!getBoard().getPiece(getCoords().add(i, 0)).getTeam().equals(Team.NONE) && i != xRelative)
+				{
+					return false;
+				}
+				else if(i == xDifference)
+				{
+					return true;
+				}
+			}
 			valid = true;
 		}
 
@@ -99,6 +117,7 @@ public class King extends Piece
 				&& getBoard().getPiece(newCoords).getPieceType().equals(PieceType.ROOK))
 				{
 					setCoords(getCoords().add(newCoords.getX() - getCoords().getX() * 2, 0));
+					//getBoard().movePiece(newCoords, )
 					
 				}
 		else
