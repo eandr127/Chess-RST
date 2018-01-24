@@ -87,6 +87,11 @@ public class ConsoleBracketsBoard extends ConsoleBoard {
 		console.getConsoleOutput().println();
 	}
 	
+	/**
+	 * Creates a board with a set arrangement a list of moves made.
+	 * @param arrangement The arrangement to use for this board.
+	 * @param moves The list of moves made.
+	 */
 	@Override
 	protected Board make(Piece[][] arrangement, List<Move> moves)
 	{

@@ -77,9 +77,13 @@ public class ConsoleIO
 	 */
 	public String stringToLength (String error, int length) {
 		String word = null;
+		//While the user's input is invalid anything
 		while (word == null) {
+			//Set word to user input
 			word = input.next();
+			//if the word length is a mismatch
 			if (word.length() != length) {
+				//Output error and retry
 				word = null;
 				consoleOutput.print(error);
 			}
@@ -118,21 +122,27 @@ public class ConsoleIO
 		//Checks if user said yes or not.
 		boolean yes = false;
 		
+		//Until the user input is valid (y/n)...
 		do {
 			String userInput;
+			//Get the user's input
 			userInput = input.nextLine();
 			
+			//If the user said yes, the input is valid and the response was "yes".
 			if (userInput.equalsIgnoreCase("y") || userInput.equalsIgnoreCase("yes")) {
 				valid = true;
 				yes = true;
+			//If the user said no, the response was valid and the response was "no".
 			} else if (userInput.equalsIgnoreCase("n") || userInput.equalsIgnoreCase("no")) {
 				valid = true;
 				yes = false;
+			//Otherwise, the response is invalid and we ask the user to input again.
 			} else {
 				valid = false;
 				System.out.println("Invalid input. Please type Y or N.");
 			}
 		} while (!valid);
+		//Return whether the user said yes/no.
 		return yes;
 	}
 	
