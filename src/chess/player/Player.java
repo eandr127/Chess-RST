@@ -28,14 +28,25 @@ public abstract class Player
 	private final Help help;
 	
 	/**
+	 * The opponent of this player
+	 */
+	private Player opponent;
+	
+	/**
+	 * Does this player want to draw?
+	 */
+	public boolean wantsToDraw = false;
+	
+	/**
 	 * Creates an instance of Player with a set team and board to use.
 	 * @param team The team of this player.
 	 * @param board The board this player will use.
 	 */
-	public Player(Team team, Board board, Help help) {
+	public Player(Team team, Board board, Help help, Player opponent) {
 		this.team = team;
 		this.board = board;
 		this.help = help;
+		this.opponent = opponent;
 	}
 	
 	/**
@@ -134,9 +145,9 @@ public abstract class Player
 	public abstract boolean offerDraw();
 	
 	/**
-	 * Does something with the draw offer
+	 * Checks if the opponent wants to draw
 	 */
-	public abstract void recieveDrawOffer();
+	public abstract void checkDrawOffer();
 	
 	/**
 	 * Finds out whether to accept a draw
@@ -151,4 +162,20 @@ public abstract class Player
 	 * @return Whether to resign
 	 */
 	public abstract boolean resign();
+	
+	/**
+	 * Set a new opponent for this player.
+	 * @param opponent The opponent of this player.
+	 */
+	public void setOpponent(Player opponent) {
+		this.opponent = opponent;
+	}
+	
+	/**
+	 * Get the opponent of this player.
+	 * @return The opponent of this player
+	 */
+	public Player getOpponent() {
+		return opponent;
+	}
 }

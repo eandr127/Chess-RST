@@ -115,8 +115,11 @@ public class Chess {
 		}
 		
 		// Create the game players
-		Player player1 = new ConsolePlayer(Team.WHITE, board, console, help);
-		Player player2 = new ConsolePlayer(Team.BLACK, board, console, help);
+		Player player1 = new ConsolePlayer(Team.WHITE, board, console, help, null);
+		Player player2 = new ConsolePlayer(Team.BLACK, board, console, help, null);
+		//Initialize the player opponents.
+		player1.setOpponent(player2);
+		player2.setOpponent(player1);
 		
 		// Let Board know who the players are
 		board.setPlayer1(player1);

@@ -24,9 +24,9 @@ public class ConsolePlayer extends Player
 	 * @param board The board for the player being set up
 	 * @param console The ConsoleIO for the player being set up
 	 */
-	public ConsolePlayer(Team team, Board board, ConsoleIO console, Help help)
+	public ConsolePlayer(Team team, Board board, ConsoleIO console, Help help, Player opponent)
 	{
-		super(team, board, help);
+		super(team, board, help, opponent);
 		
 		this.console = console;
 	}
@@ -215,15 +215,18 @@ public class ConsolePlayer extends Player
 	@Override
 	public boolean offerDraw()
 	{
-		// TODO Auto-generated method stub
-		return false;
+		return wantsToDraw;
 	}
 
 	@Override
-	public void recieveDrawOffer()
+	public void checkDrawOffer()
 	{
-		// TODO Auto-generated method stub
-		
+		if (getOpponent().offerDraw()) {
+			System.out.println("Your opponent wants to draw. Do you accept?");
+			if (console.getUserBoolean()) {
+				wantsToDraw = true;
+			}
+		}
 	}
 
 	@Override
