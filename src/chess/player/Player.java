@@ -4,7 +4,6 @@ import chess.board.Board;
 import chess.board.Coordinates;
 import chess.help.Help;
 import chess.piece.Piece;
-import chess.piece.PieceType;
 import chess.piece.Team;
 import chess.piece.pieces.Pawn;
 
@@ -86,6 +85,8 @@ public abstract class Player
 				if(!done) {
 					invalidMove();
 				}
+				
+				board.showBoard();
 				break;
 			case "resign":
 				resign();
