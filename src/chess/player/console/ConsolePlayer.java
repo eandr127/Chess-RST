@@ -98,19 +98,25 @@ public class ConsolePlayer extends Player
 		
 	}
 	
-	private static class TurnInitializationRequirements implements Requirements {
+	private class TurnInitializationRequirements implements Requirements {
 
 		@Override
 		public boolean valid(String in) throws IllegalArgumentException
 		{
-			return in.toLowerCase().equals("h") ||  in.toLowerCase().equals("p") || in.toLowerCase().equals("r")
-				|| in.toLowerCase().equals("help") || in.toLowerCase().equals("play") || in.toLowerCase().equals("resign");
+			if (getBoard().canOfferDraw(getTeam())) {
+				return in.toLowerCase().equals("h") ||  in.toLowerCase().equals("p") || in.toLowerCase().equals("r") || in.toLowerCase().equals("d")
+					|| in.toLowerCase().equals("help") || in.toLowerCase().equals("play") || in.toLowerCase().equals("resign") || in.toLowerCase().equals("draw");
+				
+			} else return in.toLowerCase().equals("h") ||  in.toLowerCase().equals("p") || in.toLowerCase().equals("r")
+					|| in.toLowerCase().equals("help") || in.toLowerCase().equals("play") || in.toLowerCase().equals("resign");
 		}
 
 		@Override
 		public String message()
 		{
-			return "What do you want to do?\nGet help\nPlay your turn\nResign\n(h/p/r):";
+			if (getBoard().canOfferDraw(getTeam())) {
+				return "What do you want to do?\nGet help\nPlay your turn\nResign\nOffer Draw to other player\n(h/p/r/d):";
+			} else return "What do you want to do?\nGet help\nPlay your turn\nResign\n(h/p/r):";
 		}
 		
 		public String invalid() {
@@ -166,6 +172,10 @@ public class ConsolePlayer extends Player
 			case "r":
 			case "resign":
 				choice = "resign";
+				break;
+			case "d":
+			case "draw":
+				offerDraw();
 				break;
 		}
 		
