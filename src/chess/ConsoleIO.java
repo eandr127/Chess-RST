@@ -69,41 +69,31 @@ public class ConsoleIO
 	}
 	
 	/**
-	 * Reduces string to a certain length. Ex.: A13 shortened to a length of 2 would return A1.
-	 * 
-	 * @param string The string to be checked.
-	 * @param length The length to be checked.
-	 * @return Did the string match length?
-	 */
-	public String stringToLength (String error, int length) {
-		String word = null;
-		while (word == null) {
-			word = input.next();
-			if (word.length() != length) {
-				word = null;
-				consoleOutput.print(error);
-			}
-		}
-		return word;
-	}
-	
-	/**
 	 * Gets user input against certain requirements, defined by the requirements argument.
 	 * 
 	 * @param requirements The Requirements for the user input
 	 * @return The user's input.
 	 */
 	public String getStringFromUser(Requirements requirements) {
+		// Create string to hold user input
 		String userInput;
 		do {
+			// Print the prompt to the user
 			consoleOutput.print(requirements.message());
+			
+			// Get the user's input
 			userInput = input.next();
+			
+			// Check if the input is valid
 			if (!requirements.valid(userInput)) {
+				// Print out invalid message
 				consoleOutput.print(requirements.invalid());
 			}
 		}
+		// Continue looping until valid input is found
 		while(!requirements.valid(userInput));
 		
+		// Return valid input
 		return userInput;
 	}
 	
@@ -156,10 +146,34 @@ public class ConsoleIO
 		return input;
 	}
 	
+	/**
+	 * Used to ensure user input is valid
+	 */
 	public static interface Requirements {
 		
+		/**
+		 * Checks whether a user input is valid
+		 * 
+		 * @param in The user input
+		 * @return Whether the user input is valid
+		 * @throws IllegalArgumentException (Unused)
+		 * @deprecated Not actually, just needs to be reworked to use the IllegalArgumentException
+		 */
+		@Deprecated
 		public boolean valid(String in) throws IllegalArgumentException;
+		
+		/**
+		 * The message to print when input is invalid
+		 * 
+		 * @return The message to print
+		 */
 		public String invalid();
+		
+		/**
+		 * The initial message to print
+		 * 
+		 * @return The message to print
+		 */
 		public String message();
 	}
 	

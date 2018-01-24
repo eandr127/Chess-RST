@@ -98,4 +98,11 @@ public class ConsolePlayer extends Player
 		return false;
 	}
 
+	@Override
+	public boolean resign()
+	{
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }
