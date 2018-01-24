@@ -87,7 +87,7 @@ public class ConsolePlayer extends Player
 		@Override
 		public String message()
 		{
-			return "Choose a promotion option (q/k/b/r): ";
+			return "Your pawn is being promoted. What would you like to promote it to? You have these options:\nQueen\nKnight\nBishop\nRook\nChoose a promotion option (q/k/b/r): ";
 		}
 		
 		public String invalid() {
@@ -103,7 +103,6 @@ public class ConsolePlayer extends Player
 	@Override
 	public PieceType pawnPromotion() {
 		PieceType pieceType = null;
-		final String pawnPromotionRequest = "Your pawn is being promoted. What would you like to promote it to? You have these options:\nQueen\nKnight\nBishop\nRook\n";
 			
 		String in = console.getStringFromUser(new PawnPromotionRequirements());
 		switch (in.toLowerCase()) {
@@ -181,6 +180,13 @@ public class ConsolePlayer extends Player
 
 	@Override
 	public boolean draw()
+	{
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean resign()
 	{
 		// TODO Auto-generated method stub
 		return false;

@@ -84,6 +84,7 @@ public class ConsoleBracketsBoard extends ConsoleBoard {
 			}
 		}
 		
+		// Move the cursor to the next line
 		console.getConsoleOutput().println();
 	}
 	
@@ -95,13 +96,18 @@ public class ConsoleBracketsBoard extends ConsoleBoard {
 	@Override
 	protected Board make(Piece[][] arrangement, List<Move> moves)
 	{
+		// Create a new board with the same arrangement and other parameters
 		Board board = new ConsoleBracketsBoard(arrangement, renderer.getPieces(), console);
+		
+		// Add each move to the board
 		for(Move move : moves) {
 			board.addMove(move);
 		}
 		
+		// Avoid don't check for checkmate to avoid StackOverflowException
 		board.setCheckSafe(false);
 		
+		// Return the new board
 		return board;
 	}
 }

@@ -20,6 +20,11 @@ public enum Team
 	 */
 	NONE;
 	
+	/**
+	 * Gets the opposite for a team
+	 * 
+	 * @return The opposite team
+	 */
 	public Team opposite() {
 		if(this == BLACK) {
 			return WHITE;

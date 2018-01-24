@@ -47,10 +47,20 @@ public class Backend
 		return board;
 	}
 
+	/**
+	 * Gets the first player
+	 * 
+	 * @return The first player
+	 */
 	public Player getPlayer1() {
 		return player1;
 	}
 	
+	/**
+	 * Gets the second player
+	 * 
+	 * @return The second player
+	 */
 	public Player getPlayer2() {
 		return player2;
 	}

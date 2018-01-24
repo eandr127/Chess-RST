@@ -98,16 +98,25 @@ public class ConsoleIO
 	 * @return The user's input.
 	 */
 	public String getStringFromUser(Requirements requirements) {
+		// Create string to hold user input
 		String userInput;
 		do {
+			// Print the prompt to the user
 			consoleOutput.print(requirements.message());
+			
+			// Get the user's input
 			userInput = input.next();
+			
+			// Check if the input is valid
 			if (!requirements.valid(userInput)) {
+				// Print out invalid message
 				consoleOutput.print(requirements.invalid());
 			}
 		}
+		// Continue looping until valid input is found
 		while(!requirements.valid(userInput));
 		
+		// Return valid input
 		return userInput;
 	}
 	
@@ -166,10 +175,34 @@ public class ConsoleIO
 		return input;
 	}
 	
+	/**
+	 * Used to ensure user input is valid
+	 */
 	public static interface Requirements {
 		
+		/**
+		 * Checks whether a user input is valid
+		 * 
+		 * @param in The user input
+		 * @return Whether the user input is valid
+		 * @throws IllegalArgumentException (Unused)
+		 * @deprecated Not actually, just needs to be reworked to use the IllegalArgumentException
+		 */
+		@Deprecated
 		public boolean valid(String in) throws IllegalArgumentException;
+		
+		/**
+		 * The message to print when input is invalid
+		 * 
+		 * @return The message to print
+		 */
 		public String invalid();
+		
+		/**
+		 * The initial message to print
+		 * 
+		 * @return The message to print
+		 */
 		public String message();
 	}
 	
