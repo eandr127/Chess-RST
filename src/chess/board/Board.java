@@ -41,9 +41,19 @@ public abstract class Board {
 	 */
 	private final Piece[][] arrangement = new Piece[BOARD_SIZE][BOARD_SIZE];
 	
+	/**
+	 * Holds the state of the board at every turn for the white player
+	 */
 	private final List<Piece[][]> whiteSetup = new ArrayList<>();
+	
+	/**
+	 * Holds the state of the board at every turn for the black player
+	 */
 	private final List<Piece[][]> blackSetup = new ArrayList<>();
 	
+	/**
+	 * The time since a move that resets the draw timer has taken place
+	 */
 	private int movesSincePawnOrCapture = 0;
 	
 	/**
@@ -549,6 +559,8 @@ public abstract class Board {
 	 */
 	public void addMove(Move move) {
 		moves.add(move);
+		
+		// Add board configuration to list to check for Threefold and Fivefold Repetition
 		if(move.getPiece().getTeam() == Team.WHITE) {
 			whiteSetup.add(arrangement);
 		}
@@ -575,30 +587,59 @@ public abstract class Board {
 		return checkSafe;
 	}
 	
+	/**
+	 * Checks if there is a forced draw
+	 * 
+	 * @param team The team to check for
+	 * @return Whether it is a forced draw
+	 */
 	public boolean isDraw(Team team) {
 		return isStalemate(team) || numIdenticalPositions(team) >= 5 || turnLimit75(team);
 	}
 	
+	/**
+	 * Checks whether a player can move any pieces
+	 * 
+	 * @param team The team of the player
+	 * @return Whether it is a stalemate
+	 */
 	private boolean isStalemate(Team team) {
+		// Can't be stalemate when king is in check
 		if(kingInCheck(team)) {
 			return false;
 		}
 		
+		// Loop over each piece
 		for(Piece[] row : arrangement) {
 			for(Piece piece : row) {
+				// Check whether the piece can move anywhere
 				if(piece.getTeam() == team && piece.getValidMoves().length != 0) {
+					// At least one piece can move, so not stalemate
 					return false;
 				}
 			}
 		}
 		
+		// No pieces can move
 		return true;
 	}
 	
+	/**
+	 * Checks to see whether a team can offer a draw to the other
+	 * 
+	 * @param team The team to offer the draw
+	 * @return Whether it is legal to offer a draw
+	 */
 	public boolean canOfferDraw(Team team) {
-		return insufficiantMaterial() || numIdenticalPositions(team) >= 3 || turnLimit50(team);
+		return insufficientMaterial() || numIdenticalPositions(team) >= 3 || turnLimit50(team);
 	}
 	
+	/**
+	 * Checks to see if it has been 50 turns since a pawn has moved or a piece has been captured
+	 * 
+	 * @param team The team to check for
+	 * @return Whether the 50 turn rule has passed
+	 */
 	private boolean turnLimit50(Team team) {
 		if(team == Team.WHITE) {
 			return movesSincePawnOrCapture == 101;
@@ -611,6 +652,12 @@ public abstract class Board {
 		}
 	}
 	
+	/**
+	 * Checks to see if it has been 75 turns since a pawn has moved or a piece has been captured
+	 * 
+	 * @param team The team to check for
+	 * @return Whether the 75 turn rule has passed
+	 */
 	private boolean turnLimit75(Team team) {
 		if(team == Team.WHITE) {
 			return movesSincePawnOrCapture == 151;
@@ -623,6 +670,12 @@ public abstract class Board {
 		}
 	}
 	
+	/**
+	 * Gets the number of times that the board has been in its current state
+	 * 
+	 * @param team The team to check the state of
+	 * @return The number of identical configurations
+	 */
 	private int numIdenticalPositions(Team team) {
 		if(team == Team.WHITE) {
 			return findLargestEqual(whiteSetup);
@@ -635,10 +688,17 @@ public abstract class Board {
 		}
 	}
 	
-	private boolean insufficiantMaterial() {
+	/**
+	 * Checks whether there is insufficient material to lead to checkmate
+	 * 
+	 * @return Whether checkmate is possible
+	 */
+	private boolean insufficientMaterial() {
+		// Separate pieces into black and white
 		List<Piece> whitePieces = new ArrayList<>();
 		List<Piece> blackPieces = new ArrayList<>();
 		
+		// Add pieces to lists for each type
 		for(Piece[] row : arrangement) {
 			for(Piece piece : row) {
 				if(piece.getTeam() == Team.WHITE) {
@@ -650,6 +710,7 @@ public abstract class Board {
 			}
 		}
 		
+		// Check whether any insufficient piece configurations exist
 		if(whitePieces.size() == 1 && getPieceForType(whitePieces, PieceType.KING) != null
 				&& blackPieces.size() == 1 &&  getPieceForType(blackPieces, PieceType.KING) != null) {
 			return true;
@@ -676,47 +737,88 @@ public abstract class Board {
 			return true;
 		}
 		else {
+			// Pieces can cause checkmate
 			return false;
 		}
 	}
 	
+	/**
+	 * Checks if the square at a set of coordinates is black
+	 * 
+	 * @param coords The coordinates
+	 * @return Whether the square is black or not
+	 */
 	private boolean isBlackSquare(Coordinates coords) {
 		return (coords.getX() % 2 == 0 && coords.getY() % 2 == 0)
 				|| (coords.getX() % 2 != 0 && coords.getY() % 2 != 0);
 	}
 	
+	/**
+	 * Gets the first piece found for a given type of pieces
+	 * 
+	 * @param pieces The pieces to search through
+	 * @param type The type of piece to search through
+	 * @return The first occurrence of the piece type
+	 */
 	private Piece getPieceForType(List<Piece> pieces, PieceType type) {
+		// Loop over each piece
 		for(int i = 0; i < pieces.size(); i++) {
 			Piece piece = pieces.get(i);
+			// Check if piece is same type
 			if(piece.getPieceType() == type) {
 				return piece;
 			}
 		}
 		
+		// No piece of type found
 		return null;
 	}
 	
+	/**
+	 * Finds number of identical board configurations to the current one
+	 * 
+	 * @param pieces The different board configurations
+	 * @return The number of equal configurations (including itself)
+	 */
 	private int findLargestEqual(List<Piece[][]> pieces) {
+		// Hold the number of equal pieces
 		int numEqual = 0;
+		
+		// Get the latest configuration
 		Piece[][] current = pieces.get(pieces.size() - 1);
-		for(int i = 0; i < pieces.size() - 1; i++) {
+		
+		// Check each configuration to see if it's the same as the latest
+		for(int i = 0; i < pieces.size(); i++) {
 			if(isEqual(current, pieces.get(i))) {
+				// Increment the number of repetitions
 				numEqual++;
 			}
 		}
 		
+		// Return the number of repetitions
 		return numEqual;
 	}
 	
+	
+	/**
+	 * Checks whether to board configurations are equal
+	 * 
+	 * @param arrangement1 The first board configuration
+	 * @param arrangement2 The second board configuration
+	 * @return Whether they are the same
+	 */
 	private boolean isEqual(Piece[][] arrangement1, Piece[][] arrangement2) {
+		// Loop over each spot on board
 		for(int i = 0; i < BOARD_SIZE; i++) {
 			for(int j = 0; j < BOARD_SIZE; j++) {
+				// Check if the values are the same
 				if(arrangement1[i][j] != arrangement2[i][j]) {
 					return false;
 				}
 			}
 		}
 		
+		// All pieces are the same
 		return true;
 	}
 }
