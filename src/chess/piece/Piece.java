@@ -5,6 +5,7 @@ import java.util.List;
 
 import chess.board.Board;
 import chess.board.Coordinates;
+import chess.player.Player;
 
 /**
  * Represents a black or white piece
@@ -20,6 +21,11 @@ public abstract class Piece {
 	 * The team of the piece
 	 */
 	private final Team team;
+	
+	/**
+	 * The player that owns this piece
+	 */
+	private Player player;
 	
 	/**
 	 * The board that the piece is a part of
@@ -42,9 +48,10 @@ public abstract class Piece {
 	 * @param pieceType The type of piece
 	 * @param team The piece's team
 	 */
-	protected Piece(PieceType pieceType, Team team) {
+	protected Piece(PieceType pieceType, Team team, Player player) {
 		this.pieceType = pieceType;
 		this.team = team;
+		this.player = player;
 	}
 	
 	/**
@@ -73,6 +80,16 @@ public abstract class Piece {
 	public Board getBoard()
 	{
 		return board;
+	}
+	
+	/**
+	 * Gets the player owner of this piece.
+	 * 
+	 * @return The player owner of this piece
+	 */
+	public Player getPlayer()
+	{
+		return player;
 	}
 
 	/**
@@ -104,10 +121,12 @@ public abstract class Piece {
 	 * 
 	 * @param coords The location of the piece on the board
 	 * @param board The board the piece is on
+	 * @param player The player owner of this piece
 	 */
-	public void lateInit(Coordinates coords, Board board) {
+	public void lateInit(Coordinates coords, Board board, Player player) {
 		this.coords = coords;
 		this.board = board;
+		this.player = player;
 		
 		this.initialized = true;
 	}

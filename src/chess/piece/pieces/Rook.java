@@ -4,11 +4,11 @@ import chess.board.Coordinates;
 import chess.piece.Piece;
 import chess.piece.PieceType;
 import chess.piece.Team;
+import chess.player.Player;
 
 /*
  * Rook.java
  * Movement and capturing for the rook
- * Dmitry Tsarapkine
  * ICS3U
  * January 24th, 2018
  */
@@ -22,9 +22,9 @@ public class Rook extends Piece
 	 * 
 	 * @param pieceType and team
 	 */
-	public Rook(PieceType pieceType, Team team)
+	public Rook(PieceType pieceType, Team team, Player player)
 	{
-		super(pieceType, team);
+		super(pieceType, team, player);
 	}
 
 	/**

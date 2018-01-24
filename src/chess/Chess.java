@@ -8,6 +8,7 @@ import chess.help.Help;
 import chess.help.console.ConsoleHelp;
 import chess.piece.Team;
 import chess.piece.console.ConsolePieces;
+import chess.player.Player;
 import chess.player.console.ConsolePlayer;
 
 /**
@@ -107,15 +108,15 @@ public class Chess {
 		//Create pieces variable
 		ConsolePieces pieces;
 		
+		//Create console help
+		help = new ConsoleHelp(null, console);
+		
 		if(useUTF8) {
 			pieces = ConsolePieces.UTF8;
 		}
 		else {
 			pieces = ConsolePieces.ASCII;
 		}
-		
-		//Create console help
-		help = new ConsoleHelp(pieces, console);
 		
 		// Initialize board based on what user wants
 		if(useGrid) {
@@ -134,7 +135,15 @@ public class Chess {
 			board = new ConsoleBracketsBoard(pieces, console);
 		}
 		
+		// Create the game players
+		Player player1 = new ConsolePlayer(Team.WHITE, board, console, help);
+		Player player2 = new ConsolePlayer(Team.BLACK, board, console, help);
+		
+		// Let Board know who the players are
+		board.setPlayer1(player1);
+		board.setPlayer2(player2);
+		
 		// Send board back to calling statement
-		return new Backend(board, new ConsolePlayer(Team.WHITE, board, console, help), new ConsolePlayer(Team.BLACK, board, console, help));
+		return new Backend(board, player1, player2);
 	}
 }

@@ -8,6 +8,7 @@ import chess.piece.pieces.Knight;
 import chess.piece.pieces.Pawn;
 import chess.piece.pieces.Queen;
 import chess.piece.pieces.Rook;
+import chess.player.Player;
 
 /**
  * The type of chess piece
@@ -22,7 +23,7 @@ public enum PieceType {
 		@Override
 		public Piece makePiece(Team team)
 		{
-			return new Rook(ROOK, team);
+			return new Rook(ROOK, team, null);
 		}
 		
 	}),
@@ -35,7 +36,7 @@ public enum PieceType {
 		@Override
 		public Piece makePiece(Team team)
 		{
-			return new Knight(KNIGHT, team);
+			return new Knight(KNIGHT, team, null);
 		}
 		
 	}),
@@ -48,7 +49,7 @@ public enum PieceType {
 		@Override
 		public Piece makePiece(Team team)
 		{
-			return new Bishop(BISHOP, team);
+			return new Bishop(BISHOP, team, null);
 		}
 		
 	}),
@@ -61,7 +62,7 @@ public enum PieceType {
 		@Override
 		public Piece makePiece(Team team)
 		{
-			return new Queen(QUEEN, team);
+			return new Queen(QUEEN, team, null);
 		}
 		
 	}),
@@ -74,7 +75,7 @@ public enum PieceType {
 		@Override
 		public Piece makePiece(Team team)
 		{
-			return new King(KING, team);
+			return new King(KING, team, null);
 		}
 		
 	}),
@@ -87,7 +88,7 @@ public enum PieceType {
 		@Override
 		public Piece makePiece(Team team)
 		{
-			return new Pawn(PAWN, team);
+			return new Pawn(PAWN, team, null);
 		}
 		
 	}),
@@ -109,9 +110,9 @@ public enum PieceType {
      * Indicates that there is no piece
      */
     // Black and white are same piece
-    public static final Piece EMPTY_PIECE = new Piece(PieceType.EMPTY, Team.NONE) {
+    public static final Piece EMPTY_PIECE = new Piece(PieceType.EMPTY, Team.NONE, null) {
     	@Override
-    	public void lateInit(Coordinates coords, Board board) {
+    	public void lateInit(Coordinates coords, Board board, Player player) {
     		// Not tied to any specific board
     	}
 

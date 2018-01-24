@@ -5,11 +5,11 @@ import chess.board.Coordinates;
 import chess.piece.Piece;
 import chess.piece.PieceType;
 import chess.piece.Team;
+import chess.player.Player;
 
 /*
  * King.java
  * Movement and capturing for the king
- * Dmitry Tsarapkine + Ryan Larkin (castling)
  * ICS3U
  * January 24th, 2018
  */
@@ -21,11 +21,13 @@ public class King extends Piece
 	/**
 	 * Creates a new instance of a king
 	 * 
-	 * @param pieceType and team
+	 * @param pieceType The type of piece
+	 * @param team The team of this piece
+	 * @param player The player owner of this piece
 	 */
-	public King(PieceType pieceType, Team team)
+	public King(PieceType pieceType, Team team, Player player)
 	{
-		super(pieceType, team);
+		super(pieceType, team, player);
 	}
 
 	/**

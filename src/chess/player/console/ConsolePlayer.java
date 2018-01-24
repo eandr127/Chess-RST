@@ -8,6 +8,7 @@ import chess.help.Help;
 import chess.piece.Piece;
 import chess.piece.PieceType;
 import chess.piece.Team;
+import chess.piece.pieces.Pawn;
 import chess.player.Player;
 
 public class ConsolePlayer extends Player
@@ -82,7 +83,7 @@ public class ConsolePlayer extends Player
 		public boolean valid(String in) throws IllegalArgumentException
 		{
 			return in.toLowerCase().equals("q") ||  in.toLowerCase().equals("k") || in.toLowerCase().equals("b") || in.toLowerCase().equals("r")
-				|| in.toLowerCase().equals("queen") ||  in.toLowerCase().equals("knight") || in.toLowerCase().equals("bishop") || in.toLowerCase().equals("rook");
+				|| in.toLowerCase().equals("queen") || in.toLowerCase().equals("knight") || in.toLowerCase().equals("bishop") || in.toLowerCase().equals("rook");
 		}
 
 		@Override
@@ -103,7 +104,7 @@ public class ConsolePlayer extends Player
 		public boolean valid(String in) throws IllegalArgumentException
 		{
 			return in.toLowerCase().equals("h") ||  in.toLowerCase().equals("p") || in.toLowerCase().equals("r")
-				|| in.toLowerCase().equals("help") ||  in.toLowerCase().equals("play") || in.toLowerCase().equals("resign");
+				|| in.toLowerCase().equals("help") || in.toLowerCase().equals("play") || in.toLowerCase().equals("resign");
 		}
 
 		@Override
@@ -119,31 +120,32 @@ public class ConsolePlayer extends Player
 	}
 	
 	@Override
-	public PieceType pawnPromotion() {
-		PieceType pieceType = null;
-			
-		String in = console.getStringFromUser(new PawnPromotionRequirements());
-		switch (in.toLowerCase()) {
-			case "q":
-			case "queen":
-				pieceType = PieceType.QUEEN;
-				break;
-			case "k":
-			case "knight":
-				pieceType = PieceType.QUEEN;
-				break;
-			case "b":
-			case "bishop":
-				pieceType = PieceType.QUEEN;
-				break;
-			case "r":
-			case "rook":
-				pieceType = PieceType.QUEEN;
-				break;
-			default:
-		}
+	public void pawnPromotion(Pawn pawn) {
+		final String promotionRequest = "Your Pawn at location " + String.valueOf((char)(pawn.getCoords().getY() + 64)) + pawn.getCoords().getX() + " can be promoted. Would you like to promote it? (y/n)"; 
 		
-		return pieceType;
+		System.out.println(promotionRequest);
+		if (console.getUserBoolean()) {
+			String in = console.getStringFromUser(new PawnPromotionRequirements());
+			switch (in.toLowerCase()) {
+				case "q":
+				case "queen":
+					getBoard().replacePieceType(pawn.getCoords(), PieceType.QUEEN);
+					break;
+				case "k":
+				case "knight":
+					getBoard().replacePieceType(pawn.getCoords(), PieceType.KNIGHT);
+					break;
+				case "b":
+				case "bishop":
+					getBoard().replacePieceType(pawn.getCoords(), PieceType.BISHOP);
+					break;
+				case "r":
+				case "rook":
+					getBoard().replacePieceType(pawn.getCoords(), PieceType.ROOK);
+					break;
+				default:
+			}
+		}
 	}
 	
 	@Override

@@ -8,8 +8,6 @@ import chess.piece.PieceType;
 
 /**
  * Class used for help about various topics; pieces, game rules, etc. Can also be used in any UI implementation.
- * 
- * @author Caelan
  *
  */
 public class Help
