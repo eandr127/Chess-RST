@@ -1,7 +1,6 @@
 package chess;
 
 import chess.board.Board;
-import chess.help.Help;
 import chess.player.Player;
 
 /**

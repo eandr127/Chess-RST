@@ -1,5 +1,6 @@
 package chess.piece.pieces;
 
+import chess.board.Board;
 import chess.board.Coordinates;
 import chess.piece.Piece;
 import chess.piece.PieceType;
@@ -57,14 +58,6 @@ public class King extends Piece
 		// Gets the difference between the x and the y of the new and the current coords
 		int xDifference = Math.abs(newCoords.getX() - getCoords().getX());
 		int yDifference = Math.abs(newCoords.getY() - getCoords().getY());
-		int xRawDifference = newCoords.getX() - getCoords().getX();
-		// By default xRelative is 0
-		int xRelative = 0;
-		// Gets the x direction of the move
-		if (xDifference - xRawDifference != 0)
-		{
-			xRelative = xDifference / xRawDifference;
-		}
 
 		// Checks if the movement location is within a 1 tile radius around the current location of the king
 		if (xDifference == 1 && yDifference == 1 || xDifference == 1 && yDifference == 0
@@ -78,11 +71,58 @@ public class King extends Piece
 				// The location is valid
 				valid = true;
 			}
+		} else if(getBoard().getMovesForPiece(this).size() == 0 && xDifference == 2 && yDifference == 0 && !getBoard().kingInCheck(getTeam())) {
+			boolean direction = newCoords.getX() - getCoords().getX() < 0;
+			Piece rook = findRook(getCoords(), getTeam(), direction);
+			
+			if(getBoard().getMovesForPiece(rook).size() > 0) {
+				return false;
+			}
+			
+			Board copy = getBoard().copy();
+			copy.setCheckSafe(true);
+			
+			Coordinates movement = getCoords();
+			for(int i = 0; i < 2; i++) {
+				Coordinates oldCoords = movement;
+				
+				if(direction) {
+					movement = movement.add(-1, 0);
+				}
+				else {
+					movement = movement.add(1, 0);
+				}
+				
+				if(!copy.movePiece(oldCoords, movement)) {
+					return false;
+				}
+			}
+			
+			return true;
 		}
 
 		// Returns valid
 		return valid;
 
+	}
+	
+	private Piece findRook(Coordinates coords, Team team, boolean direction) {
+		Piece piece = null;
+		while(piece == null) {
+			if(direction) {
+				coords = coords.add(-1, 0);
+			}
+			else {
+				coords = coords.add(1, 0);
+			}
+			
+			Piece testedPiece = getBoard().getPiece(coords);
+			if(testedPiece.getPieceType() == PieceType.ROOK && testedPiece.getTeam() == team) {
+				piece = testedPiece;
+			}
+		}
+		
+		return piece;
 	}
 
 	/**
@@ -113,9 +153,26 @@ public class King extends Piece
 			// Captures the designated piece
 			getBoard().capture(newCoords);
 		}
-
+		
+		// Doing castle
+		if(Math.abs(newCoords.getX() - getCoords().getX()) == 2 && Math.abs(newCoords.getY() - getCoords().getY()) == 0)
+		{
+			boolean direction = newCoords.getX() - getCoords().getX() < 0;
+			Piece rook = findRook(getCoords(), getTeam(), direction);
+			
+			Coordinates rookCoords = newCoords;
+			if(direction) {
+				rookCoords = rookCoords.add(1, 0);
+			}
+			else {
+				rookCoords = rookCoords.add(-1, 0);
+			}
+			
+			rook.setCoords(rookCoords);
+			getBoard().updatePieceLocation(rook);
+		}
+		
 		// Sets new coordinates for the piece
 		setCoords(newCoords);
-
 	}
 }

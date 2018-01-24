@@ -47,6 +47,11 @@ public abstract class Board {
 	 */
 	private final Piece[][] arrangement = new Piece[BOARD_SIZE][BOARD_SIZE];
 	
+	private final List<Piece[][]> whiteSetup = new ArrayList<>();
+	private final List<Piece[][]> blackSetup = new ArrayList<>();
+	
+	private int movesSincePawnOrCapture = 0;
+	
 	/**
 	 * The moves that take place on this board
 	 */
@@ -72,6 +77,7 @@ public abstract class Board {
 	public Board(Piece[][] arrangement) {
 		fillBoard(arrangement);
 		this.moves = new ArrayList<>();
+		this.blackSetup.add(arrangement);
 	}
 	
 	/**
@@ -232,6 +238,10 @@ public abstract class Board {
 		
 		// Try to move the piece
 		if(move.execute()) {
+			if(piece.getPieceType() == PieceType.PAWN) {
+				movesSincePawnOrCapture = 0;
+			}
+			
 			// Update the location of the piece on the board
 			updatePieceLocation(piece);
 			
@@ -269,6 +279,8 @@ public abstract class Board {
 	 * @param coords The location to capture
 	 */
 	public void capture(Coordinates coords) {
+		movesSincePawnOrCapture = 0;
+		
 		// Convert piece coordinates to array coordinates
 		coords = convertToArray(coords);
 		
@@ -550,6 +562,12 @@ public abstract class Board {
 	 */
 	public void addMove(Move move) {
 		moves.add(move);
+		if(move.getPiece().getTeam() == Team.WHITE) {
+			whiteSetup.add(arrangement);
+		}
+		else if(move.getPiece().getTeam() == Team.BLACK) {
+			blackSetup.add(arrangement);
+		}
 	}
 	
 	/**
@@ -600,5 +618,150 @@ public abstract class Board {
 	 */
 	public Player getPlayer2 () {
 		return player2;
+	}
+
+	public boolean isDraw(Team team) {
+		return isStalemate(team) || numIdenticalPositions(team) >= 5 || turnLimit75(team);
+	}
+	
+	private boolean isStalemate(Team team) {
+		if(kingInCheck(team)) {
+			return false;
+		}
+		
+		for(Piece[] row : arrangement) {
+			for(Piece piece : row) {
+				if(piece.getTeam() == team && piece.getValidMoves().length != 0) {
+					return false;
+				}
+			}
+		}
+		
+		return true;
+	}
+	
+	public boolean canOfferDraw(Team team) {
+		return insufficiantMaterial() || numIdenticalPositions(team) >= 3 || turnLimit50(team);
+	}
+	
+	private boolean turnLimit50(Team team) {
+		if(team == Team.WHITE) {
+			return movesSincePawnOrCapture == 101;
+		}
+		else if(team == Team.BLACK) {
+			return movesSincePawnOrCapture == 100;
+		}
+		else {
+			return false;
+		}
+	}
+	
+	private boolean turnLimit75(Team team) {
+		if(team == Team.WHITE) {
+			return movesSincePawnOrCapture == 151;
+		}
+		else if(team == Team.BLACK) {
+			return movesSincePawnOrCapture == 150;
+		}
+		else {
+			return false;
+		}
+	}
+	
+	private int numIdenticalPositions(Team team) {
+		if(team == Team.WHITE) {
+			return findLargestEqual(whiteSetup);
+		}
+		else if(team == Team.BLACK) {
+			return findLargestEqual(blackSetup);
+		}
+		else {
+			return 0;
+		}
+	}
+	
+	private boolean insufficiantMaterial() {
+		List<Piece> whitePieces = new ArrayList<>();
+		List<Piece> blackPieces = new ArrayList<>();
+		
+		for(Piece[] row : arrangement) {
+			for(Piece piece : row) {
+				if(piece.getTeam() == Team.WHITE) {
+					whitePieces.add(piece);
+				}
+				else if(piece.getTeam() == Team.BLACK) {
+					blackPieces.add(piece);
+				}
+			}
+		}
+		
+		if(whitePieces.size() == 1 && getPieceForType(whitePieces, PieceType.KING) != null
+				&& blackPieces.size() == 1 &&  getPieceForType(blackPieces, PieceType.KING) != null) {
+			return true;
+		}
+		else if(whitePieces.size() == 2 && getPieceForType(whitePieces, PieceType.KING) != null && getPieceForType(whitePieces, PieceType.BISHOP) != null
+				&& blackPieces.size() == 1 &&  getPieceForType(blackPieces, PieceType.KING) != null) {
+			return true;
+		}
+		else if(whitePieces.size() == 1 && getPieceForType(blackPieces, PieceType.KING) != null
+				&& blackPieces.size() == 2 &&  getPieceForType(whitePieces, PieceType.KING) != null && getPieceForType(whitePieces, PieceType.BISHOP) != null) {
+			return true;
+		}
+		else if(whitePieces.size() == 2 && getPieceForType(whitePieces, PieceType.KING) != null && getPieceForType(whitePieces, PieceType.KNIGHT) != null
+				&& blackPieces.size() == 1 &&  getPieceForType(blackPieces, PieceType.KING) != null) {
+			return true;
+		}
+		else if(whitePieces.size() == 1 && getPieceForType(blackPieces, PieceType.KING) != null 
+				&& blackPieces.size() == 2 &&  getPieceForType(whitePieces, PieceType.KING) != null && getPieceForType(whitePieces, PieceType.KNIGHT) != null) {
+			return true;
+		}
+		else if(whitePieces.size() == 2 && getPieceForType(whitePieces, PieceType.KING) != null  && getPieceForType(whitePieces, PieceType.BISHOP) != null
+				&& blackPieces.size() == 2 &&  getPieceForType(blackPieces, PieceType.KING) != null && getPieceForType(blackPieces, PieceType.BISHOP) != null
+				&& isBlackSquare(getPieceForType(whitePieces, PieceType.BISHOP).getCoords()) ==  isBlackSquare(getPieceForType(whitePieces, PieceType.BISHOP).getCoords())) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	
+	private boolean isBlackSquare(Coordinates coords) {
+		return (coords.getX() % 2 == 0 && coords.getY() % 2 == 0)
+				|| (coords.getX() % 2 != 0 && coords.getY() % 2 != 0);
+	}
+	
+	private Piece getPieceForType(List<Piece> pieces, PieceType type) {
+		for(int i = 0; i < pieces.size(); i++) {
+			Piece piece = pieces.get(i);
+			if(piece.getPieceType() == type) {
+				return piece;
+			}
+		}
+		
+		return null;
+	}
+	
+	private int findLargestEqual(List<Piece[][]> pieces) {
+		int numEqual = 0;
+		Piece[][] current = pieces.get(pieces.size() - 1);
+		for(int i = 0; i < pieces.size() - 1; i++) {
+			if(isEqual(current, pieces.get(i))) {
+				numEqual++;
+			}
+		}
+		
+		return numEqual;
+	}
+	
+	private boolean isEqual(Piece[][] arrangement1, Piece[][] arrangement2) {
+		for(int i = 0; i < BOARD_SIZE; i++) {
+			for(int j = 0; j < BOARD_SIZE; j++) {
+				if(arrangement1[i][j] != arrangement2[i][j]) {
+					return false;
+				}
+			}
+		}
+		
+		return true;
 	}
 }
