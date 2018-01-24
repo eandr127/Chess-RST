@@ -43,7 +43,7 @@ public class Chess
 		// Is there a checkmate taking place?
 		boolean checkmate = false;
 		// While there is no checkmate
-		while (!checkmate)
+		while (!checkmate || (backend.getBoard().getPlayer1().offerDraw() && backend.getBoard().getPlayer2().offerDraw()))
 		{
 			// If there is a checkmate against Player 1
 			if (backend.getBoard().isCheckmate(backend.getPlayer1().getTeam()))
