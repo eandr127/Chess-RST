@@ -77,7 +77,7 @@ public class King extends Piece
 			boolean direction = newCoords.getX() - getCoords().getX() < 0;
 			Piece rook = findRook(getCoords(), getTeam(), direction);
 
-			if (getBoard().getMovesForPiece(rook).size() > 0)
+			if (rook == null || getBoard().getMovesForPiece(rook).size() > 0)
 			{
 				return false;
 			}
@@ -115,7 +115,7 @@ public class King extends Piece
 	private Piece findRook(Coordinates coords, Team team, boolean direction)
 	{
 		Piece piece = null;
-		while (piece == null)
+		while (piece == null && coords.getX() < 1 && coords.getX() > 8)
 		{
 			if (direction)
 			{

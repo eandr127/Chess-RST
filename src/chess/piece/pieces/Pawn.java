@@ -17,6 +17,8 @@ public class Pawn extends Piece
 {
 	// Creates variable to store opposite team and current
 	private Team oppositeTeam, currentTeam;
+	
+	private boolean wasUpgraded = false;
 
 	/**
 	 * Creates a new instance of a pawn
@@ -163,12 +165,10 @@ public class Pawn extends Piece
 		setCoords(newCoords);
 
 		// Pawn promotion
-		if (newCoords.getY() == 1 && getTeam().equals(Team.BLACK))
-		{
-			this.getPlayer().pawnPromotion(this);
-		} else if (newCoords.getY() == 8 && getTeam().equals(Team.WHITE))
-		{
-			this.getPlayer().pawnPromotion(this);
-		}
+		wasUpgraded = true;
+	}
+	
+	public boolean getUpgraded() {
+		return wasUpgraded;
 	}
 }

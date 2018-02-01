@@ -11,6 +11,7 @@ import chess.piece.Piece;
 import chess.piece.PieceType;
 import chess.piece.Team;
 import chess.piece.pieces.King;
+import chess.piece.pieces.Pawn;
 import chess.player.Player;
 
 /**
@@ -283,6 +284,16 @@ public abstract class Board
 			// Add piece to move history
 			addMove(move);
 
+			if(piece instanceof Pawn && ((Pawn)piece).getUpgraded()) {
+				if (isCheckSafe() && piece.getCoords().getY() == 1 && piece.getTeam().equals(Team.BLACK))
+				{
+					getPlayer2().pawnPromotion((Pawn) piece);
+				} else if (isCheckSafe() && piece.getCoords().getY() == 8 && piece.getTeam().equals(Team.WHITE))
+				{
+					getPlayer1().pawnPromotion((Pawn) piece);
+				}
+			}
+			
 			// Return successful
 			return true;
 		}
@@ -495,8 +506,12 @@ public abstract class Board
 	 */
 	public void replacePieceType(Coordinates coords, PieceType newPieceType)
 	{
+		Piece old = getPiece(coords);
+		
 		// Get the team of the new piece
 		Team team = getPiece(coords).getTeam();
+		
+
 
 		// Create the piece with the appropriate team
 		Piece newPiece;
@@ -517,6 +532,15 @@ public abstract class Board
 			newPiece.lateInit(coords, this, getPlayer2());
 		}
 
+		// Make new piece have same move history
+		for(int i = 0; i < moves.size(); i++) {
+			Move oldMove = moves.get(i);
+			
+			if(oldMove.getPiece() == old) {
+				moves.set(i, new Move(newPiece, oldMove.getDeltaX(), oldMove.getDeltaY()));
+			}
+		}
+		
 		// Convert coordinates to array coordinates to update board
 		coords = convertToArray(coords);
 
@@ -604,6 +628,29 @@ public abstract class Board
 			}
 		}
 
+		for(Move move : moves) 
+		{
+			Piece piece = move.getPiece();
+			
+			// Only add piece if it doesn't already have a mapping
+			if (!pieceMapping.containsKey(piece))
+			{
+				// Create piece for correct team
+				switch (piece.getTeam())
+				{
+				case BLACK:
+					pieceMapping.put(piece, piece.getPieceType().black());
+					break;
+				case WHITE:
+					pieceMapping.put(piece, piece.getPieceType().white());
+					break;
+				default:
+					pieceMapping.put(piece, PieceType.EMPTY_PIECE);
+				}
+
+			}
+		}
+		
 		// Create a copy of the arrangement
 		Piece[][] newArrangement = new Piece[BOARD_SIZE][BOARD_SIZE];
 

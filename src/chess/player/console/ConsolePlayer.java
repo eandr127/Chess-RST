@@ -68,7 +68,7 @@ public class ConsolePlayer extends Player
 		public boolean valid(String in) throws IllegalArgumentException
 		{
 			return in.length() == 2 && Character.isAlphabetic(in.charAt(0)) && Character.isDigit(in.charAt(1))
-					&& in.charAt(0) < 'i' && Character.getNumericValue(in.charAt(1)) < 9;
+					&& Character.toUpperCase(in.charAt(0)) < 'I' && Character.getNumericValue(in.charAt(1)) < 9;
 		}
 
 		@Override
@@ -210,7 +210,7 @@ public class ConsolePlayer extends Player
 		getBoard().showBoard(getTeam());
 		do
 		{
-			console.getConsoleOutput().println("Select the piece to move");
+			console.getConsoleOutput().println("Select the piece to move (Using chess notation)");
 			coords = (getCoordinates());
 		} while (getBoard().getPiece(coords).getTeam() != this.getTeam());
 		return coords;
